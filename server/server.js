@@ -7,16 +7,17 @@ const corsOption = require("./config/corsOptions")
 const connectDB=require("./config/dbConn")
 connectDB()
 
-const PORT =process.env.PORT||1111
+const PORT = process.env.PORT||1111
 
 //middlewars
 app.use(cors(corsOption))
 app.use(express.static("public"))
 app.use(express.json())
 
-
+app.get('/test', (req, res) => res.send('Server is working!'));
 app.use("/api/user",require("./routes/userRoute"))
 app.use("/api/donors",require("./routes/DonorsRoute"))
+app.use("/api/avrechim",require("./routes/AvrechimRoute"))
 
 
 //mongoose

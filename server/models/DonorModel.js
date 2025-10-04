@@ -1,9 +1,5 @@
 const mongoose = require('mongoose');
-
-const DonationSchema = new mongoose.Schema({
-    date: { type: Date, required: true },
-    amount: { type: Number, required: true }
-});
+const DonationSchema = require('./DonationModel');
 
 const DonorSchema = new mongoose.Schema({
     name: { type: String, required: true },
@@ -16,7 +12,7 @@ const DonorSchema = new mongoose.Schema({
     donationAmount: { type: Number },
     paymentMethod: { type: String },
     frequency: { type: String },
-    donations: [DonationSchema]
-});
+    donations:{type:[DonationSchema]} 
+},{timestamps: true});
 
 module.exports = mongoose.model('Donor', DonorSchema);

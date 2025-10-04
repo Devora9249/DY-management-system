@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-
+const milgaSchema = require('./MilgaModel');
 
 
 const AvrechimSchema = new mongoose.Schema({
-    Id: { type: String, required: true, unique: true }, // ID
+    id: { type: String, required: true, unique: true }, // ID
     name: { type: String, required: true },
-    recentMilgot: [milgaSchema]
-});
+    recentMilgot: { type: [milgaSchema] } // Array of recent milgot
+}, { timestamps: true });
 
 module.exports = mongoose.model('Avrech', AvrechimSchema);
