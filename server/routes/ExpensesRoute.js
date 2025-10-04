@@ -10,4 +10,3 @@ router.delete("/:id", controller.deleteExpense);
 router.put("/:id", controller.updateExpense);
 
 module.exports = router;
-// דגכעיחלךסכבעיחצמנהעיח
