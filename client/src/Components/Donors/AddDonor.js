@@ -1,37 +1,71 @@
 import React, { useState } from 'react';
-import { Card, CardHeader, CardContent, TextField, Select, MenuItem, Button } from '@mui/material';
-
+import { Card, CardHeader, CardContent, TextField, Select, MenuItem, Button, FormControl, InputLabel } from '@mui/material';
 
 export default function AddDonor({ isOpen, onClose }) {
-  const [donor, setDonor] = useState({ name:'', idNumber:'', birthDate:'', yahrzeitDate:'', donationAmount:'', paymentType:'', frequency:'', donationDate:'' });
-  const handleChange = e => setDonor(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  const handleSubmit = e => { e.preventDefault(); console.log(donor); onClose(); };
-  if(!isOpen) return null;
+  const [name, setName] = useState('');
+  const [idNumber, setIdNumber] = useState('');
+  const [birthDate, setBirthDate] = useState('');
+  const [yahrzeitDate, setYahrzeitDate] = useState('');
+  const [donationAmount, setDonationAmount] = useState('');
+  const [paymentType, setPaymentType] = useState('');
+  const [frequency, setFrequency] = useState('');
+  const [donationDate, setDonationDate] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log({
+      name,
+      idNumber,
+      birthDate,
+      yahrzeitDate,
+      donationAmount,
+      paymentType,
+      frequency,
+      donationDate
+    });
+    onClose();
+  };
+
+  if (!isOpen) return null;
 
   return (
-    <div>
-      <Card>
-        <CardHeader>
-          <h3>טופס הוספת תורם</h3>
-        </CardHeader>
-        <CardContent>
-          
-          <form onSubmit={handleSubmit}>
-            <TextField label="שם" name="name" value={donor.name} onChange={handleChange} required />
-            <TextField label="תז" name="idNumber" value={donor.idNumber} onChange={handleChange} required />
-            <TextField type="date" label="תאריך יום הולדת" name="birthDate" value={donor.birthDate} onChange={handleChange} />
-            <TextField type="date" label="תאריך יארצייט" name="yahrzeitDate" value={donor.yahrzeitDate} onChange={handleChange} />
-            <TextField type="number" label="סכום תרומה" name="donationAmount" value={donor.donationAmount} onChange={handleChange} required />
-            <Select label="סוג תשלום" name="paymentType" value={donor.paymentType} onChange={handleChange} options={[{label:'מזומן',value:'cash'},{label:'כרטיס',value:'card'},{label:'בנק',value:'bank'}]} />
-            <Select label="תדירות" name="frequency" value={donor.frequency} onChange={handleChange} options={[{label:'חד פעמי',value:'once'},{label:'הוראת קבע',value:'monthly'}]} />
-            <TextField type="date" label="תאריך תרומה" name="donationDate" value={donor.donationDate} onChange={handleChange} />
-            <div>
-              <Button variant="secondary" onClick={onClose}>ביטול</Button>
-              <Button type="submit" variant="primary" onClick={onClose} >הוסף תורם</Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+    <Card>
+      <CardHeader title="טופס הוספת תורם" />
+      <CardContent>
+        <form onSubmit={handleSubmit}>
+          <TextField label="שם" value={name} onChange={e => setName(e.target.value)} required fullWidth margin="normal" />
+          <TextField label="תז" value={idNumber} onChange={e => setIdNumber(e.target.value)} required fullWidth margin="normal" />
+          <TextField type="date" label="תאריך יום הולדת" value={birthDate} onChange={e => setBirthDate(e.target.value)} fullWidth margin="normal" />
+          <TextField type="date" label="תאריך יארצייט" value={yahrzeitDate} onChange={e => setYahrzeitDate(e.target.value)} fullWidth margin="normal" />
+          <TextField type="number" label="סכום תרומה" value={donationAmount} onChange={e => setDonationAmount(e.target.value)} required fullWidth margin="normal" />
+
+          <FormControl fullWidth margin="normal">
+            <InputLabel>סוג תשלום</InputLabel>
+            <Select value={paymentType} onChange={e => setPaymentType(e.target.value)}>
+              <MenuItem value="cash">מזומן</MenuItem>
+              <MenuItem value="NedarimPlus">נדרים פלוס</MenuItem>
+              <MenuItem value="bank">בנק</MenuItem>
+              <MenuItem value="DaatYehuditAccount">חשבון דעת יהודית</MenuItem>
+              <MenuItem value="MosheWexlerAccount">חשבון משה וקסלר</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl fullWidth margin="normal">
+            <InputLabel>תדירות</InputLabel>
+            <Select value={frequency} onChange={e => setFrequency(e.target.value)}>
+              <MenuItem value="once">חד פעמי</MenuItem>
+              <MenuItem value="monthly">הוראת קבע</MenuItem>
+            </Select>
+          </FormControl>
+
+          <TextField type="date" label="תאריך תרומה" value={donationDate} onChange={e => setDonationDate(e.target.value)} fullWidth margin="normal" />
+
+          <div style={{ marginTop: 16, display: 'flex', gap: 8 }}>
+            <Button variant="outlined" onClick={onClose}>ביטול</Button>
+            <Button type="submit" variant="contained" color="primary">הוסף תורם</Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
   );
 }
