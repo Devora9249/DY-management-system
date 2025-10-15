@@ -1,16 +1,28 @@
 
+import AddDonor from './Components/Donors/AddDonor';
 import DonorsList from './Components/Donors/DonorsList';
 import Donors from './Components/Donors/DonorsList'
 import AddExpense from './Components/Expenses/AddExpense';
 import ExpenseList from './Components/Expenses/ExpenseList';
+import DonorCard from './Components/Donors/DonorCard';
+import Layout from './Components/shared/Layout';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
+import ExpensesPage from './Components/Expenses/ExpensesPage';
 
 function App() {
   return (
     <div className="App">
-      <Donors/>
-      <DonorsList/>
-      <ExpenseList/>
-      <AddExpense/>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Layout/>}>
+            <Route path="/Donors" index element={<DonorsList />} />
+            <Route path="/Donor/:id" index element={<DonorCard/>}/>
+            <Route path="/AddDonor" index element={<AddDonor/>} />
+            <Route path="/Expenses" index element={<ExpensesPage />} />
+            {/* <Route path="/AddExpense" index element={<AddExpense />} /> */}
+          </Route>
+        </Routes>
+      </Router>
     </div>
   );
 }
