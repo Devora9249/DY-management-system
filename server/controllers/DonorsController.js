@@ -28,6 +28,7 @@ exports.getDonorById = async (req, res) => {
 // Create new donor
 exports.createDonor = async (req, res) => {
   try {
+    console.log("Received body:", req.body); 
     const donor = new Donor(req.body);
     await donor.save();
     res.status(201).json(donor);
