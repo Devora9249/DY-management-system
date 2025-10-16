@@ -4,6 +4,7 @@ const controller = require("../controllers/AvrechimController")
 
 router.get("/",controller.getAllAvrechim)
 router.get("/",controller.getAvrechById)
+router.get("/:id",controller.getMilgotAvrechById)
 router.post("/",controller.createAvrech)
 router.delete("/:id",controller.deleteAvrech)
 router.put("/:id",controller.updateAvrech)

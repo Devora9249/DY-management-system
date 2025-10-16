@@ -28,7 +28,7 @@ exports.getDonorById = async (req, res) => {
 // Create new donor
 exports.createDonor = async (req, res) => {
   try {
-    console.log("Received body:", req.body); 
+    // console.log("Received body:", req.body); 
     const donor = new Donor(req.body);
     await donor.save();
     res.status(201).json(donor);
@@ -36,7 +36,7 @@ exports.createDonor = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
-
+ 
 // Update donor
 exports.updateDonor = async (req, res) => {
   try {

@@ -16,6 +16,7 @@ export default function CenteredTabs() {
         {/* <Tab label="Home Page" component = {NavLink}  to= "/" value={"/"}/> */}
         <Tab label="תורמים" component = {NavLink} to= "/Donors" value={"/Donors"}/>
         <Tab label="הוצאות" component = {NavLink} to= "/Expenses" value={"/Expenses"}/>
+        <Tab label="אברכים" component = {NavLink} to= "/Avrechim" value={"/Avrechim"}/>
         {/* <Tab label="Register" component = {NavLink} to= "/Register" value={"/Register"}/>
         <Tab label="My Cart" component = {NavLink} to= "/Cart" value={"/Cart"}/> */}
       </Tabs>

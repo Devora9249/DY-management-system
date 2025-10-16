@@ -24,6 +24,16 @@ exports.getAvrechById = async (req, res) => {
     }
 };
 
+exports.getMilgotAvrechById = async (req, res) => {
+    try {
+        const avrech = await Avrech.findById(req.params.id).select('recentMilgot');
+        if (!avrech) return res.status(404).json({ message: 'Avrech not found' });
+        res.json(avrech.recentMilgot);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}
+
 // Create new Avrech
 exports.createAvrech = async (req, res) => {
     try {

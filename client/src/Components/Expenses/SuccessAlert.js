@@ -12,9 +12,7 @@ function MyApp( {successAlert, setSuccessAlert} ) {
     setTimeout(() => setSuccessAlert(false), 2000);
   };
 
-  useEffect(() => {
-    console.log(successAlert);
-    
+  useEffect(() => {    
     if (successAlert) {
       handleClickVariant('success')();
     }},[successAlert])          

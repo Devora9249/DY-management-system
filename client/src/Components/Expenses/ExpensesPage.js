@@ -18,7 +18,7 @@ const ExpensesPage = () => {
     try {
       const { data } = await Axios.get("http://localhost:5678/api/expenses")
       setExpenseList(data);
-      console.log(data);
+      console.log(data,"רשימת הוצאות" );
     }
     catch (error) {
       alert(error.message);

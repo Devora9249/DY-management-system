@@ -154,7 +154,6 @@ export default function FormDialog({ onAdd, successAlert, setSuccessAlert }) {
         description,
         amount
       });
-      console.log(data);
       setDescription("");
       setAmount("");
       setSuccessAlert(true);

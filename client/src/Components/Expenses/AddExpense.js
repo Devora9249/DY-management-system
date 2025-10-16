@@ -51,7 +51,6 @@ const AddExpense = ({ onAdd }) => {
         description, 
         amount 
       });
-      console.log(data);
       setDescription("");
       setAmount("");
       alert("ההוצאה נוספה בהצלחה");
