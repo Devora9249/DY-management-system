@@ -6,6 +6,7 @@ router.get("/",controller.getAllAvrechim)
 router.get("/",controller.getAvrechById)
 router.get("/:id",controller.getMilgotAvrechById)
 router.post("/",controller.createAvrech)
+router.post("/:id",controller.addMilgaToAvrech)
 router.delete("/:id",controller.deleteAvrech)
 router.put("/:id",controller.updateAvrech)
 
