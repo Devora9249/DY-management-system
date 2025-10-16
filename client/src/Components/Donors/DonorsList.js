@@ -55,7 +55,7 @@ const DonorsList = () => {
             onChange={(e) => setFilterFrequency(e.target.value)}
           >
             <MenuItem value="">ללא סינון</MenuItem>
-            <MenuItem value="חד\">חד"פ</MenuItem>
+            <MenuItem value="חדפ">חד"פ</MenuItem>
             <MenuItem value="הוראת קבע">הוראת קבע</MenuItem>
           </Select>
         </FormControl>
