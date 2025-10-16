@@ -11,7 +11,7 @@ import Axios from 'axios';
 
 const DonorCard = ({ isOpen, donor, onClose }) => {
   const [donations, setDonations] = useState([]);
-  const [newDate, setNewDate] = useState('');
+  const [newDate, setNewDate] = useState(new Date().toISOString().split('T')[0]);
   const [newAmount, setNewAmount] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
   const [frequency, setFrequency] = useState('');
@@ -42,7 +42,7 @@ const DonorCard = ({ isOpen, donor, onClose }) => {
         frequency,
         paymentMethod
       });
-      setNewDate('');
+      setNewDate(new Date().toISOString().split('T')[0]);
       setNewAmount('');
        setFrequency('');
       setPaymentMethod('');
@@ -70,8 +70,9 @@ const DonorCard = ({ isOpen, donor, onClose }) => {
         <Typography>פלאפון: {donor?.phoneNumber}</Typography>
         <Typography>מייל: {donor?.emailAddress}</Typography>
         <Typography>וואצאפ: {donor?.whatsappNumber}</Typography>
-        <Typography>תאריך לידה: {donor?.birthDate}</Typography>
-        <Typography>תאריך יארצייט: {donor?.yahrzeitDate}</Typography>
+        <Typography>תאריך לידה: {new Date(donor?.birthDate).toLocaleDateString('he-IL')}</Typography>  
+         {/* <TableCell>{}</TableCell> */}
+        <Typography>תאריך יארצייט: {new Date(donor?.yahrzeitDate).toLocaleDateString('he-IL')}</Typography>
 
         <Typography variant="h6" sx={{ mt: 3, mb: 1, color: '#7b1fa2' }}>רשימת תרומות:</Typography>
         <Table>
@@ -106,55 +107,41 @@ const DonorCard = ({ isOpen, donor, onClose }) => {
             הוסף תרומה נוספת
           </Button>
         )}
+{showAddDonationForm && (
+  <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}>
+    <TextField label="תאריך" type="date" InputLabelProps={{ shrink: true }}
+      value={newDate} onChange={(e) => setNewDate(e.target.value)}
+      size="small" fullWidth />
 
-        {showAddDonationForm && (
-          <Box sx={{ mt: 2, display: 'flex', gap: 2, alignItems: 'center' }}>
-            <TextField
-              label="תאריך"
-              type="date"
-              InputLabelProps={{ shrink: true }}
-              value={newDate}
-              onChange={e => setNewDate(e.target.value)}
-              size="small"
-            />
-            <TextField
-              label="סכום"
-              type="number"
-              value={newAmount}
-              onChange={e => setNewAmount(e.target.value)}
-              size="small"
-            />
+    <TextField label="סכום" type="number"
+      value={newAmount} onChange={(e) => setNewAmount(e.target.value)}
+      size="small" fullWidth />
 
-          <FormControl fullWidth size="small" margin="dense">
-            <InputLabel>סוג תשלום</InputLabel>
-            <Select value={paymentMethod} onChange={e => setPaymentMethod(e.target.value)} label="סוג תשלום">
-              <MenuItem value="מזומן">מזומן</MenuItem>
-              <MenuItem value="נדרים פלוס">נדרים פלוס</MenuItem>
-              <MenuItem value="בנק">בנק</MenuItem>
-              <MenuItem value="דעת יהודית">חשבון דעת יהודית</MenuItem>
-              <MenuItem value="חשבון משה וקסלר">חשבון משה וקסלר</MenuItem>
-            </Select>
-          </FormControl>
+    <FormControl fullWidth size="small">
+      <InputLabel>סוג תשלום</InputLabel>
+      <Select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} label="סוג תשלום">
+        <MenuItem value="מזומן">מזומן</MenuItem>
+        <MenuItem value="נדרים פלוס">נדרים פלוס</MenuItem>
+        <MenuItem value="בנק">בנק</MenuItem>
+        <MenuItem value="דעת יהודית">חשבון דעת יהודית</MenuItem>
+        <MenuItem value="חשבון משה וקסלר">חשבון משה וקסלר</MenuItem>
+      </Select>
+    </FormControl>
 
-          <FormControl fullWidth size="small" margin="dense">
-            <InputLabel>תדירות</InputLabel>
-            <Select value={frequency} onChange={e => setFrequency(e.target.value)} label="תדירות">
-              <MenuItem value="חדפ">חד פעמי</MenuItem>
-              <MenuItem value="הוראת קבע">הוראת קבע</MenuItem>
-            </Select>
-          </FormControl>
-            <Button
-              variant="contained"
-              sx={{ bgcolor: '#7b1fa2', '&:hover': { bgcolor: '#6a1b9a' } }}
-              onClick={handleAddDonation}
-            >
-              הוסף תרומה
-            </Button>
-            <Button variant="outlined" color="secondary" onClick={() => setShowAddDonationForm(false)}>
-              ביטול
-            </Button>
-          </Box>
-        )}
+    <FormControl fullWidth size="small">
+      <InputLabel>תדירות</InputLabel>
+      <Select value={frequency} onChange={(e) => setFrequency(e.target.value)} label="תדירות">
+        <MenuItem value="חד פעמי">חד פעמי</MenuItem>
+        <MenuItem value="הוראת קבע">הוראת קבע</MenuItem>
+      </Select>
+    </FormControl>
+
+    <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
+      <Button variant="contained" sx={{ bgcolor: '#7b1fa2', '&:hover': { bgcolor: '#6a1b9a' } }} onClick={handleAddDonation}>הוסף תרומה</Button>
+      <Button variant="outlined" color="secondary" onClick={() => setShowAddDonationForm(false)}>ביטול</Button>
+    </Box>
+  </Box>
+)}
       </DialogContent>
 
       <DialogActions>

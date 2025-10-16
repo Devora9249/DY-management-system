@@ -15,7 +15,7 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
   const [whatsappNumber, setWhatsappNumber] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [yahrzeitDate, setYahrzeitDate] = useState('');
-  const [newDate, setNewDate] = useState('');
+  const [newDate, setNewDate] = useState(new Date().toISOString().split('T')[0])
   const [newAmount, setNewAmount] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
   const [frequency, setFrequency] = useState('');
@@ -35,7 +35,7 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
       // איפוס השדות
       setName(''); setDonorId(''); setAddress(''); setPhoneNumber('');
       setEmailAddress(''); setWhatsappNumber(''); setBirthDate(''); setYahrzeitDate('');
-      setNewDate(''); setNewAmount(''); setPaymentMethod(''); setFrequency('');
+      setNewDate(new Date().toISOString().split('T')[0]); setNewAmount(''); setPaymentMethod(''); setFrequency('');
 
       alert("התורם נוסף בהצלחה");
       onAdd();  // מעדכן את רשימת התורמים
