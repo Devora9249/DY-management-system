@@ -3,12 +3,22 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material'
-import AvrechMilgot from './AvrechMilgot'
+import AvrechMilgotCard from './AvrechMilgotCard'
+import DeleteDialog from './DeleteDialog';
 
-const AvrechimListComp = ({AvrechimList}) => {
+const AvrechimListComp = ({ onChange, AvrechimList, setDeleteAlert }) => {
 
 
-console.log(AvrechimList,"AvrechimList2");
+    console.log(AvrechimList, "AvrechimList2");
+    const deleteAvrech = async (id) => {
+        try {
+            await Axios.delete(`http://localhost:5678/api/avrechim/${id}`);
+            setDeleteAlert(true);
+            onChange();
+        } catch (error) {
+            alert(error.message);
+        }
+    };
 
     return (
         <>
@@ -21,6 +31,7 @@ console.log(AvrechimList,"AvrechimList2");
                         <TableCell sx={{ fontWeight: 'bold' }}>ת.ז.</TableCell>
                         <TableCell sx={{ fontWeight: 'bold' }}>שם</TableCell>
                         <TableCell sx={{ fontWeight: 'bold' }}></TableCell>
+                        <TableCell sx={{ fontWeight: 'bold' }}></TableCell>
 
 
                     </TableRow>
@@ -31,7 +42,9 @@ console.log(AvrechimList,"AvrechimList2");
                         <TableRow key={avrech._id} hover>
                             <TableCell>{avrech.id} </TableCell>
                             <TableCell>{avrech.name}</TableCell>
-                            <TableCell><AvrechMilgot avrechId={avrech._id} avrechName={avrech.name}/></TableCell>
+                            <TableCell><AvrechMilgotCard avrechId={avrech._id} avrechName={avrech.name} /></TableCell>
+                            <TableCell> <DeleteDialog deleteAvrech={deleteAvrech} avrechId={avrech._id}/> </TableCell>
+
                         </TableRow>
                     ))}
                 </TableBody>

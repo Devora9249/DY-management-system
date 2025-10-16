@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ExpensesPage from './Components/Expenses/ExpensesPage';
 import AvrechimList from './Components/Avrechim/AvrechimListComp';
 import AvrechimPage from './Components/Avrechim/AvrechimPage';
+import MilgotPage from './Components/Milgot/MilgotPage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/AddDonor" index element={<AddDonor/>} />
             <Route path="/Expenses" index element={<ExpensesPage />} />
             <Route path="/Avrechim" index element={<AvrechimPage />} />
+            <Route path="/Milgot" index element={<MilgotPage />} />
             {/* <Route path="/AddExpense" index element={<AddExpense />} /> */}
           </Route>
         </Routes>

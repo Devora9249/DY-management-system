@@ -4,9 +4,10 @@ const Avrech = require('../models/AvrechimModel');
 exports.getAllAvrechim = async (req, res) => {
     try {
         const avrechim = await Avrech.find();
-        if (!avrechim || avrechim.length === 0) {
+        if (!avrechim) {
             return res.status(404).json({ message: 'No Avrechim found' });
         }
+        // if(avrechim.length === 0)
         res.json(avrechim);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -44,6 +45,18 @@ exports.createAvrech = async (req, res) => {
         res.status(400).json({ message: err.message });
     }
 };
+
+exports.addMilgaToAvrech = async (req, res) => {
+    try {
+        const avrech = await Avrech.findById(req.params.id);
+        if (!avrech) return res.status(404).json({ message: 'Avrech not found' });
+        avrech.recentMilgot.push(req.body);
+        await avrech.save();
+        res.status(201).json(avrech);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+}
 
 // Update Avrech
 exports.updateAvrech = async (req, res) => {

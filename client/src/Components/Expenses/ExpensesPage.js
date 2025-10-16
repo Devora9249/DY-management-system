@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react'
 import Axios from 'axios';
 import { Button } from '@mui/material';
 import AddExpense1 from './AddExpense1';
-import SuccessAlert from './SuccessAlert';
-import DeleteAlert from './DeleteAlert';
+import SuccessAlert from '../Alerts/SuccessAlert';
+import DeleteAlert from '../Alerts/DeleteAlert';
 
 const ExpensesPage = () => {
 
