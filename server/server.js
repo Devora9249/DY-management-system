@@ -7,7 +7,7 @@ const corsOption = require("./config/corsOptions")
 const connectDB=require("./config/dbConn")
 connectDB()
 
-const PORT = process.env.PORT||1111
+const PORT = process.env.PORT || 1111
 
 //middlewars
 app.use(cors(corsOption))

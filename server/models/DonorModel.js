@@ -9,10 +9,8 @@ const DonorSchema = new mongoose.Schema({
   whatsappNumber: { type: String },
   birthDate: { type: Date },
   yahrzeitDate: { type: Date },
-  donationAmount: { type: Number },
-  paymentMethod: { type: String },
-  frequency: { type: String },
-  donationDate: { type: Date },
+  // donationAmount: { type: Number },
+  // donationDate: { type: Date },
    donations:{type:[DonationSchema]} 
 }, { timestamps: true });
 
