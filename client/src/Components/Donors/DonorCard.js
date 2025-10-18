@@ -178,10 +178,6 @@ const [duration, setDuration] = useState('');
   </Box>
 )}
       </DialogContent>
-
-      <DialogActions>
-        <Button onClick={onClose} variant="outlined" color="secondary">סגור</Button>
-      </DialogActions>
     </Dialog>
   );
 };

@@ -73,8 +73,8 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
           <TextField label="ת.ז" value={donorId} onChange={e => setDonorId(e.target.value)} required fullWidth size="small" margin="dense" />
           <TextField label="כתובת" value={address} onChange={e => setAddress(e.target.value)}  fullWidth size="small" margin="dense" />
           <TextField label="פלאפון" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} required fullWidth size="small" margin="dense" />
-          <TextField label="מייל" value={emailAddress} onChange={e => setEmailAddress(e.target.value)} required fullWidth size="small" margin="dense" />
-          <TextField label="וואצאפ" value={whatsappNumber} onChange={e => setWhatsappNumber(e.target.value)} required fullWidth size="small" margin="dense" />
+          <TextField label="מייל" value={emailAddress} onChange={e => setEmailAddress(e.target.value)} fullWidth size="small" margin="dense" />
+          <TextField label="וואצאפ" value={whatsappNumber} onChange={e => setWhatsappNumber(e.target.value)} fullWidth size="small" margin="dense" />
           <TextField type="date" label="תאריך יום הולדת" InputLabelProps={{ shrink: true }} value={birthDate} onChange={e => setBirthDate(e.target.value)} fullWidth size="small" margin="dense" />
           <TextField type="date" label="תאריך יארצייט" InputLabelProps={{ shrink: true }} value={yahrzeitDate} onChange={e => setYahrzeitDate(e.target.value)} fullWidth size="small" margin="dense" />
 

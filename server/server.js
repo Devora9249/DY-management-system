@@ -41,10 +41,9 @@ cron.schedule("* * * * *", async () => {
 
   try {
     const donors = await Donor.find({ "donations.active": true });
-
     for (const donor of donors) {
       let updated = false;
-
+    
      donor.donations.forEach(d => {
   if (d.active && d.nextDonationDate && d.nextDonationDate <= new Date() && d.monthsRemaining > 0) {
     // הוספת תרומה חודשית
@@ -63,6 +62,7 @@ cron.schedule("* * * * *", async () => {
     if (d.monthsRemaining === 0) d.active = false; // אם אין חודשים נוספים, מבטלים את ההוראת קבע
     updated = true;
   }
+   
 });
 
 
