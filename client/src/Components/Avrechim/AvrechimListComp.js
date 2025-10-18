@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material'
 import AvrechMilgotCard from './AvrechMilgotCard'
-import DeleteDialog from './DeleteDialog';
+import DeleteDialog from '../GeneralConponents/DeleteDialog';
 
 const AvrechimListComp = ({ onChange, AvrechimList, setDeleteAlert }) => {
 
@@ -43,7 +43,7 @@ const AvrechimListComp = ({ onChange, AvrechimList, setDeleteAlert }) => {
                             <TableCell>{avrech.id} </TableCell>
                             <TableCell>{avrech.name}</TableCell>
                             <TableCell><AvrechMilgotCard avrechId={avrech._id} avrechName={avrech.name} /></TableCell>
-                            <TableCell> <DeleteDialog deleteAvrech={deleteAvrech} avrechId={avrech._id}/> </TableCell>
+                            <TableCell> <DeleteDialog deleteFunc={deleteAvrech} itemId={avrech._id}/> </TableCell>
 
                         </TableRow>
                     ))}

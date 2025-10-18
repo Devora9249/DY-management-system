@@ -70,6 +70,8 @@ const MilgotPage = () => {
   const [AvrechimList, setAvrechimList] = useState([]);
   const [milgaAmounts, setMilgaAmounts] = useState({});
   const [updatedAlert, setUpdatedAlert] = useState(false);
+  const [newDate, setNewDate] = useState(new Date().toISOString().split('T')[0])
+
 
   const catchData = async () => {
     try {
@@ -89,7 +91,7 @@ const MilgotPage = () => {
       const promises = AvrechimList.map((avrech) =>
         Axios.post(`http://localhost:5678/api/avrechim/${avrech._id}`, {
           milgaAmount: milgaAmounts[avrech._id] || 0,
-          date: new Date(),
+          date: newDate
         })
       );
       await Promise.all(promises);
@@ -130,6 +132,16 @@ const MilgotPage = () => {
         </div>
       ))}
 
+      <TextField
+        label="תאריך"
+        type="date"
+        InputLabelProps={{ shrink: true }}
+        value={newDate}
+        onChange={e => setNewDate(e.target.value)}
+        size="small"
+        margin="dense"
+      />
+
       <Button
         variant="contained"
         color="primary"
@@ -138,10 +150,10 @@ const MilgotPage = () => {
       >
         עדכן לכולם
       </Button>
-      <UpdatedAlert updatedAlert={updatedAlert} setUpdatedAlert={setUpdatedAlert}/>
-      
+      <UpdatedAlert updatedAlert={updatedAlert} setUpdatedAlert={setUpdatedAlert} />
+
     </>
-    
+
   );
 };
 

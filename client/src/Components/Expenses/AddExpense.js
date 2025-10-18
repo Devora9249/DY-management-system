@@ -43,6 +43,8 @@ import Axios from 'axios';
 const AddExpense = ({ onAdd }) => {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
+    const [newDate, setNewDate] = useState(new Date().toISOString().split('T')[0])
+
 
   const sendExpense = async () => {
     try {
@@ -53,6 +55,7 @@ const AddExpense = ({ onAdd }) => {
       });
       setDescription("");
       setAmount("");
+      setNewDate(new Date().toISOString().split('T')[0]);
       alert("ההוצאה נוספה בהצלחה");
       onAdd();
     } catch (error) {
@@ -93,6 +96,16 @@ const AddExpense = ({ onAdd }) => {
             variant="outlined"
             fullWidth
             required
+          />
+                    <TextField
+            label="תאריך"
+            type="date"
+            InputLabelProps={{ shrink: true }}
+            value={newDate}
+            onChange={e => setNewDate(e.target.value)}
+            fullWidth
+            size="small"
+            margin="dense"
           />
         </Grid>
 

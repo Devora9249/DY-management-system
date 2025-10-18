@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';    
 
-export default function AlertDialog({ deleteAvrech, avrechId }) {
+export default function AlertDialog({ deleteFunc, itemId }) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -20,7 +20,7 @@ export default function AlertDialog({ deleteAvrech, avrechId }) {
   };
 
     const handleCloseAndDelete = () => {
-    deleteAvrech(avrechId);
+    deleteFunc(itemId);
     setOpen(false);
   };
 
@@ -40,8 +40,7 @@ export default function AlertDialog({ deleteAvrech, avrechId }) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-           האם אתה בטוח שברצונך למחוק את האברך הזה?
-          </DialogContentText>
+?האם אתה בטוח שברצונך למחוק רשומה זו         </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>ביטול</Button>

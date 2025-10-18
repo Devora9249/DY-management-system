@@ -25,16 +25,8 @@ export default function FormDialog({ onAdd, setSuccessAlert }) {
     const handleClickOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const handleSubmit = (event) => {
+    const addAvrech = async (event) => {
         event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const formJson = Object.fromEntries(formData.entries());
-        const email = formJson.email;
-        console.log(email);
-        handleClose();
-    };
-
-    const addAvrech = async () => {
         try {
             const { data } = await Axios.post("http://localhost:5678/api/avrechim", {
                 id,
@@ -47,8 +39,9 @@ export default function FormDialog({ onAdd, setSuccessAlert }) {
             onAdd();
             handleClose();
         } catch (error) {
-            alert(error.message);
+            alert(error.response?.data?.message || error.message);
         }
+        handleClose();
     };
 
     return (
@@ -99,8 +92,8 @@ export default function FormDialog({ onAdd, setSuccessAlert }) {
                     </Typography>
                 </DialogTitle>
 
-                <DialogContent>
-                    <form onSubmit={handleSubmit} id="subscription-form">
+                <form onSubmit={addAvrech} id="subscription-form">
+                    <DialogContent>
                         <Grid container spacing={2} sx={{ mt: 1 }}>
                             <Grid item xs={12}>
                                 <TextField
@@ -140,26 +133,26 @@ export default function FormDialog({ onAdd, setSuccessAlert }) {
                                 />
                             </Grid>
                         </Grid>
-                    </form>
-                </DialogContent>
+                    </DialogContent>
 
-                <DialogActions sx={{ justifyContent: 'center', mt: 1 }}>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        sx={{
-                            fontWeight: 'bold',
-                            fontSize: '16px',
-                            px: 4,
-                            py: 1.5,
-                            boxShadow: 3,
-                            '&:hover': { backgroundColor: '#d32f2f' }
-                        }}
-                        onClick={addAvrech}
-                    >
-                        הוסף אברך
-                    </Button>
-                </DialogActions>
+                    <DialogActions sx={{ justifyContent: 'center', mt: 1 }}>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            type='submit'
+                            sx={{
+                                fontWeight: 'bold',
+                                fontSize: '16px',
+                                px: 4,
+                                py: 1.5,
+                                boxShadow: 3,
+                                '&:hover': { backgroundColor: '#d32f2f' }
+                            }}
+                        >
+                            הוסף אברך
+                        </Button>
+                    </DialogActions>
+                </form>
             </Dialog>
         </React.Fragment>
     );
