@@ -8,7 +8,8 @@ import CloseIcon from '@mui/icons-material/Close';
 //   FormControl, InputLabel
 // } from '@mui/material';
 import Axios from 'axios';
-
+import ToDelete from './ToDelete';
+import { Radio, RadioGroup, FormControlLabel } from '@mui/material';
 const DonorCard = ({ isOpen, donor, onClose }) => {
   const [donations, setDonations] = useState([]);
   const [newDate, setNewDate] = useState(new Date().toISOString().split('T')[0]);
@@ -16,7 +17,7 @@ const DonorCard = ({ isOpen, donor, onClose }) => {
   const [paymentMethod, setPaymentMethod] = useState('');
   const [frequency, setFrequency] = useState('');
   const [showAddDonationForm, setShowAddDonationForm] = useState(false);
-
+const [duration, setDuration] = useState('');
   // טוען את התרומות מה-API
   const getDonations = async () => {
     if (!donor?._id) return;
@@ -40,12 +41,14 @@ const DonorCard = ({ isOpen, donor, onClose }) => {
         date: newDate,
         amount: Number(newAmount),
         frequency,
-        paymentMethod
+        paymentMethod,
+        duration
       });
       setNewDate(new Date().toISOString().split('T')[0]);
       setNewAmount('');
        setFrequency('');
       setPaymentMethod('');
+      setDuration('')
       setShowAddDonationForm(false);
       getDonations(); // טוען שוב את הנתונים אחרי ההוספה
     } catch (error) {
@@ -54,6 +57,16 @@ const DonorCard = ({ isOpen, donor, onClose }) => {
     }
   };
 
+  const handleDeleteDonation = async (donationId) => {
+  try {
+    await Axios.delete(`http://localhost:5678/api/donors/${donor._id}/donations/${donationId}`);
+    alert('התרומה נמחקה בהצלחה');
+    getDonations(); // טען שוב את התרומות לאחר המחיקה
+  } catch (error) {
+    console.error(error);
+    alert('שגיאה במחיקת התרומה: ' + error.message);
+  }
+}
   if (!isOpen) return null;
 
   return (
@@ -82,6 +95,7 @@ const DonorCard = ({ isOpen, donor, onClose }) => {
               <TableCell sx={{ fontWeight: 'bold' }}>סכום</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>סוג תשלום</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>תדירות</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -92,6 +106,7 @@ const DonorCard = ({ isOpen, donor, onClose }) => {
                   <TableCell>{d.amount}</TableCell>
                   <TableCell>{d.frequency}</TableCell>
                   <TableCell>{d.paymentMethod}</TableCell>
+                  <TableCell><ToDelete deleteId={handleDeleteDonation} id={d._id}/></TableCell>
                 </TableRow>
               ))
             ) : (
@@ -109,7 +124,7 @@ const DonorCard = ({ isOpen, donor, onClose }) => {
         )}
 {showAddDonationForm && (
   <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}>
-    <TextField label="תאריך" type="date" InputLabelProps={{ shrink: true }}
+    <TextField label="תאריך גביה" type="date" InputLabelProps={{ shrink: true }}
       value={newDate} onChange={(e) => setNewDate(e.target.value)}
       size="small" fullWidth />
 
@@ -128,13 +143,33 @@ const DonorCard = ({ isOpen, donor, onClose }) => {
       </Select>
     </FormControl>
 
-    <FormControl fullWidth size="small">
-      <InputLabel>תדירות</InputLabel>
-      <Select value={frequency} onChange={(e) => setFrequency(e.target.value)} label="תדירות">
-        <MenuItem value="חד פעמי">חד פעמי</MenuItem>
-        <MenuItem value="הוראת קבע">הוראת קבע</MenuItem>
-      </Select>
-    </FormControl>
+   <FormControl component="fieldset" fullWidth margin="dense">
+  <Typography variant="subtitle2" sx={{ mb: 1 }}>
+    תדירות
+  </Typography>
+
+  <RadioGroup
+    row={false}
+    value={frequency}
+    onChange={(e) => setFrequency(e.target.value)}
+  >
+    <FormControlLabel value="חדפ" control={<Radio />} label="חד פעמי" />
+    <FormControlLabel value="הוראת קבע" control={<Radio />} label="הוראת קבע" />
+  </RadioGroup>
+
+  {frequency === 'הוראת קבע' && (
+    <TextField
+      label="למשך כמה חודשים"
+      type="number"
+      size="small"
+      fullWidth
+      margin="dense"
+      value={duration || ''}
+      onChange={(e) => setDuration(e.target.value)}
+      InputProps={{ inputProps: { min: 1 } }}
+    />
+  )}
+</FormControl>
 
     <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
       <Button variant="contained" sx={{ bgcolor: '#7b1fa2', '&:hover': { bgcolor: '#6a1b9a' } }} onClick={handleAddDonation}>הוסף תרומה</Button>

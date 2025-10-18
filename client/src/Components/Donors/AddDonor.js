@@ -4,6 +4,7 @@ import {
   TextField, Select, MenuItem, Button,
   FormControl, InputLabel, Box, Typography
 } from '@mui/material';
+import { Radio, RadioGroup, FormControlLabel } from '@mui/material';
 import Axios from 'axios';
 
 export default function AddDonor({ isOpen, onClose, onAdd }) {
@@ -20,6 +21,7 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
   const [paymentMethod, setPaymentMethod] = useState('');
   const [frequency, setFrequency] = useState('');
 
+  const [duration, setDuration] = useState('');
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -28,14 +30,14 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
         birthDate, yahrzeitDate,
         donationAmount: Number(newAmount),
         donationDate: newDate,
-        paymentMethod, frequency
+        paymentMethod, frequency,duration
       });
       console.log(data);
 
       // איפוס השדות
       setName(''); setDonorId(''); setAddress(''); setPhoneNumber('');
       setEmailAddress(''); setWhatsappNumber(''); setBirthDate(''); setYahrzeitDate('');
-      setNewDate(new Date().toISOString().split('T')[0]); setNewAmount(''); setPaymentMethod(''); setFrequency('');
+      setNewDate(new Date().toISOString().split('T')[0]); setNewAmount(''); setPaymentMethod(''); setFrequency('');setDuration('');
 
       alert("התורם נוסף בהצלחה");
       onAdd();  // מעדכן את רשימת התורמים
@@ -47,6 +49,7 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
   };
 
   return (
+    
     <Dialog
       open={isOpen}
       onClose={onClose}
@@ -65,8 +68,8 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
           <TextField label="ת.ז" value={donorId} onChange={e => setDonorId(e.target.value)} required fullWidth size="small" margin="dense" />
           <TextField label="כתובת" value={address} onChange={e => setAddress(e.target.value)} required fullWidth size="small" margin="dense" />
           <TextField label="פלאפון" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} required fullWidth size="small" margin="dense" />
-          <TextField label="מייל" value={emailAddress} onChange={e => setEmailAddress(e.target.value)} required fullWidth size="small" margin="dense" />
-          <TextField label="וואצאפ" value={whatsappNumber} onChange={e => setWhatsappNumber(e.target.value)} required fullWidth size="small" margin="dense" />
+          <TextField label="מייל" value={emailAddress} onChange={e => setEmailAddress(e.target.value)}  fullWidth size="small" margin="dense" />
+          <TextField label="וואצאפ" value={whatsappNumber} onChange={e => setWhatsappNumber(e.target.value)}  fullWidth size="small" margin="dense" />
           <TextField type="date" label="תאריך יום הולדת" InputLabelProps={{ shrink: true }} value={birthDate} onChange={e => setBirthDate(e.target.value)} fullWidth size="small" margin="dense" />
           <TextField type="date" label="תאריך יארצייט" InputLabelProps={{ shrink: true }} value={yahrzeitDate} onChange={e => setYahrzeitDate(e.target.value)} fullWidth size="small" margin="dense" />
 
@@ -75,7 +78,7 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
 
           {/* שדות התרומה */}
           <TextField
-            label="תאריך"
+            label="תאריך גביה"
             type="date"
             InputLabelProps={{ shrink: true }}
             value={newDate}
@@ -103,13 +106,33 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
               <MenuItem value="חשבון משה וקסלר">חשבון משה וקסלר</MenuItem>
             </Select>
           </FormControl>
-          <FormControl fullWidth size="small" margin="dense">
-            <InputLabel>תדירות</InputLabel>
-            <Select value={frequency} onChange={e => setFrequency(e.target.value)} label="תדירות">
-              <MenuItem value="חדפ">חד פעמי</MenuItem>
-              <MenuItem value="הוראת קבע">הוראת קבע</MenuItem>
-            </Select>
-          </FormControl>
+         <FormControl component="fieldset" fullWidth margin="dense">
+  <Typography variant="subtitle2" sx={{ mb: 1 }}>
+    תדירות
+  </Typography>
+
+  <RadioGroup
+    row={false}
+    value={frequency}
+    onChange={(e) => setFrequency(e.target.value)}
+  >
+    <FormControlLabel value="חדפ" control={<Radio />} label="חד פעמי" />
+    <FormControlLabel value="הוראת קבע" control={<Radio />} label="הוראת קבע" />
+  </RadioGroup>
+
+  {frequency === 'הוראת קבע' && (
+    <TextField
+      label="למשך כמה חודשים"
+      type="number"
+      size="small"
+      fullWidth
+      margin="dense"
+      value={duration || ''}
+      onChange={(e) => setDuration(e.target.value)}
+      InputProps={{ inputProps: { min: 1 } }}
+    />
+  )}
+</FormControl>
 
           <DialogActions sx={{ mt: 2 }}>
             <Button variant="outlined" onClick={onClose} color="secondary">ביטול</Button>
