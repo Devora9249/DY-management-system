@@ -49,8 +49,9 @@ exports.createDonation = async (req, res) => {
 
     await donor.save();
 
-    res.status(201).json({ message: 'Donation added successfully', donor });
+    res.status(201).json({ message: 'התרומה נוספה בהצלחה', donor });
   } catch (err) {
+
     res.status(500).json({ message: err.message });
   }
 };
@@ -69,6 +70,11 @@ exports.createDonor = async (req, res) => {
     await donor.save();
     res.status(201).json(donor);
   } catch (err) {
+       if (err.code === 11000) {
+      return res
+        .status(400)
+        .json({ message: "התורם הזה כבר קיים במערכת" });
+    }
     res.status(400).json({ message: err.message });
   }
 };

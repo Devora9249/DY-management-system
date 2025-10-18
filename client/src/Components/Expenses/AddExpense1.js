@@ -134,6 +134,8 @@ export default function FormDialog({ onAdd, successAlert, setSuccessAlert }) {
   const [open, setOpen] = useState(false);
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
+  const [newDate, setNewDate] = useState(new Date().toISOString().split('T')[0])
+
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -150,12 +152,13 @@ export default function FormDialog({ onAdd, successAlert, setSuccessAlert }) {
   const sendExpense = async () => {
     try {
       const { data } = await Axios.post("http://localhost:5678/api/expenses", {
-        date: Date.now(),
+        date: newDate,
         description,
         amount
       });
       setDescription("");
       setAmount("");
+      setNewDate(new Date().toISOString().split('T')[0]);
       setSuccessAlert(true);
       onAdd();
       handleClose();
@@ -174,7 +177,7 @@ export default function FormDialog({ onAdd, successAlert, setSuccessAlert }) {
           fontWeight: 'bold',
           fontSize: '16px',
           boxShadow: 3,
-          '&:hover': { backgroundColor: '#d32f2f' } 
+          '&:hover': { backgroundColor: '#d32f2f' }
         }}
         onClick={handleClickOpen}
       >
@@ -189,7 +192,7 @@ export default function FormDialog({ onAdd, successAlert, setSuccessAlert }) {
             borderRadius: 3,
             p: 2,
             minWidth: 400,
-            bgcolor: '#fff8f0' 
+            bgcolor: '#fff8f0'
           }
         }}
       >
@@ -252,28 +255,40 @@ export default function FormDialog({ onAdd, successAlert, setSuccessAlert }) {
                   }}
                 />
               </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  label="תאריך"
+                  type="date"
+                  InputLabelProps={{ shrink: true }}
+                  value={newDate}
+                  onChange={e => setNewDate(e.target.value)}
+                  fullWidth
+                  size="small"
+                  margin="dense"
+                />
+              </Grid>
             </Grid>
-          </form>
-        </DialogContent>
+        </form>
+      </DialogContent>
 
-        <DialogActions sx={{ justifyContent: 'center', mt: 1 }}>
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={{
-              fontWeight: 'bold',
-              fontSize: '16px',
-              px: 4,
-              py: 1.5,
-              boxShadow: 3,
-              '&:hover': { backgroundColor: '#d32f2f' }
-            }}
-            onClick={sendExpense}
-          >
-            הוסף הוצאה
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </React.Fragment>
+      <DialogActions sx={{ justifyContent: 'center', mt: 1 }}>
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={{
+            fontWeight: 'bold',
+            fontSize: '16px',
+            px: 4,
+            py: 1.5,
+            boxShadow: 3,
+            '&:hover': { backgroundColor: '#d32f2f' }
+          }}
+          onClick={sendExpense}
+        >
+          הוסף הוצאה
+        </Button>
+      </DialogActions>
+    </Dialog>
+    </React.Fragment >
   );
 }

@@ -3,6 +3,7 @@ const Avrech = require('../models/AvrechimModel');
 // Get all Avrechim
 exports.getAllAvrechim = async (req, res) => {
     try {
+        
         const avrechim = await Avrech.find();
         if (!avrechim) {
             return res.status(404).json({ message: 'No Avrechim found' });
@@ -38,10 +39,18 @@ exports.getMilgotAvrechById = async (req, res) => {
 // Create new Avrech
 exports.createAvrech = async (req, res) => {
     try {
+        if (!req.body.name || !req.body.id ) {
+            return res.status(400).json({ message: 'יש למלא את כל השדות' });
+        }
         const avrech = new Avrech(req.body);
         await avrech.save();
         res.status(201).json(avrech);
     } catch (err) {
+            if (err.code === 11000) {
+      return res
+        .status(400)
+        .json({ message: "האברך הזה כבר קיים במערכת" });
+    }
         res.status(400).json({ message: err.message });
     }
 };

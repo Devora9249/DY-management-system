@@ -38,6 +38,7 @@
 import { Table, TableHead, TableBody, TableRow, TableCell, TableContainer, Paper, IconButton, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Axios from 'axios';
+import DeleteDialog from '../GeneralConponents/DeleteDialog';
 
 const ExpenseList = ({ expenseList, onChange, setDeleteAlert }) => {
 
@@ -73,7 +74,7 @@ const ExpenseList = ({ expenseList, onChange, setDeleteAlert }) => {
         <TableBody>
           {expenseList.map((expense) => (
             <TableRow key={expense._id} hover>
-              <TableCell> <IconButton onClick={() => deleteExpense(expense._id)} ><DeleteIcon /></IconButton> </TableCell>
+              <TableCell> <DeleteDialog deleteFunc={deleteExpense} itemId={expense._id}/> </TableCell>
               <TableCell>{expense.amount} ₪</TableCell>
               <TableCell>{expense.description}</TableCell>
               <TableCell>{new Date(expense.date).toLocaleDateString('he-IL')}</TableCell>

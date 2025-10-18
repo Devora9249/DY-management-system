@@ -19,10 +19,14 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
   const [newAmount, setNewAmount] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
   const [frequency, setFrequency] = useState('');
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      if(!whatsappNumber && !emailAddress){
+        alert("יש למלא או כתובת מייל או מספר ווצאפ")
+        return
+      }
       const { data } = await Axios.post("http://localhost:5678/api/donors", {
         name, donorId, address, phoneNumber, emailAddress, whatsappNumber,
         birthDate, yahrzeitDate,
@@ -42,7 +46,7 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
       onClose();
     } catch (error) {
       console.error("❌ שגיאה בהוספת תורם:", error);
-      alert(error.message);
+      alert(error.response?.data?.message || error.message);
     }
   };
 
@@ -63,10 +67,10 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
           {/* שדות התורם */}
           <TextField label="שם" value={name} onChange={e => setName(e.target.value)} required fullWidth size="small" margin="dense" />
           <TextField label="ת.ז" value={donorId} onChange={e => setDonorId(e.target.value)} required fullWidth size="small" margin="dense" />
-          <TextField label="כתובת" value={address} onChange={e => setAddress(e.target.value)} required fullWidth size="small" margin="dense" />
+          <TextField label="כתובת" value={address} onChange={e => setAddress(e.target.value)}  fullWidth size="small" margin="dense" />
           <TextField label="פלאפון" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} required fullWidth size="small" margin="dense" />
-          <TextField label="מייל" value={emailAddress} onChange={e => setEmailAddress(e.target.value)} required fullWidth size="small" margin="dense" />
-          <TextField label="וואצאפ" value={whatsappNumber} onChange={e => setWhatsappNumber(e.target.value)} required fullWidth size="small" margin="dense" />
+          <TextField label="מייל" value={emailAddress} onChange={e => setEmailAddress(e.target.value)}  fullWidth size="small" margin="dense" />
+          <TextField label="וואצאפ" value={whatsappNumber} onChange={e => setWhatsappNumber(e.target.value)} fullWidth size="small" margin="dense" />
           <TextField type="date" label="תאריך יום הולדת" InputLabelProps={{ shrink: true }} value={birthDate} onChange={e => setBirthDate(e.target.value)} fullWidth size="small" margin="dense" />
           <TextField type="date" label="תאריך יארצייט" InputLabelProps={{ shrink: true }} value={yahrzeitDate} onChange={e => setYahrzeitDate(e.target.value)} fullWidth size="small" margin="dense" />
 

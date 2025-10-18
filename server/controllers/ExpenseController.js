@@ -4,7 +4,7 @@ const Expense = require('../models/ExpensesModel');
 exports.getAllExpenses = async (req, res) => {
     try {
         const expenses = await Expense.find();
-        if (!expenses || expenses.length === 0) {
+        if (!expenses ) {
             res.status(404).json({ message: 'No expenses found' });
             return;
         }
