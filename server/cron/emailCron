@@ -1,0 +1,51 @@
+const nodemailer = require('nodemailer');
+require('dotenv').config();
+const { sendEmail } = require("../MailService/emailService");
+const cron = require("node-cron");
+const Donor = require("../models/DonorModel");
+
+// הפעלת cron פעם ביום בשעה 02:00 בלילה
+cron.schedule("21 00 * * *", async () => {
+    console.log("📅בודק תאריכי יארצייט ויום הולדת");
+
+    const today = new Date();
+    const targetDate = new Date();
+    targetDate.setDate(today.getDate() + 2);
+
+    const targetDay = targetDate.getDate();
+    const targetMonth = targetDate.getMonth() + 1;
+    console.log(`בודק תורמים עם יום הולדת בתאריך: ${targetDay}/${targetMonth}`);;
+    
+    try {
+        const donors = await Donor.find();
+        
+        const donorsBirthday = donors.filter(donor => {
+            if (!donor.birthDate) return false;
+            const date = new Date(donor.birthDate);
+            console.log(`donor: ${donor.name} date: ${date.getDate()}/${date.getMonth()+1}` );
+            return date.getDate() === targetDay && date.getMonth()+1 === targetMonth;
+        });
+        console.log("donorsBirthday",donorsBirthday);
+        
+
+        if (donorsBirthday.length === 0) {
+            console.log("לפי בדיקה שנערכה כרגע, אין תורמים עם יום הולדת בעוד יומיים");
+            return;
+        }
+
+        let emailContent = `<h2>${new Date()} :תזכורת יום הולדת לתורמים הבאים בעוד יומיים בתאריך </h2><ul>`;
+        for (const donor of donorsBirthday) {
+
+            emailContent += `<li> ${donor.name}</li>`;
+        }
+        emailContent += `</ul>`;
+
+
+        await sendEmail(process.env.EMAIL_RECIPIENT, "תזכורת יום הולדת לתורמים בעוד יומיים", emailContent);
+
+        console.log("✅ מייל יום הולדת נשלח בהצלחה");
+    }
+catch (error) {
+        console.error("❌ שגיאה בשליחת מייל יום הולדת:", error);
+    }  
+ });

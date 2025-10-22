@@ -38,6 +38,7 @@ exports.getDonationsById = async (req, res) => {
 
 exports.createDonation = async (req, res) => {
   try {
+   
     const { date, amount, paymentMethod, frequency, duration } = req.body; // שולפים את הנתונים מהבקשה
     if (!date || !amount || !paymentMethod || !frequency) return res.status(400).json({ message: 'required' });
 
@@ -49,8 +50,8 @@ exports.createDonation = async (req, res) => {
 
     if (frequency === "הוראת קבע") {
       const next = new Date(date);
-      next.setMinutes(next.getMinutes() + 1);
-      // next.setMonth(next.getMonth() + 1);// ברירת מחדל 12 חודשים
+      // next.setMinutes(next.getMinutes() + 1);
+      next.setMonth(next.getMonth() + 1);// ברירת מחדל 12 חודשים
       donor.donations.push({ date: new Date(date), amount, paymentMethod, frequency, nextDonationDate: next,active:true, monthsRemaining: Number(duration) });
     }
     else {
@@ -73,9 +74,9 @@ exports.createDonor = async (req, res) => {
     const donor = new Donor(donorData);
 await donor.save();
     // אם התקבלו נתוני תרומה ראשונית, דוחפים למערך donations
-       if (!donationAmount || !donationDate || !paymentMethod || !frequency) {
-      return res.status(201).json(donor);
-    }
+    //    if (!donationAmount || !donationDate || !paymentMethod || !frequency) {
+    //   res.status(500).json({ message: err.message });
+    // }
         req.params.id = donor._id; // מגדירים את מזהה התורם החדש
     req.body = {
       date: donationDate,

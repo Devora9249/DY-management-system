@@ -86,7 +86,29 @@ const [duration, setDuration] = useState('');
         <Typography>וואצאפ: {donor?.whatsappNumber}</Typography>
         <Typography>תאריך לידה: {new Date(donor?.birthDate).toLocaleDateString('he-IL')}</Typography>  
          {/* <TableCell>{}</TableCell> */}
-        <Typography>תאריך יארצייט: {new Date(donor?.yahrzeitDate).toLocaleDateString('he-IL')}</Typography>
+        <Typography variant="h6" sx={{ mt: 2, color: '#7b1fa2' }}>יארצייטים:</Typography>
+
+{donor?.yahrzeitDate?.length > 0 ? (
+  <Table sx={{ mb: 2 }}>
+    <TableHead>
+      <TableRow>
+        <TableCell sx={{ fontWeight: 'bold' }}>שם הנפטר</TableCell>
+        <TableCell sx={{ fontWeight: 'bold' }}>תאריך יארצייט</TableCell>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      {donor.yahrzeitDate.map((y, index) => (
+        <TableRow key={index}>
+          <TableCell>{y.name}</TableCell>
+          <TableCell>{new Date(y.date).toLocaleDateString('he-IL')}</TableCell>
+        </TableRow>
+      ))}
+    </TableBody>
+  </Table>
+) : (
+  <Typography color="text.secondary">אין יארצייטים להצגה</Typography>
+)}
+
 
         <Typography variant="h6" sx={{ mt: 3, mb: 1, color: '#7b1fa2' }}>רשימת תרומות:</Typography>
         <Table>
@@ -130,7 +152,7 @@ const [duration, setDuration] = useState('');
       size="small" fullWidth />
 
     <TextField label="סכום" type="number"
-      value={newAmount} onChange={(e) => setNewAmount(e.target.value)}
+      value={newAmount} required onChange={(e) => setNewAmount(e.target.value)}
       size="small" fullWidth />
 
     <FormControl fullWidth size="small">
@@ -164,6 +186,7 @@ const [duration, setDuration] = useState('');
       type="number"
       size="small"
       fullWidth
+      required
       margin="dense"
       value={duration || ''}
       onChange={(e) => setDuration(e.target.value)}
