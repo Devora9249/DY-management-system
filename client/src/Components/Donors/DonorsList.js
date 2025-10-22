@@ -114,7 +114,7 @@ const DonorsList = () => {
                             {donor.donations && donor.donations.length > 0 ? (
                                 donor.donations.map((d) => (
                                     <Typography key={d._id}>
-                                        סכום: {d.amount} | {d.frequency}
+                                         {d.amount}₪ | {d.frequency}
                                     </Typography>
                                 ))
                             ) : (

@@ -8,10 +8,13 @@ const DonorSchema = new mongoose.Schema({
   emailAddress: { type: String },
   whatsappNumber: { type: String },
   birthDate: { type: Date },
-  yahrzeitDate: { type: Date },
-  // donationAmount: { type: Number },
-  // donationDate: { type: Date },
-   donations:{type:[DonationSchema]} 
+yahrzeitDate: [
+  {
+    date: { type: Date, required: true },
+    name: { type: String, required: true }
+  }
+],
+  donations: { type: [DonationSchema] }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Donor', DonorSchema);

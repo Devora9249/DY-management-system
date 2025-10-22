@@ -49,8 +49,8 @@ exports.createDonation = async (req, res) => {
 
     if (frequency === "הוראת קבע") {
       const next = new Date(date);
-      next.setMinutes(next.getMinutes() + 1);
-      // next.setMonth(next.getMonth() + 1);// ברירת מחדל 12 חודשים
+      // next.setMinutes(next.getMinutes() + 1);
+      next.setMonth(next.getMonth() + 1);// ברירת מחדל 12 חודשים
       donor.donations.push({ date: new Date(date), amount, paymentMethod, frequency, nextDonationDate: next,active:true, monthsRemaining: Number(duration) });
     }
     else {
