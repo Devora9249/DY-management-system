@@ -18,7 +18,7 @@ const DonorsList = () => {
             const { data } = await Axios.get("http://localhost:5678/api/donors");
             setDonorsList(data);
         } catch (error) {
-            alert(error.message);
+      alert(error.response?.data?.message || error.message);
         }
     };
 
@@ -114,7 +114,7 @@ const DonorsList = () => {
                             {donor.donations && donor.donations.length > 0 ? (
                                 donor.donations.map((d) => (
                                     <Typography key={d._id}>
-                                        תרומה: {d.amount} | {d.frequency} | {d.paymentMethod} | {new Date(d.date).toLocaleDateString()}
+                                        סכום: {d.amount} | {d.frequency}
                                     </Typography>
                                 ))
                             ) : (
