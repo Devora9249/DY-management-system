@@ -35,14 +35,13 @@ mongoose.connection.on('error',err=>{
 const cron = require("node-cron");
 const Donor = require("./models/DonorModel");
 
-// הפעלת cron פעם ביום בשעה 02:00 בלילה
-cron.schedule("* * * * *", async () => {
+cron.schedule('13 20 * * *', async () => {
   console.log("📅 בודק הוראות קבע...");
 
   try {
     const donors = await Donor.find({ "donations.active": true });
     for (const donor of donors) {
-      let updated = false;
+      let updated = false; 
     
      donor.donations.forEach(d => {
   if (d.active && d.nextDonationDate && d.nextDonationDate <= new Date() && d.monthsRemaining > 0) {
@@ -74,3 +73,10 @@ cron.schedule("* * * * *", async () => {
     console.error("❌ שגיאה ב-cron:", error);
   }
 });
+
+
+const {sendEmail}  = require("./MailService/emailService.js");
+sendEmail("dvora.batmitzva@gmail.com", "בדיקת מערכת מיילים", "<h1>המייל עובד!</h1><p>זהו מייל בדיקה שנשלח מהמערכת.</p>")
+
+
+//email-sender
