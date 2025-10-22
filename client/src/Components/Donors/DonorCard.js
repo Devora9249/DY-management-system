@@ -26,7 +26,8 @@ const [duration, setDuration] = useState('');
       setDonations(Array.isArray(data) ? data : []); // מבטיחים מערך
     } catch (error) {
       console.error(error);
-      alert('שגיאה בטעינת התרומות: ' + error.message);
+            alert(error.response?.data?.message || error.message);
+
     }
   };
 
@@ -93,8 +94,8 @@ const [duration, setDuration] = useState('');
             <TableRow>
               <TableCell sx={{ fontWeight: 'bold' }}>תאריך</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>סכום</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>סוג תשלום</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>תדירות</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>סוג תשלום</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}></TableCell>
             </TableRow>
           </TableHead>

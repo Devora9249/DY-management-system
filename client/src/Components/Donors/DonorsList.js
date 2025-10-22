@@ -18,7 +18,7 @@ const DonorsList = () => {
             const { data } = await Axios.get("http://localhost:5678/api/donors");
             setDonorsList(data);
         } catch (error) {
-            alert(error.message);
+      alert(error.response?.data?.message || error.message);
         }
     };
 

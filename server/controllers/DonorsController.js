@@ -4,9 +4,9 @@ const Donor = require('../models/DonorModel');
 exports.getAllDonors = async (req, res) => {
   try {
     const donors = await Donor.find();
-    if (!donors || donors.length === 0) {
-        res.status(404).json({ message: 'No donors found' });
-        return;
+    if (!donors) {
+      res.status(404).json({ message: 'No donors found' });
+      return;
     }
     res.json(donors);
   } catch (err) {
@@ -26,37 +26,36 @@ exports.getDonorById = async (req, res) => {
 };
 
 exports.getDonationsById = async (req, res) => {
-    try {
-        const donor = await Donor.findById(req.params.id).select('donations');
-        if (!donor) return res.status(404).json({ message: 'Donor not found' });
-        res.json(donor.donations);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
+  try {
+    const donor = await Donor.findById(req.params.id).select('donations');
+    if (!donor) return res.status(404).json({ message: 'Donor not found' });
+    res.json(donor.donations);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 }
 
 
 exports.createDonation = async (req, res) => {
   try {
-    const { date, amount, paymentMethod, frequency, duration} = req.body; // שולפים את הנתונים מהבקשה
-    if (!date || !amount|| !paymentMethod || !frequency) return res.status(400).json({ message: 'required' });
+    const { date, amount, paymentMethod, frequency, duration } = req.body; // שולפים את הנתונים מהבקשה
+    if (!date || !amount || !paymentMethod || !frequency) return res.status(400).json({ message: 'required' });
 
     const donor = await Donor.findById(req.params.id);
     if (!donor) return res.status(404).json({ message: 'Donor not found' });
 
     // מוסיפים תרומה חדשה למערך
-    donor.donations.push({ date: new Date(date), amount,  paymentMethod, frequency,monthsRemaining:duration});
 
-        if (frequency === "הוראת קבע") {
+
+    if (frequency === "הוראת קבע") {
       const next = new Date(date);
-      next.setMonth(next.getMonth() + 1);
-      donationData.nextDonationDate = next;
-      donationData.active = true;
-        donationData.monthsRemaining = duration ? Number(duration) : 12; // ברירת מחדל 12 חודשים
-
+      next.setMinutes(next.getMinutes() + 1);
+      // next.setMonth(next.getMonth() + 1);// ברירת מחדל 12 חודשים
+      donor.donations.push({ date: new Date(date), amount, paymentMethod, frequency, nextDonationDate: next,active:true, monthsRemaining: Number(duration) });
     }
-donor.donations.push(donationData);
-
+    else {
+      donor.donations.push({ date: new Date(date), amount, paymentMethod, frequency });
+    }
     await donor.save();
 
     res.status(201).json({ message: 'התרומה נוספה בהצלחה', donor });
@@ -69,18 +68,25 @@ donor.donations.push(donationData);
 
 exports.createDonor = async (req, res) => {
   try {
-    const { donationAmount, donationDate, paymentMethod, frequency,duration, ...donorData } = req.body;
+    const { donationAmount, donationDate, paymentMethod, frequency, duration, ...donorData } = req.body;
 
     const donor = new Donor(donorData);
-
+await donor.save();
     // אם התקבלו נתוני תרומה ראשונית, דוחפים למערך donations
-    if (donationAmount && donationDate && paymentMethod && frequency) {
-      donor.donations.push({ date: new Date(donationDate), amount: donationAmount , paymentMethod, frequency,monthsRemaining:duration});
+       if (!donationAmount || !donationDate || !paymentMethod || !frequency) {
+      return res.status(201).json(donor);
     }
-    await donor.save();
-    res.status(201).json(donor);
+        req.params.id = donor._id; // מגדירים את מזהה התורם החדש
+    req.body = {
+      date: donationDate,
+      amount: donationAmount,
+      paymentMethod,
+      frequency,
+      duration
+    };
+    return exports.createDonation(req, res);
   } catch (err) {
-       if (err.code === 11000) {
+    if (err.code === 11000) {
       return res
         .status(400)
         .json({ message: "התורם הזה כבר קיים במערכת" });
@@ -90,7 +96,7 @@ exports.createDonor = async (req, res) => {
 };
 
 
- 
+
 // // Update donor
 // exports.updateDonor = async (req, res) => {
 //   try {
