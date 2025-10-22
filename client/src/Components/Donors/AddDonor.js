@@ -196,6 +196,10 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
         alert("יש למלא או כתובת מייל או מספר ווצאפ");
         return;
       }
+        if (!newDate || !newAmount || !paymentMethod || !frequency) {
+    alert("יש למלא את כל השדות (כולל תדירות)");
+    return;
+  }
       const { data } = await Axios.post("http://localhost:5678/api/donors", {
         name, donorId, address, phoneNumber, emailAddress, whatsappNumber,
         birthDate,
@@ -289,13 +293,14 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
           <TextField
             label="סכום"
             type="number"
+            required
             value={newAmount}
             onChange={e => setNewAmount(e.target.value)}
             fullWidth
             size="small"
             margin="dense"
           />
-          <FormControl fullWidth size="small" margin="dense">
+          <FormControl fullWidth required size="small" margin="dense">
             <InputLabel>סוג תשלום</InputLabel>
             <Select value={paymentMethod} onChange={e => setPaymentMethod(e.target.value)} label="סוג תשלום">
               <MenuItem value="מזומן">מזומן</MenuItem>
@@ -324,6 +329,7 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
                 label="למשך כמה חודשים"
                 type="number"
                 size="small"
+                required
                 fullWidth
                 margin="dense"
                 value={duration || ''}

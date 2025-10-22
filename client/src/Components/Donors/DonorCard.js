@@ -152,7 +152,7 @@ const [duration, setDuration] = useState('');
       size="small" fullWidth />
 
     <TextField label="סכום" type="number"
-      value={newAmount} onChange={(e) => setNewAmount(e.target.value)}
+      value={newAmount} required onChange={(e) => setNewAmount(e.target.value)}
       size="small" fullWidth />
 
     <FormControl fullWidth size="small">
@@ -186,6 +186,7 @@ const [duration, setDuration] = useState('');
       type="number"
       size="small"
       fullWidth
+      required
       margin="dense"
       value={duration || ''}
       onChange={(e) => setDuration(e.target.value)}
