@@ -114,7 +114,7 @@ const DonorsList = () => {
                             {donor.donations && donor.donations.length > 0 ? (
                                 donor.donations.map((d) => (
                                     <Typography key={d._id}>
-                                        תרומה: {d.amount} | {d.frequency} | {d.paymentMethod} | {new Date(d.date).toLocaleDateString()}
+                                        סכום: {d.amount} | {d.frequency}
                                     </Typography>
                                 ))
                             ) : (

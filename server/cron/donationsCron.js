@@ -4,7 +4,7 @@ const Donor = require("../models/DonorModel");
 // הפעלת cron פעם ביום בשעה 02:00 בלילה
 cron.schedule("* * * * *", async () => {
   console.log("📅 בודק הוראות קבע...");
-  let count =0;
+  let count =2;
   try {
     const donors = await Donor.find({ "donations.active": true });
     for (const donor of donors) {
@@ -22,7 +22,8 @@ cron.schedule("* * * * *", async () => {
 
     // עדכון ההוראת קבע
     const next = new Date(d.nextDonationDate);
-    next.setMonth(next.getMonth() + 1);
+    // next.setMonth(next.getMonth() + 1);
+     next.setMinutes(next.getMinutes() + 1);
     d.nextDonationDate = next;
     d.monthsRemaining -= 1; // מורידים חודש
     if (d.monthsRemaining === 0) d.active = false; // אם אין חודשים נוספים, מבטלים את ההוראת קבע
