@@ -1,71 +1,7 @@
-// import React from 'react'
-// import { useState, useEffect } from 'react'
-// import Axios from 'axios'
-// import { Input, Typography } from '@mui/material'
-// import TextField from '@mui/material/TextField';
-
-// const MilgotPage = () => {
-
-//     const [AvrechimList, setAvrechimList] = useState([])
-//     const [milgaAmount, setMilgaAmount] = useState(0)
-
-
-
-//     const catchData = async () => {
-//         try {
-//             const { data } = await Axios.get("http://localhost:5678/api/avrechim")
-//             setAvrechimList(data)
-//             console.log(AvrechimList, "AvrechimList1");
-//         } catch (err) {
-//             console.log(err)
-//         }
-//     }
-
-//     useEffect(() => {
-//         catchData();
-//     }, [])
-
-//     const sendMilgot = async (avrechId) => {
-//         try {
-//             const { data } = await Axios.post(`http://localhost:5678/api/avrechim/${avrechId}`, { milgaAmount, date: new Date() })
-
-//     return (
-//         <>
-//             <div>MilgotPage</div>
-//             {AvrechimList.map((avrech) => (
-//                 <div key={avrech._id}>
-//                     <Typography>{avrech.name}</Typography>
-//                     <TextField
-//                         id={avrech._id}
-//                         value={milgaAmount}
-//                         onChange={(e) => setMilgaAmount(e.target.value)}
-//                         label="סכום"
-//                         type="number"
-//                         variant="outlined"
-//                         required
-//                         sx={{
-//                             '& .MuiOutlinedInput-root': {
-//                                 '& fieldset': { borderColor: '#ff7043' },
-//                                 '&:hover fieldset': { borderColor: '#d84315' },
-//                                 '&.Mui-focused fieldset': { borderColor: '#bf360c' },
-//                             }
-//                         }}
-//                     />
-//                 </div>
-//             ))}
-
-//         </>
-
-//     )
-// }
-
-// export default MilgotPage
-
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Axios from "axios";
 import CustomSnackbar from "../Alerts/CustomSnackbar";
-import { Typography, TextField, Button } from "@mui/material";
-import UpdatedAlert from "../Alerts/UpdatedAlert"
+import { Paper,Table, TableHead, TableBody, TableRow, TableCell, Typography, TextField, Button } from '@mui/material';
 
 const MilgotPage = () => {
   const [AvrechimList, setAvrechimList] = useState([]);
@@ -110,57 +46,126 @@ const MilgotPage = () => {
   };
 
   return (
-    <>
-      <div>MilgotPage</div>
-      {AvrechimList.map((avrech) => (
-        <div key={avrech._id}>
-          <Typography>{avrech.name}</Typography>
-          <TextField
-            value={milgaAmounts[avrech._id] || ""}
-            onChange={(e) =>
-              setMilgaAmounts({
-                ...milgaAmounts,
-                [avrech._id]: e.target.value,
-              })
-            }
-            label="סכום"
-            type="number"
-            variant="outlined"
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': { borderColor: '#ff7043' },
-                '&:hover fieldset': { borderColor: '#d84315' },
-                '&.Mui-focused fieldset': { borderColor: '#bf360c' },
-              },
-              marginBottom: 2
-            }}
-          />
-        </div>
-      ))}
+    <Paper
+      elevation={2}
+      sx={{
+        p: 3,
+        mx: "auto",
+        mt: 4,
+        maxWidth: 300, // ⭐️ הצרה משמעותית של כל הקונטיינר
+        borderRadius: 2,
+        bgcolor: "#fafafa",
+      }}
+    >
+      {/* כותרת */}
+      <Typography
+        variant="h6"
+        align="center"
+        fontWeight="bold"
+        sx={{ mb: 2, color: "#b71c1c" }}
+      >
+        חלוקת מלגות
+      </Typography>
 
+      {/* טבלה צרה */}
+      <Table
+        sx={{
+          "& .MuiTableCell-root": {
+            py: 0.8, // ⭐️ הקטנת גובה השורות
+            px: 1.5, // ⭐️ צמצום הרוחב הפנימי של כל תא
+          },
+        }}
+      >
+        <TableHead>
+          <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
+            
+            <TableCell align="center"
+              sx={{ fontWeight: "bold", fontSize: "0.9rem", textAlign: "center" }}
+            >
+              סכום
+            </TableCell>
+            <TableCell align="center" sx={{ fontWeight: "bold", fontSize: "0.9rem" }}>
+              שם
+            </TableCell>
+          </TableRow>
+        </TableHead>
+
+        <TableBody>
+          {AvrechimList.map((avrech) => (
+            <TableRow key={avrech._id} hover>
+              <TableCell align="center" sx={{ textAlign: "center" }}>
+                <TextField
+                  value={milgaAmounts[avrech._id] || ""}
+                  onChange={(e) =>
+                    setMilgaAmounts({
+                      ...milgaAmounts,
+                      [avrech._id]: e.target.value,
+                    })
+                  }
+                  type="number"
+                  size="small"
+                  placeholder="₪"
+                  InputProps={{
+                    inputProps: { min: 0, style: { textAlign: "center" } },
+                  }}
+                  sx={{
+                    width: 90, // ⭐️ שדה צר ומדויק להזנה מהירה
+                    backgroundColor: "white",
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": { borderColor: "#e0e0e0" },
+                      "&:hover fieldset": { borderColor: "#b71c1c" },
+                      "&.Mui-focused fieldset": { borderColor: "#b71c1c" },
+                    },
+                  }}
+                />
+              </TableCell>
+              <TableCell align="center" sx={{ fontSize: "0.9rem" }}>{avrech.name}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+
+      {/* תאריך */}
       <TextField
         label="תאריך"
         type="date"
         InputLabelProps={{ shrink: true }}
         value={newDate}
-        onChange={e => setNewDate(e.target.value)}
+        onChange={(e) => setNewDate(e.target.value)}
+        fullWidth
         size="small"
-        margin="dense"
+        sx={{
+          mt: 2,
+          backgroundColor: "white",
+          borderRadius: 1,
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": { borderColor: "#e0e0e0" },
+            "&:hover fieldset": { borderColor: "#b71c1c" },
+            "&.Mui-focused fieldset": { borderColor: "#b71c1c" },
+          },
+        }}
       />
 
+      {/* כפתור */}
       <Button
         variant="contained"
-        color="primary"
+        fullWidth
         onClick={sendAllMilgot}
-        sx={{ marginTop: 2 }}
+        sx={{
+          mt: 2.5,
+          fontWeight: "bold",
+          py: 1,
+          borderRadius: 2,
+          backgroundColor: "#b71c1c",
+          "&:hover": { backgroundColor: "#a31515" },
+        }}
       >
         עדכן לכולם
       </Button>
               <CustomSnackbar alert={alert} setAlert={setAlert} />
 
-    </>
+       </Paper>
 
   );
-};
-
+}
 export default MilgotPage;
