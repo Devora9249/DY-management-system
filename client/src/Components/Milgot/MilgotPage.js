@@ -31,13 +31,12 @@ const MilgotPage = () => {
     try {
       const promises = AvrechimList.map((avrech) =>
         Axios.post(`http://localhost:5678/api/avrechim/${avrech._id}`, {
-          milgaAmount: milgaAmounts[avrech._id] || 0,
+          milgaAmount: milgaAmounts[avrech._id],
           date: newDate
         })
       );
       await Promise.all(promises);
       setAlert({ message: "המלגות עודכנו בהצלחה ✅", type: "update" });
-
       setMilgaAmounts({});
     } catch (err) {
       console.error(err);
@@ -95,7 +94,8 @@ const MilgotPage = () => {
             <TableRow key={avrech._id} hover>
               <TableCell align="center" sx={{ textAlign: "center" }}>
                 <TextField
-                  value={milgaAmounts[avrech._id] || ""}
+                  value={milgaAmounts[avrech._id]}
+                  required
                   onChange={(e) =>
                     setMilgaAmounts({
                       ...milgaAmounts,

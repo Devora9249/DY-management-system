@@ -42,16 +42,18 @@ exports.createAvrech = async (req, res) => {
         if (!req.body.name || !req.body.id ) {
             return res.status(400).json({ message: 'יש למלא את כל השדות' });
         }
+
+        const existing = await Avrech.findOne({ $or: [{ id: req.body.id }, { name: req.body.name }] });
+        if (existing) {
+            return res.status(400).json({ message: "האברך כבר קיים במערכת" });
+        }
+
         const avrech = new Avrech(req.body);
         await avrech.save();
         res.status(201).json(avrech);
+
     } catch (err) {
-            if (err.code === 11000) {
-      return res
-        .status(400)
-        .json({ message: "האברך הזה כבר קיים במערכת" });
-    }
-        res.status(400).json({ message: err.message });
+        res.status(500).json({ message: err.message });
     }
 };
 

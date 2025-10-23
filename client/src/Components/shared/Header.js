@@ -68,10 +68,10 @@ export default function Header() {
           },
         }}
       >
-        <Tab label="תורמים" component={NavLink} to="/Donors" value="/Donors" />
-        <Tab label="הוצאות" component={NavLink} to="/Expenses" value="/Expenses" />
-        <Tab label="אברכים" component={NavLink} to="/Avrechim" value="/Avrechim" />
-        <Tab label="חלוקת מלגות" component={NavLink} to="/Milgot" value="/Milgot" />
+        <Tab label="תורמים" component={NavLink} to="/Donors" value="/Donors"   style={({ isActive }) => ({ color: isActive ? "#b71c1c" : "#000",})}/>
+        <Tab label="הוצאות" component={NavLink} to="/Expenses" value="/Expenses"   style={({ isActive }) => ({ color: isActive ? "#b71c1c" : "#000",})}/>
+        <Tab label="אברכים" component={NavLink} to="/Avrechim" value="/Avrechim"   style={({ isActive }) => ({ color: isActive ? "#b71c1c" : "#000",})}/>
+        <Tab label="חלוקת מלגות" component={NavLink} to="/Milgot" value="/Milgot"   style={({ isActive }) => ({ color: isActive ? "#b71c1c" : "#000",})}/>
       </Tabs>
     </Box>
   );
