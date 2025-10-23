@@ -5,15 +5,14 @@ import { useEffect, useState } from 'react'
 import Axios from 'axios';
 import { Button } from '@mui/material';
 import AddExpense1 from './AddExpense1';
-import SuccessAlert from '../Alerts/SuccessAlert';
-import DeleteAlert from '../Alerts/DeleteAlert';
+import CustomSnackbar from "../Alerts/CustomSnackbar";
 import { Box, Paper, Typography, Divider, Grid } from '@mui/material';
 
 const ExpensesPage = () => {
 
   const [expenseList, setExpenseList] = useState([]);
-  const [successAlert, setSuccessAlert] = useState(false);
-  const [deleteAlert, setDeleteAlert] = useState(false);
+
+  const [alert, setAlert] = useState(null);
 
   const catchData = async () => {
     try {
@@ -22,7 +21,11 @@ const ExpensesPage = () => {
       console.log(data, "רשימת הוצאות");
     }
     catch (error) {
-      alert(error.message);
+         setAlert({
+                message: error.response?.data?.message || error.message,
+                type: "error",
+            });
+            console.error(error);
     }
   }
 
@@ -71,8 +74,8 @@ const ExpensesPage = () => {
             <Grid item>
               <AddExpense1
                 onAdd={catchData}
-                setSuccessAlert={setSuccessAlert}
-                successAlert={successAlert}
+
+
               />
             </Grid>
           </Grid>
@@ -81,20 +84,11 @@ const ExpensesPage = () => {
           <ExpenseList
             expenseList={expenseList}
             onChange={catchData}
-            setDeleteAlert={setDeleteAlert}
+                      
           />
 
           {/* התראות הצלחה ומחיקה */}
-          <Box sx={{ mt: 3 }}>
-            <SuccessAlert
-              successAlert={successAlert}
-              setSuccessAlert={setSuccessAlert}
-            />
-            <DeleteAlert
-              deleteAlert={deleteAlert}
-              setDeleteAlert={setDeleteAlert}
-            />
-          </Box>
+                   <CustomSnackbar alert={alert} setAlert={setAlert} />
         </Paper>
       </Box>
 

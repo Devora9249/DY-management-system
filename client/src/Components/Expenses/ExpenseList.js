@@ -34,21 +34,29 @@
 
 // export default ExpenseList
 
-
+import { useEffect, useState } from 'react'
 import { Table, TableHead, TableBody, TableRow, TableCell, TableContainer, Paper, IconButton, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Axios from 'axios';
+import CustomSnackbar from "../Alerts/CustomSnackbar";
 import DeleteDialog from '../GeneralConponents/DeleteDialog';
 
-const ExpenseList = ({ expenseList, onChange, setDeleteAlert }) => {
+const ExpenseList = ({ expenseList, onChange }) => {
 
+  
+  const [alert, setAlert] = useState(null);
+  
   const deleteExpense = async (id) => {
     try {
       await Axios.delete(`http://localhost:5678/api/expenses/${id}`);
-      setDeleteAlert(true);
+      setAlert({ message: "ההוצאה נמחקה בהצלחה ✅", type: "success" });
       onChange();
     } catch (error) {
-      alert(error.message);
+         setAlert({
+                message: error.response?.data?.message || error.message,
+                type: "error",
+            });
+            console.error(error);
     }
   };
 
@@ -118,6 +126,7 @@ const ExpenseList = ({ expenseList, onChange, setDeleteAlert }) => {
           ))}
         </TableBody>
       </Table>
+               <CustomSnackbar alert={alert} setAlert={setAlert} />
     </TableContainer>
   );
 };

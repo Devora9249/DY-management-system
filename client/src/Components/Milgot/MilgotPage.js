@@ -63,22 +63,27 @@
 
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
+import CustomSnackbar from "../Alerts/CustomSnackbar";
 import { Typography, TextField, Button } from "@mui/material";
 import UpdatedAlert from "../Alerts/UpdatedAlert"
 
 const MilgotPage = () => {
   const [AvrechimList, setAvrechimList] = useState([]);
   const [milgaAmounts, setMilgaAmounts] = useState({});
-  const [updatedAlert, setUpdatedAlert] = useState(false);
+
   const [newDate, setNewDate] = useState(new Date().toISOString().split('T')[0])
 
+  const [alert, setAlert] = useState(null);
 
   const catchData = async () => {
     try {
       const { data } = await Axios.get("http://localhost:5678/api/avrechim");
       setAvrechimList(data);
     } catch (err) {
-      console.log(err);
+         setAlert({
+                message: err.response?.data?.message || err.message,
+                type: "error",
+            });
     }
   };
 
@@ -95,11 +100,12 @@ const MilgotPage = () => {
         })
       );
       await Promise.all(promises);
-      setUpdatedAlert(true);
+      setAlert({ message: "המלגות עודכנו בהצלחה ✅", type: "update" });
+
       setMilgaAmounts({});
     } catch (err) {
       console.error(err);
-      alert("אירעה שגיאה בעדכון");
+      setAlert({ message: "אירעה שגיאה בעדכון", type: "error" });
     }
   };
 
@@ -150,7 +156,7 @@ const MilgotPage = () => {
       >
         עדכן לכולם
       </Button>
-      <UpdatedAlert updatedAlert={updatedAlert} setUpdatedAlert={setUpdatedAlert} />
+              <CustomSnackbar alert={alert} setAlert={setAlert} />
 
     </>
 

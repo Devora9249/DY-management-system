@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Button, TextField, Typography, Paper, Grid } from '@mui/material';
 import Axios from 'axios';
 
+import CustomSnackbar from "../Alerts/CustomSnackbar";
 
 const AddExpense = ({ onAdd }) => {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
     const [newDate, setNewDate] = useState(new Date().toISOString().split('T')[0])
 
+  const [alert, setAlert] = useState(null);
 
   const sendExpense = async () => {
     try {
@@ -19,10 +21,15 @@ const AddExpense = ({ onAdd }) => {
       setDescription("");
       setAmount("");
       setNewDate(new Date().toISOString().split('T')[0]);
-      alert("ההוצאה נוספה בהצלחה");
+                  setAlert({ message: "האברך נוסף בהצלחה ✅", type: "success" });
+
       onAdd();
     } catch (error) {
-      alert(error.message);
+        setAlert({
+                message: error.response?.data?.message || error.message,
+                type: "error",
+            });
+            console.error(error);
     }
   };
 
@@ -124,6 +131,7 @@ const AddExpense = ({ onAdd }) => {
           </Button>
         </Grid>
       </Grid>
+               <CustomSnackbar alert={alert} setAlert={setAlert} />
     </Paper>
   );
 }

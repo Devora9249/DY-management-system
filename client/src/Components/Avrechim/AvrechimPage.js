@@ -1,102 +1,81 @@
-import React from 'react'
-import AvrechimListComp from './AvrechimListComp'
-import { useState, useEffect } from 'react'
-import AddAvrech from './AddAvrech'
-import Axios from 'axios'
-import SuccessAlert from '../Alerts/SuccessAlert'
-import DeleteAlert from '../Alerts/DeleteAlert'
+import React, { useState, useEffect } from 'react';
+import Axios from 'axios';
+import AvrechimListComp from './AvrechimListComp';
+import AddAvrech from './AddAvrech';
+import CustomSnackbar from "../Alerts/CustomSnackbar";
 import { Box, Paper, Typography, Divider, Grid } from '@mui/material';
 
 const AvrechimPage = () => {
-    const [AvrechimList, setAvrechimList] = useState([])
-    const [successAlert, setSuccessAlert] = useState(false);
-    const [deleteAlert, setDeleteAlert] = useState(false);
+  const [AvrechimList, setAvrechimList] = useState([]);
+  const [alert, setAlert] = useState(null); // 👈 אלרט אחד בלבד
 
-
-    const catchData = async () => {
-        try {
-            const { data } = await Axios.get("http://localhost:5678/api/avrechim")
-            setAvrechimList(data)
-            console.log(AvrechimList, "AvrechimList1");
-        } catch (err) {
-            alert(err.message)
-        }
+  const catchData = async () => {
+    try {
+      const { data } = await Axios.get("http://localhost:5678/api/avrechim");
+      setAvrechimList(data);
+    } catch (err) {
+      setAlert({ message: "שגיאה בטעינת הנתונים", type: "error" });
+      console.error("שגיאה בטעינת האברכים:", err);
     }
+  };
 
-    useEffect(() => {
-        catchData();
-    }, [])
+  useEffect(() => {
+    catchData();
+  }, []);
 
-    return (
-        <>
-            <Box
-                sx={{
-                    bgcolor: "#f9f9f9", // ⭐ רקע בהיר נקי
-                    minHeight: "100vh",
-                    py: 5,
-                }}
-            >
-                <Paper
-                    elevation={3}
-                    sx={{
-                        maxWidth: 1000,
-                        mx: "auto",
-                        p: 4,
-                        borderRadius: 4,
-                        boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-                        backgroundColor: "#ffffff",
-                    }}
-                >
-                    {/* כותרת הדף */}
-                    <Typography
-                        variant="h5"
-                        align="center"
-                        sx={{
-                            fontWeight: "bold",
-                            mb: 3,
-                            color: "#b71c1c",
-                        }}
-                    >
-                        דף אברכים
-                    </Typography>
+  return (
+    <Box
+      sx={{
+        bgcolor: "#f9f9f9",
+        minHeight: "100vh",
+        py: 5,
+      }}
+    >
+      <Paper
+        elevation={3}
+        sx={{
+          maxWidth: 1000,
+          mx: "auto",
+          p: 4,
+          borderRadius: 4,
+          boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+          backgroundColor: "#ffffff",
+        }}
+      >
+        {/* כותרת הדף */}
+        <Typography
+          variant="h5"
+          align="center"
+          sx={{
+            fontWeight: "bold",
+            mb: 3,
+            color: "#b71c1c",
+          }}
+        >
+          דף אברכים
+        </Typography>
 
-                    <Divider sx={{ mb: 4 }} />
+        <Divider sx={{ mb: 4 }} />
 
-                    {/* כפתור הוספת אברך */}
-                    <Grid container justifyContent="center" sx={{ mb: 3 }}>
-                        <Grid item>
-                            <AddAvrech
-                                onAdd={catchData}
-                                setSuccessAlert={setSuccessAlert}
-                                successAlert={successAlert}
-                            />
-                        </Grid>
-                    </Grid>
+        {/* כפתור הוספת אברך */}
+        <Grid container justifyContent="center" sx={{ mb: 3 }}>
+          <Grid item>
+            <AddAvrech onAdd={catchData} setAlert={setAlert} /> {/* 👈 מעבירים setAlert */}
+          </Grid>
+        </Grid>
 
-                    {/* טבלת אברכים */}
-                    <AvrechimListComp
-                        AvrechimList={AvrechimList}
-                        onChange={catchData}
-                        setDeleteAlert={setDeleteAlert}
-                    />
+        {/* טבלת אברכים */}
+        <AvrechimListComp
+          AvrechimList={AvrechimList}
+          onChange={catchData}
+          setAlert={setAlert} // 👈 גם כאן
+        />
 
-                    {/* התראות */}
-                    <Box sx={{ mt: 3 }}>
-                        <SuccessAlert
-                            successAlert={successAlert}
-                            setSuccessAlert={setSuccessAlert}
-                        />
-                        <DeleteAlert
-                            deleteAlert={deleteAlert}
-                            setDeleteAlert={setDeleteAlert}
-                        />
-                    </Box>
-                </Paper>
-            </Box>
+        {/* האלרט המעוצב */}
+        <CustomSnackbar alert={alert} setAlert={setAlert} />
+      </Paper>
+    </Box>
+  );
+};
 
-        </>
-
-    )
-}
-
-export default AvrechimPage
+export default AvrechimPage;

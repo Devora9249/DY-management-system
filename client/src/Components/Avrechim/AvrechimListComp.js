@@ -5,19 +5,26 @@ import { Link } from 'react-router-dom'
 import { Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material'
 import AvrechMilgotCard from './AvrechMilgotCard'
 import DeleteDialog from '../GeneralConponents/DeleteDialog';
+import CustomSnackbar from "../Alerts/CustomSnackbar";
 import { Box, Typography, TableContainer, Paper } from '@mui/material';
 
-const AvrechimListComp = ({ onChange, AvrechimList, setDeleteAlert }) => {
+const AvrechimListComp = ({ onChange, AvrechimList }) => {
 
 
+  const [alert, setAlert] = useState(null);
     console.log(AvrechimList, "AvrechimList2");
     const deleteAvrech = async (id) => {
         try {
             await Axios.delete(`http://localhost:5678/api/avrechim/${id}`);
-            setDeleteAlert(true);
+            setAlert({ message: "האברך נמחק בהצלחה 🗑️", type: "error" });
+
             onChange();
         } catch (error) {
-            alert(error.message);
+             setAlert({
+                message: error.response?.data?.message || error.message,
+                type: "error",
+            });
+            console.error("שגיאה במחיקת האברך:", error);
         }
     };
 
@@ -95,6 +102,7 @@ const AvrechimListComp = ({ onChange, AvrechimList, setDeleteAlert }) => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <CustomSnackbar alert={alert} setAlert={setAlert} />
         </Box>
     );
 }

@@ -1,5 +1,7 @@
+
 import * as React from 'react';
 import { useState } from 'react';
+import CustomSnackbar from "../Alerts/CustomSnackbar";
 import Axios from 'axios';
 import {
     Button,
@@ -14,14 +16,13 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-export default function FormDialog({ onAdd, setSuccessAlert }) {
-
-
+export default function AddAvrech({ onAdd }) {
 
     const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
     const [id, setId] = useState("");
 
+  const [alert, setAlert] = useState(null);
     const handleClickOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -32,16 +33,19 @@ export default function FormDialog({ onAdd, setSuccessAlert }) {
                 id,
                 name
             });
-            console.log(data);
+
+            setAlert({ message: "האברך נוסף בהצלחה ✅", type: "success" });
             setName("");
             setId("");
-            setSuccessAlert(true);
-            onAdd();
+            onAdd(); // מרענן את הרשימה
             handleClose();
         } catch (error) {
-            alert(error.response?.data?.message || error.message);
+            setAlert({
+                message: error.response?.data?.message || error.message,
+                type: "error",
+            });
+            console.error(error);
         }
-        handleClose();
     };
 
     return (
@@ -104,7 +108,7 @@ export default function FormDialog({ onAdd, setSuccessAlert }) {
                 </DialogTitle>
 
                 {/* טופס */}
-                <form onSubmit={addAvrech} id="subscription-form">
+                <form onSubmit={addAvrech}>
                     <DialogContent>
                         <Grid container spacing={2} sx={{ mt: 1 }}>
                             <Grid item xs={12}>
@@ -116,15 +120,6 @@ export default function FormDialog({ onAdd, setSuccessAlert }) {
                                     variant="outlined"
                                     fullWidth
                                     required
-                                    sx={{
-                                        backgroundColor: "white",
-                                        borderRadius: 1,
-                                        "& .MuiOutlinedInput-root": {
-                                            "& fieldset": { borderColor: "#e0e0e0" },
-                                            "&:hover fieldset": { borderColor: "#b71c1c" },
-                                            "&.Mui-focused fieldset": { borderColor: "#b71c1c" },
-                                        },
-                                    }}
                                 />
                             </Grid>
 
@@ -137,21 +132,11 @@ export default function FormDialog({ onAdd, setSuccessAlert }) {
                                     variant="outlined"
                                     fullWidth
                                     required
-                                    sx={{
-                                        backgroundColor: "white",
-                                        borderRadius: 1,
-                                        "& .MuiOutlinedInput-root": {
-                                            "& fieldset": { borderColor: "#e0e0e0" },
-                                            "&:hover fieldset": { borderColor: "#b71c1c" },
-                                            "&.Mui-focused fieldset": { borderColor: "#b71c1c" },
-                                        },
-                                    }}
                                 />
                             </Grid>
                         </Grid>
                     </DialogContent>
 
-                    {/* כפתור שליחה */}
                     <DialogActions sx={{ justifyContent: "center", mt: 1 }}>
                         <Button
                             variant="contained"
@@ -173,141 +158,12 @@ export default function FormDialog({ onAdd, setSuccessAlert }) {
                     </DialogActions>
                 </form>
             </Dialog>
+
+            {/* ✅ האלרט עצמו */}
+            <CustomSnackbar
+                alert={alert}
+                setAlert={setAlert}
+            />
         </React.Fragment>
     );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//         <React.Fragment>
-//             <Button
-//                 variant="contained"
-//                 color="secondary"
-//                 sx={{
-//                     mt: 2,
-//                     fontWeight: 'bold',
-//                     fontSize: '16px',
-//                     boxShadow: 3,
-//                     '&:hover': { backgroundColor: '#d32f2f' }
-//                 }}
-//                 onClick={handleClickOpen}
-//             >
-//                 הוסף אברך
-//             </Button>
-
-//             <Dialog
-//                 open={open}
-//                 onClose={handleClose}
-//                 PaperProps={{
-//                     sx: {
-//                         borderRadius: 3,
-//                         p: 2,
-//                         minWidth: 400,
-//                         bgcolor: '#fff8f0'
-//                     }
-//                 }}
-//             >
-//                 <DialogActions sx={{ justifyContent: 'flex-end' }}>
-//                     <IconButton
-//                         onClick={handleClose}
-//                         color="error"
-//                         sx={{
-//                             bgcolor: '#ffe6e6',
-//                             '&:hover': { bgcolor: '#ffcccc' }
-//                         }}
-//                     >
-//                         <CloseIcon />
-//                     </IconButton>
-//                 </DialogActions>
-
-//                 <DialogTitle>
-//                     <Typography variant="h6" fontWeight="bold" color="secondary">
-//                         הוספת אברך חדש
-//                     </Typography>
-//                 </DialogTitle>
-
-//                 <form onSubmit={addAvrech} id="subscription-form">
-//                     <DialogContent>
-//                         <Grid container spacing={2} sx={{ mt: 1 }}>
-//                             <Grid item xs={12}>
-//                                 <TextField
-//                                     value={name}
-//                                     onChange={(e) => setName(e.target.value)}
-//                                     label=" שם האברך"
-//                                     type="text"
-//                                     variant="outlined"
-//                                     fullWidth
-//                                     required
-//                                     sx={{
-//                                         '& .MuiOutlinedInput-root': {
-//                                             '& fieldset': { borderColor: '#ff7043' },
-//                                             '&:hover fieldset': { borderColor: '#d84315' },
-//                                             '&.Mui-focused fieldset': { borderColor: '#bf360c' },
-//                                         }
-//                                     }}
-//                                 />
-//                             </Grid>
-
-//                             <Grid item xs={12}>
-//                                 <TextField
-//                                     value={id}
-//                                     onChange={(e) => setId(e.target.value)}
-//                                     label="ת.ז"
-//                                     type="text"
-//                                     variant="outlined"
-//                                     fullWidth
-//                                     required
-//                                     sx={{
-//                                         '& .MuiOutlinedInput-root': {
-//                                             '& fieldset': { borderColor: '#ff7043' },
-//                                             '&:hover fieldset': { borderColor: '#d84315' },
-//                                             '&.Mui-focused fieldset': { borderColor: '#bf360c' },
-//                                         }
-//                                     }}
-//                                 />
-//                             </Grid>
-//                         </Grid>
-//                     </DialogContent>
-
-//                     <DialogActions sx={{ justifyContent: 'center', mt: 1 }}>
-//                         <Button
-//                             variant="contained"
-//                             color="secondary"
-//                             type='submit'
-//                             sx={{
-//                                 fontWeight: 'bold',
-//                                 fontSize: '16px',
-//                                 px: 4,
-//                                 py: 1.5,
-//                                 boxShadow: 3,
-//                                 '&:hover': { backgroundColor: '#d32f2f' }
-//                             }}
-//                         >
-//                             הוסף אברך
-//                         </Button>
-//                     </DialogActions>
-//                 </form>
-//             </Dialog>
-//         </React.Fragment>
-//     );
-// }

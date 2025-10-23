@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import Axios from 'axios';
+import CustomSnackbar from "../Alerts/CustomSnackbar";
 import {
   Button,
   TextField,
@@ -14,7 +15,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-export default function FormDialog({ onAdd, successAlert, setSuccessAlert }) {
+export default function FormDialog({ onAdd }) {
 
 
 
@@ -24,6 +25,7 @@ export default function FormDialog({ onAdd, successAlert, setSuccessAlert }) {
   const [newDate, setNewDate] = useState(new Date().toISOString().split('T')[0])
 
 
+  const [alert, setAlert] = useState(null);
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -46,11 +48,16 @@ export default function FormDialog({ onAdd, successAlert, setSuccessAlert }) {
       setDescription("");
       setAmount("");
       setNewDate(new Date().toISOString().split('T')[0]);
-      setSuccessAlert(true);
+      setAlert({ message: "הוצאה חדשה נוספה בהצלחה ✅", type: "success" });
+
       onAdd();
       handleClose();
     } catch (error) {
-      alert(error.message);
+        setAlert({
+                message: error.response?.data?.message || error.message,
+                type: "error",
+            });
+            console.error(error);
     }
   };
 
@@ -218,6 +225,7 @@ export default function FormDialog({ onAdd, successAlert, setSuccessAlert }) {
           </Button>
         </DialogActions>
       </Dialog>
+               <CustomSnackbar alert={alert} setAlert={setAlert} />
     </React.Fragment>
   );
 }
