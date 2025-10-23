@@ -34,7 +34,7 @@
 
 // export default ExpenseList
 
- 
+
 import { Table, TableHead, TableBody, TableRow, TableCell, TableContainer, Paper, IconButton, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Axios from 'axios';
@@ -53,31 +53,67 @@ const ExpenseList = ({ expenseList, onChange, setDeleteAlert }) => {
   };
 
   return (
-    <TableContainer component={Paper} sx={{ mt: 4, maxWidth: 800, mx: 'auto' }}>
-      <Typography variant="h6" align="center" sx={{ p: 2, fontWeight: 'bold' }}>
+    <TableContainer
+      component={Paper}
+      sx={{
+        mt: 4,
+        maxWidth: 800,
+        mx: "auto",
+        borderRadius: 3, // ⭐ פינות מעוגלות
+        boxShadow: "0 4px 10px rgba(0,0,0,0.1)", // ⭐ הצללה רכה
+        overflow: "hidden", // ⭐ שומר על העיצוב גם כשהטבלה רחבה
+        backgroundColor: "#fafafa", // ⭐ רקע אפור בהיר
+      }}
+    >
+      <Typography
+        variant="h6"
+        align="center"
+        sx={{
+          p: 2,
+          fontWeight: "bold",
+          color: "#b71c1c", // ⭐ אדום עדין
+          bgcolor: "#f5f5f5", // ⭐ כותרת על רקע טיפה כהה
+          borderBottom: "2px solid #b71c1c",
+        }}
+      >
         רשימת הוצאות
       </Typography>
+
       <Table>
         {/* כותרות הטבלה */}
         <TableHead>
-          <TableRow>
-            <TableCell sx={{ fontWeight: 'bold' }}></TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }}>סכום</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }}>מטרה</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }}>תאריך</TableCell>
-
-
+          <TableRow sx={{ backgroundColor: "#f0f0f0" }}>
+            <TableCell align="center" sx={{ width: "25%", fontWeight: "bold", color: "#444" }}></TableCell>
+            <TableCell align="center" sx={{ width: "25%", fontWeight: "bold", color: "#444" }}>סכום</TableCell>
+            <TableCell align="center" sx={{ width: "25%", fontWeight: "bold", color: "#444" }}>מטרה</TableCell>
+            <TableCell align="center" sx={{ width: "25%", fontWeight: "bold", color: "#444" }}>תאריך</TableCell>
           </TableRow>
         </TableHead>
 
         {/* גוף הטבלה */}
         <TableBody>
-          {expenseList.map((expense) => (
-            <TableRow key={expense._id} hover>
-              <TableCell> <DeleteDialog deleteFunc={deleteExpense} itemId={expense._id}/> </TableCell>
-              <TableCell>{expense.amount} ₪</TableCell>
-              <TableCell>{expense.description}</TableCell>
-              <TableCell>{new Date(expense.date).toLocaleDateString('he-IL')}</TableCell>
+          {expenseList.map((expense, index) => (
+            <TableRow
+              key={expense._id}
+              hover
+              sx={{
+                backgroundColor: "#ffffff",
+                transition: "background-color 0.3s",
+                "&:hover": {
+                  backgroundColor: "#f7a9a9ff",
+                },
+              }}
+            >
+              <TableCell align="center" sx={{ width: "25%" }}>
+                <DeleteDialog deleteFunc={deleteExpense} itemId={expense._id} />
+              </TableCell>
+              <TableCell align="center" sx={{ width: "25%", color: "#b71c1c", fontWeight: "bold" }}>
+                {expense.amount} ₪
+              </TableCell>
+              <TableCell align="center" sx={{ width: "25%" }}>{expense.description}</TableCell>
+              <TableCell align="center" sx={{ width: "25%" }}>
+                {new Date(expense.date).toLocaleDateString("he-IL")}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -87,4 +123,3 @@ const ExpenseList = ({ expenseList, onChange, setDeleteAlert }) => {
 };
 
 export default ExpenseList;
-

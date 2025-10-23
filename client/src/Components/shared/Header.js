@@ -4,24 +4,91 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useState } from 'react';
-export default function CenteredTabs() {
+
+import useMediaQuery from '@mui/material/useMediaQuery';
+export default function Header() {
 
   const location = useLocation()
-
+  const isMobile = useMediaQuery("(max-width:600px)");
 
 
   return (
-    <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
-      <Tabs value={location.pathname} centered>
-        {/* <Tab label="Home Page" component = {NavLink}  to= "/" value={"/"}/> */}
-        <Tab label="תורמים" component={NavLink} to="/Donors" value={"/Donors"} />
-        <Tab label="הוצאות" component={NavLink} to="/Expenses" value={"/Expenses"} />
-        <Tab label="אברכים" component={NavLink} to="/Avrechim" value={"/Avrechim"} />
-        <Tab label="חלוקת מילגות" component={NavLink} to="/Milgot" value={"/Milgot"} />
+    <Box
+      sx={{
+        width: "100%",
+        bgcolor: "#f7f7f7", // ⭐ רקע אפור בהיר
+        boxShadow: "0 2px 4px rgba(0,0,0,0.1)", // ⭐ הצללה עדינה
+        paddingBottom: 1,
+      }}
+    >
+      {/* לוגו */}
+      <Box
+        component="img"
+        src="/logo.jpg"
+        alt="לוגו"
+        sx={{
+          display: "block",
+          margin: "0 auto",
+          maxWidth: "180px",
+          paddingTop: "10px",
+        }}
+      />
 
-        {/* <Tab label="Register" component = {NavLink} to= "/Register" value={"/Register"}/>
-        <Tab label="My Cart" component = {NavLink} to= "/Cart" value={"/Cart"}/> */}
+      {/* כותרת */}
+      <Box
+        component="h1"
+        sx={{
+          textAlign: "center",
+          fontSize: isMobile ? "1.5rem" : "2rem", // ⭐ התאמה למובייל
+          fontWeight: 500,
+          color: "#333",
+          marginTop: "10px",
+          marginBottom: "10px",
+        }}
+      >
+        אתר ניהול לכולל
+      </Box>
+
+      {/* טאבים */}
+      <Tabs
+        value={location.pathname}
+        centered={!isMobile}
+        variant={isMobile ? "scrollable" : "standard"}
+        scrollButtons={false}
+        sx={{
+          "& .MuiTab-root": {
+            color: "#555",
+            fontWeight: 500,
+          },
+          "& .Mui-selected": {
+            color: "#b71c1c", // ⭐ אדום עדין
+          },
+          "& .MuiTabs-indicator": {
+            backgroundColor: "#b71c1c", // ⭐ אדום עדין לפס התחתון
+          },
+        }}
+      >
+        <Tab label="תורמים" component={NavLink} to="/Donors" value="/Donors" />
+        <Tab label="הוצאות" component={NavLink} to="/Expenses" value="/Expenses" />
+        <Tab label="אברכים" component={NavLink} to="/Avrechim" value="/Avrechim" />
+        <Tab label="חלוקת מלגות" component={NavLink} to="/Milgot" value="/Milgot" />
       </Tabs>
     </Box>
   );
 }
+//   return (
+//     <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
+//       <img src="/logo.jpg"  style={{ display: 'block', margin: '0 auto', maxWidth: '200px', paddingTop: '10px' }} />
+//       <h1>אתר ניהול לכולל</h1>
+//       <Tabs value={location.pathname} centered>
+//         {/* <Tab label="Home Page" component = {NavLink}  to= "/" value={"/"}/> */}
+//         <Tab label="תורמים" component={NavLink} to="/Donors" value={"/Donors"} />
+//         <Tab label="הוצאות" component={NavLink} to="/Expenses" value={"/Expenses"} />
+//         <Tab label="אברכים" component={NavLink} to="/Avrechim" value={"/Avrechim"} />
+//         <Tab label="חלוקת מילגות" component={NavLink} to="/Milgot" value={"/Milgot"} />
+//       </Tabs>
+//     </Box>
+//   );
+// }
+
+
