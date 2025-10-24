@@ -79,7 +79,6 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
     },
   }}
 >
-  {/* כותרת עם כפתור סגירה */}
   <DialogTitle
     sx={{
       textAlign: "center",
@@ -108,17 +107,14 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
     </IconButton>
   </DialogTitle>
 
-  {/* תוכן הדיאלוג */}
   <DialogContent sx={{ p: 3, backgroundColor: "white" }}>
     <form onSubmit={handleSubmit}>
-      {/* 🪄 Stack שולט על ריווחים אנכיים אחידים */}
       <Stack spacing={3}>
         <DonorDetailsForm donorData={donorData} setDonorData={setDonorData} />
         <YahrzeitSection yahrzeits={yahrzeits} setYahrzeits={setYahrzeits} />
         <DonationSection donation={donation} setDonation={setDonation} />
       </Stack>
 
-      {/* פעולות בתחתית */}
       <DialogActions
         sx={{
           mt: 4,
