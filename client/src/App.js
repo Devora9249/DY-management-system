@@ -1,16 +1,11 @@
-
-import AddDonor from './Components/Donors/AddDonor';
-import DonorsList from './Components/Donors/DonorsList';
-import Donors from './Components/Donors/DonorsList'
-import AddExpense from './Components/Expenses/AddExpense';
-import ExpenseList from './Components/Expenses/ExpenseList';
-import DonorCard from './Components/Donors/DonorCard';
+import DonorsList from './Components/Donors/DonorsPage/DonorsList';
+import DonorCard from './Components/Donors/DonorCard/DonorCard';
 import Layout from './Components/shared/Layout';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
 import ExpensesPage from './Components/Expenses/ExpensesPage';
-import AvrechimList from './Components/Avrechim/AvrechimListComp';
 import AvrechimPage from './Components/Avrechim/AvrechimPage';
 import MilgotPage from './Components/Milgot/MilgotPage';
+import AddDonor from './Components/Donors/AddDonor/AddDonor';
 
 function App() {
   return (
