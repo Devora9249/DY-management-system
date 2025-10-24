@@ -5,7 +5,7 @@ const cron = require("node-cron");
 const Donor = require("../models/DonorModel");
 
 // הפעלת cron פעם ביום בשעה 02:00 בלילה
-cron.schedule("45 20 * * *", async () => {
+cron.schedule("31 22 * * *", async () => {
     console.log("📅בודק תאריכי יארצייט ויום הולדת");
 
     const today = new Date();
