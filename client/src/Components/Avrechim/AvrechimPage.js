@@ -4,10 +4,14 @@ import AvrechimListComp from './AvrechimListComp';
 import AddAvrech from './AddAvrech';
 import CustomSnackbar from "../Alerts/CustomSnackbar";
 import { Box, Paper, Typography, Divider, Grid } from '@mui/material';
+import ShowNotActiveAvrechim from './ShowNotActiveAvrechim';
+import DownloadDetailsXL from './DownloadDetailsXL';
 
 const AvrechimPage = () => {
   const [AvrechimList, setAvrechimList] = useState([]);
   const [alert, setAlert] = useState(null); // 👈 אלרט אחד בלבד
+  const [showAll, setShowAll] = useState(false);
+
 
   const catchData = async () => {
     try {
@@ -60,7 +64,9 @@ const AvrechimPage = () => {
         {/* כפתור הוספת אברך */}
         <Grid container justifyContent="center" sx={{ mb: 3 }}>
           <Grid item>
-            <AddAvrech onAdd={catchData} setAlert={setAlert} /> {/* 👈 מעבירים setAlert */}
+            <AddAvrech onAdd={catchData} setAlert={setAlert} />
+            <ShowNotActiveAvrechim setShowAll={setShowAll} showAll={showAll} />
+            <DownloadDetailsXL AvrechimList={AvrechimList} />
           </Grid>
         </Grid>
 
@@ -68,7 +74,8 @@ const AvrechimPage = () => {
         <AvrechimListComp
           AvrechimList={AvrechimList}
           onChange={catchData}
-          setAlert={setAlert} // 👈 גם כאן
+          setAlert={setAlert}
+          showAll={showAll}
         />
 
         {/* האלרט המעוצב */}

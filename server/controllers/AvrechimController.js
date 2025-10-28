@@ -39,8 +39,8 @@ exports.getMilgotAvrechById = async (req, res) => {
 // Create new Avrech
 exports.createAvrech = async (req, res) => {
     try {
-        if (!req.body.name || !req.body.id ) {
-            return res.status(400).json({ message: 'יש למלא את כל השדות' });
+        if (!req.body.name || !req.body.id || !req.body.phoneNumber) {
+            return res.status(400).json({ message: 'יש למלא את השדות שם, ת"ז ומספר טלפון' });
         }
 
         const existing = await Avrech.findOne({ $or: [{ id: req.body.id }, { name: req.body.name }] });

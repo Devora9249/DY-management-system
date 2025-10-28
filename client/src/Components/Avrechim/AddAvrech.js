@@ -21,8 +21,18 @@ export default function AddAvrech({ onAdd }) {
     const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
     const [id, setId] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [address, setAddress] = useState("");
+    const [emailAddress, setEmailAddress] = useState("");
+    const [bankName, setBankName] = useState("");
+    const [branchNumber, setBranchNumber] = useState("");
+    const [accountNumber, setAccountNumber] = useState("");
+    const [womenName, setWomenName] = useState("");
+    const [womenPhoneNumber, setWomenPhoneNumber] = useState("");
+    const [womenEmailAddress, setWomenEmailAddress] = useState("");
 
-  const [alert, setAlert] = useState(null);
+
+    const [alert, setAlert] = useState(null);
     const handleClickOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -31,12 +41,30 @@ export default function AddAvrech({ onAdd }) {
         try {
             const { data } = await Axios.post("http://localhost:5678/api/avrechim", {
                 id,
-                name
+                name,
+                phoneNumber,
+                address,
+                emailAddress,
+                bankName,
+                branchNumber,
+                accountNumber,
+                womenName,
+                womenPhoneNumber,
+                womenEmailAddress,
             });
 
             setAlert({ message: "האברך נוסף בהצלחה ✅", type: "success" });
             setName("");
             setId("");
+            setPhoneNumber("");
+            setAddress("");
+            setEmailAddress("");
+            setBankName("");
+            setBranchNumber("");
+            setAccountNumber("");
+            setWomenName("");
+            setWomenPhoneNumber("");
+            setWomenEmailAddress("");
             onAdd(); // מרענן את הרשימה
             handleClose();
         } catch (error) {
@@ -132,6 +160,106 @@ export default function AddAvrech({ onAdd }) {
                                     variant="outlined"
                                     fullWidth
                                     required
+                                />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <TextField
+                                    value={phoneNumber}
+                                    onChange={(e) => setPhoneNumber(e.target.value)}
+                                    label="מספר טלפון"
+                                    type="text"
+                                    variant="outlined"
+                                    fullWidth
+                                    required
+                                />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <TextField
+                                    value={address}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                    label="כתובת מגורים"
+                                    type="text"
+                                    variant="outlined"
+                                    fullWidth
+                                />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <TextField
+                                    value={emailAddress}
+                                    onChange={(e) => setEmailAddress(e.target.value)}
+                                    label="כתובת אימייל"
+                                    type="text"
+                                    variant="outlined"
+                                    fullWidth
+                                />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <TextField
+                                    value={bankName}
+                                    onChange={(e) => setBankName(e.target.value)}
+                                    label="מספר בנק"
+                                    type="text"
+                                    variant="outlined"
+                                    fullWidth
+                                />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <TextField
+                                    value={branchNumber}
+                                    onChange={(e) => setBranchNumber(e.target.value)}
+                                    label="מספר סניף"
+                                    type="text"
+                                    variant="outlined"
+                                    fullWidth
+                                />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <TextField
+                                    value={accountNumber}
+                                    onChange={(e) => setAccountNumber(e.target.value)}
+                                    label="מספר חשבון"
+                                    type="text"
+                                    variant="outlined"
+                                    fullWidth
+                                />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <TextField
+                                    value={womenName}
+                                    onChange={(e) => setWomenName(e.target.value)}
+                                    label="שם האישה"
+                                    type="text"
+                                    variant="outlined"
+                                    fullWidth
+                                />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <TextField
+                                    value={womenPhoneNumber}
+                                    onChange={(e) => setWomenPhoneNumber(e.target.value)}
+                                    label="מספר טלפון אישה"
+                                    type="text"
+                                    variant="outlined"
+                                    fullWidth
+                                />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <TextField
+                                    value={womenEmailAddress}
+                                    onChange={(e) => setWomenEmailAddress(e.target.value)}
+                                    label="כתובת אימייל אישה"
+                                    type="text"
+                                    variant="outlined"
+                                    fullWidth
                                 />
                             </Grid>
                         </Grid>

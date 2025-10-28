@@ -23,8 +23,8 @@ export default function FormDialog({ avrechId, avrechName }) {
     const [open, setOpen] = useState(false);
     const [milgot, setMilgot] = useState([]);
 
-    
-      const [alert, setAlert] = useState(null);
+
+    const [alert, setAlert] = useState(null);
 
     const handleClickOpen = () => {
         setOpen(true)
@@ -37,10 +37,9 @@ export default function FormDialog({ avrechId, avrechName }) {
         try {
             const { data } = await Axios.get(`http://localhost:5678/api/avrechim/${avrechId}`)
             setMilgot(data)
-            console.log(data, "כרטיסיית מילגות לאברך מסויים");
         }
         catch (error) {
-              setAlert({
+            setAlert({
                 message: error.response?.data?.message || error.message,
                 type: "error",
             });
@@ -164,7 +163,7 @@ export default function FormDialog({ avrechId, avrechName }) {
                     </Paper>
                 </DialogContent>
             </Dialog>
-                     <CustomSnackbar alert={alert} setAlert={setAlert} />
+            <CustomSnackbar alert={alert} setAlert={setAlert} />
         </React.Fragment>
     );
 }

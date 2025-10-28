@@ -1,32 +1,25 @@
 import Axios from 'axios'
-import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material'
 import AvrechMilgotCard from './AvrechMilgotCard'
 import DeleteDialog from '../GeneralConponents/DeleteDialog';
 import CustomSnackbar from "../Alerts/CustomSnackbar";
-import { Box, Typography, TableContainer, Paper } from '@mui/material';
+import { Box, TableContainer, Paper } from '@mui/material';
+import AvrechCard from './AvrechCard'
 
-const AvrechimListComp = ({ onChange, AvrechimList }) => {
+const AvrechimListComp = ({ onChange, AvrechimList, showAll }) => {
+console.log(showAll, "showAll");
 
 
   const [alert, setAlert] = useState(null);
-    console.log(AvrechimList, "AvrechimList2");
-    const deleteAvrech = async (id) => {
-        try {
-            await Axios.delete(`http://localhost:5678/api/avrechim/${id}`);
-            setAlert({ message: "האברך נמחק בהצלחה 🗑️", type: "error" });
-
-            onChange();
-        } catch (error) {
-             setAlert({
-                message: error.response?.data?.message || error.message,
-                type: "error",
-            });
-            console.error("שגיאה במחיקת האברך:", error);
-        }
-    };
+  const [selectedAvrech, setSelectedAvrech] = useState({})
+  const [open, setOpen] = useState(false);
+  
+  
+    const openAvrechCard = (avrech)=>{
+        setSelectedAvrech(avrech)
+        setOpen(true)
+    }
 
     return (
 
@@ -39,15 +32,12 @@ const AvrechimListComp = ({ onChange, AvrechimList }) => {
                     borderRadius: 3,
                     boxShadow: "0 3px 10px rgba(0,0,0,0.1)",
                     overflow: "hidden",
-                }}
+                    cursor: "pointer"                }}
             >
                 <Table>
                     {/* כותרות הטבלה */}
                     <TableHead>
                         <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
-                            <TableCell align="center" sx={{ width: "25%", fontWeight: "bold" }}>
-                                מחיקה
-                            </TableCell>
                             <TableCell align="center" sx={{ width: "25%", fontWeight: "bold" }}>
                                 מלגות
                             </TableCell>
@@ -59,8 +49,7 @@ const AvrechimListComp = ({ onChange, AvrechimList }) => {
                             </TableCell>
                             <TableCell
                                 align="center"
-                                sx={{ width: "25%", fontWeight: "bold", color: "#333" }}
-                            >
+                                sx={{ width: "25%", fontWeight: "bold", color: "#333" }}>
                                 שם
                             </TableCell>
 
@@ -70,40 +59,40 @@ const AvrechimListComp = ({ onChange, AvrechimList }) => {
 
                     {/* גוף הטבלה */}
                     <TableBody>
-                        {AvrechimList.map((avrech) => (
+                        {AvrechimList.map((avrech) => (                            
+                            // <Link >
+                            avrech.active || showAll ? (
                             <TableRow
                                 key={avrech._id}
                                 hover
+                                onClick={()=>openAvrechCard(avrech)}
                                 sx={{
                                     "&:hover": { backgroundColor: "#fff5f5" },
                                     transition: "0.2s",
                                 }}
                             >
                                 <TableCell align="center" sx={{ width: "25%", }}>
-                                    <DeleteDialog
-                                        deleteFunc={deleteAvrech}
-                                        itemId={avrech._id}
-                                    />
-                                </TableCell>
-                                <TableCell align="center" sx={{ width: "25%", }}>
-                                    <AvrechMilgotCard
+                                    <div onClick={(e)=>e.stopPropagation()}>
+                                        <AvrechMilgotCard
                                         avrechId={avrech._id}
                                         avrechName={avrech.name}
-                                    />
+                                    /></div>
                                 </TableCell>
                                 <TableCell align="center" sx={{ width: "25%", }}>{avrech.id}</TableCell>
                                 <TableCell align="center" sx={{ width: "25%", fontWeight: 500 }}>
                                     {avrech.name}
                                 </TableCell>
-
-
                             </TableRow>
+                            ) : null
+                            // </Link>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
             <CustomSnackbar alert={alert} setAlert={setAlert} />
+            {selectedAvrech!=null?<AvrechCard avrechDetails={selectedAvrech} setOpen={setOpen} open={open} onChange={onChange}></AvrechCard>:null}
         </Box>
+        
     );
 }
 
