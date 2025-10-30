@@ -48,7 +48,7 @@ exports.createAvrech = async (req, res) => {
             return res.status(400).json({ message: "האברך כבר קיים במערכת" });
         }
 
-        const avrech = new Avrech(req.body);
+        const avrech = new Avrech(req.body); 
         await avrech.save();
         res.status(201).json(avrech);
 

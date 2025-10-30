@@ -8,7 +8,6 @@ import { Box, TableContainer, Paper } from '@mui/material';
 import AvrechCard from './AvrechCard'
 
 const AvrechimListComp = ({ onChange, AvrechimList, showAll }) => {
-console.log(showAll, "showAll");
 
 
   const [alert, setAlert] = useState(null);
