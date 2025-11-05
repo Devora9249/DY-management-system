@@ -2,7 +2,7 @@ const cron = require("node-cron");
 const Donor = require("../models/DonorModel");
 
 // הפעלת cron פעם ביום בשעה 02:00 בלילה
-cron.schedule("30 23 * * *", async () => {
+cron.schedule("25 17 * * *", async () => {
     console.log("📅 בודק הוראות קבע...");
     let count = 2;
     try {

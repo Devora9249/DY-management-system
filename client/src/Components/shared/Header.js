@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { NavLink, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 export default function Header() {
@@ -72,6 +72,9 @@ export default function Header() {
         <Tab label="הוצאות" component={NavLink} to="/Expenses" value="/Expenses"   style={({ isActive }) => ({ color: isActive ? "#b71c1c" : "#000",})}/>
         <Tab label="אברכים" component={NavLink} to="/Avrechim" value="/Avrechim"   style={({ isActive }) => ({ color: isActive ? "#b71c1c" : "#000",})}/>
         <Tab label="חלוקת מלגות" component={NavLink} to="/Milgot" value="/Milgot"   style={({ isActive }) => ({ color: isActive ? "#b71c1c" : "#000",})}/>
+        <Tab label="סיכום פיננסי" component={NavLink} to="/FinanceSummary" value="/FinanceSummary"   style={({ isActive }) => ({ color: isActive ? "#b71c1c" : "#000",})}/>
+        <Tab label="חובות" component={NavLink} to="/Debts" value="/Debts"   style={({ isActive }) => ({ color: isActive ? "#b71c1c" : "#000",})}/>
+
       </Tabs>
     </Box>
   );
