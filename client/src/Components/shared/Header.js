@@ -74,24 +74,10 @@ export default function Header() {
         <Tab label="חלוקת מלגות" component={NavLink} to="/Milgot" value="/Milgot"   style={({ isActive }) => ({ color: isActive ? "#b71c1c" : "#000",})}/>
         <Tab label="סיכום פיננסי" component={NavLink} to="/FinanceSummary" value="/FinanceSummary"   style={({ isActive }) => ({ color: isActive ? "#b71c1c" : "#000",})}/>
         <Tab label="חובות" component={NavLink} to="/Debts" value="/Debts"   style={({ isActive }) => ({ color: isActive ? "#b71c1c" : "#000",})}/>
-
+        <Tab label="קישורים" component={NavLink} to="/Links" value="/Links"   style={({ isActive }) => ({ color: isActive ? "#b71c1c" : "#000",})}/>
       </Tabs>
     </Box>
   );
 }
-//   return (
-//     <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
-//       <img src="/logo.jpg"  style={{ display: 'block', margin: '0 auto', maxWidth: '200px', paddingTop: '10px' }} />
-//       <h1>אתר ניהול לכולל</h1>
-//       <Tabs value={location.pathname} centered>
-//         {/* <Tab label="Home Page" component = {NavLink}  to= "/" value={"/"}/> */}
-//         <Tab label="תורמים" component={NavLink} to="/Donors" value={"/Donors"} />
-//         <Tab label="הוצאות" component={NavLink} to="/Expenses" value={"/Expenses"} />
-//         <Tab label="אברכים" component={NavLink} to="/Avrechim" value={"/Avrechim"} />
-//         <Tab label="חלוקת מילגות" component={NavLink} to="/Milgot" value={"/Milgot"} />
-//       </Tabs>
-//     </Box>
-//   );
-// }
 
 

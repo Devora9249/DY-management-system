@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { TableContainer, Paper, Box, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Axios from "axios";
 import CustomSnackbar from "../Alerts/CustomSnackbar";
-import DeleteDialog from "../GeneralConponents/DeleteDialog";
 import TakenDebtsList from "./TakenDebtsList";
 import GivenDebtsList from "./GivenDebtsList";
 
@@ -20,22 +18,7 @@ const DebtsList = ({ takenDebts, givenDebts, onChange, showAll }) => {
   ];
 
   return (
-    <TableContainer
-      component={Paper}
-      sx={{
-        mt: 5,
-        mx: "auto",
-        width: "95%",
-        maxWidth: "1000px",
-        borderRadius: 4,
-        backgroundColor: "#ffffff",
-        boxShadow: "0 6px 20px rgba(0,0,0,0.08)", 
-        overflow: "hidden",
-        border: "1px solid #eee", 
-        p: 3,
-      }}
-    >
-
+    <>
       {/* חלוקה לשני חלקים */}
       <Box
         sx={{
@@ -86,7 +69,7 @@ const DebtsList = ({ takenDebts, givenDebts, onChange, showAll }) => {
 
       {/* הודעות Snackbar */}
       <CustomSnackbar alert={alert} setAlert={setAlert} />
-    </TableContainer>
+    </>
   );
 };
 

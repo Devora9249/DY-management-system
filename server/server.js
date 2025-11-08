@@ -20,6 +20,7 @@ app.use("/api/avrechim",require("./routes/AvrechimRoute"))
 app.use("/api/expenses",require("./routes/ExpensesRoute"))
 app.use("/api/integration",require("./routes/IntegrationRoute"))
 app.use("/api/debts",require("./routes/DebtsRoute"))
+app.use("/api/links",require("./routes/LinksRoute"))
 
 //cron jobs
 const startDonationsCron = require("./cron/donationsCron");

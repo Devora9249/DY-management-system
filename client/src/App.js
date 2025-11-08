@@ -8,6 +8,7 @@ import MilgotPage from './Components/Milgot/MilgotPage';
 import AddDonor from './Components/Donors/AddDonor/AddDonor';
 import FinanceSummaryPage from './Components/FinanceSummary/FinanceSummaryPage';
 import DebtsPage from './Components/Debts/DebtsPage';
+import LinksPage from './Components/Links/LinksPage';
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
             <Route path="/Milgot" index element={<MilgotPage />} />
             <Route path="/FinanceSummary" index element={<FinanceSummaryPage />} />
             <Route path="/Debts" index element={<DebtsPage />} />
-            {/* <Route path="/AddExpense" index element={<AddExpense />} /> */}
+            <Route path="/Links" index element={<LinksPage />} />
           </Route>
         </Routes>
       </Router>

@@ -1,8 +1,11 @@
 {
   "dependencies": {
+    "@emotion/cache": "^11.14.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "node-cron": "^4.2.1",
-    "nodemailer": "^7.0.9"
+    "nodemailer": "^7.0.9",
+    "stylis": "^4.3.6",
+    "stylis-plugin-rtl": "^2.1.1"
   }
 }
