@@ -20,25 +20,9 @@ const DebtsList = ({ takenDebts, givenDebts, onChange, showAll }) => {
   return (
     <>
       {/* חלוקה לשני חלקים */}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 4,
-          p: 1,
-        }}
-      >
+      <Box >
         {/* חובות שנלקחו */}
-        <Box
-          sx={{
-            backgroundColor: "#fafafa",
-            borderRadius: 3,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-            p: 2,
-            transition: "0.3s",
-            "&:hover": { boxShadow: "0 4px 14px rgba(0,0,0,0.08)" },
-          }}
-        >
+        <Box     >
           <TakenDebtsList
             fields={fields}
             takenList={takenDebts}
@@ -48,16 +32,7 @@ const DebtsList = ({ takenDebts, givenDebts, onChange, showAll }) => {
         </Box>
 
         {/* חובות שניתנו */}
-        <Box
-          sx={{
-            backgroundColor: "#fafafa",
-            borderRadius: 3,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-            p: 2,
-            transition: "0.3s",
-            "&:hover": { boxShadow: "0 4px 14px rgba(0,0,0,0.08)" },
-          }}
-        >
+        <Box  >
           <GivenDebtsList
             fields={fields}
             givenList={givenDebts}

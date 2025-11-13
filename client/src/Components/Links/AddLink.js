@@ -122,8 +122,6 @@ export default function AddLink({ onAdd }) {
                                     label="שם אתר"
                                     value={websiteName}
                                     onChange={e => setWebsiteName(e.target.value)}
-                                    variant="outlined"
-                                    fullWidth
                                     required="true"
                                     type="text"
                                 />
@@ -135,8 +133,6 @@ export default function AddLink({ onAdd }) {
                                     label="קישור לאתר"
                                     value={websitelink}
                                     onChange={e => setWebsitelink(e.target.value)}
-                                    variant="outlined"
-                                    fullWidth
                                     required="true"
                                     type="text"
                                 />
@@ -149,8 +145,6 @@ export default function AddLink({ onAdd }) {
                                     label="תיאור אתר"
                                     value={description}
                                     onChange={e => setDescription(e.target.value)}
-                                    variant="outlined"
-                                    fullWidth
                                     required="true"
                                     type="text"
                                 />
@@ -162,19 +156,7 @@ export default function AddLink({ onAdd }) {
                     <DialogActions sx={{ justifyContent: "center", mt: 1 }}>
                         <Button
                             variant="contained"
-                            color="secondary"
-                            type="submit"
-                            sx={{
-                                fontWeight: "bold",
-                                fontSize: "16px",
-                                px: 4,
-                                py: 1.2,
-                                borderRadius: "10px",
-                                backgroundColor: "#b71c1c",
-                                boxShadow: "0 3px 10px rgba(0,0,0,0.2)",
-                                "&:hover": { backgroundColor: "#a31515" },
-                            }}
-                        >
+                            type="submit" >
                             הוסף קישור
                         </Button>
                     </DialogActions>

@@ -37,7 +37,7 @@ const DonorsList = () => {
     }
   };
 
-  // ✅ סינון
+  // סינון
   const filteredDonors = donorsList.filter((donor) => {
     if ((!filterFrequency && !filterPayment)) return true;
     if (!donor.donations || donor.donations.length === 0) return false;
@@ -49,34 +49,9 @@ const DonorsList = () => {
   });
 
   return (
-    <Box
-  sx={{
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: 3,
-    p: { xs: 2, md: 3 }, // ⭐ מרווח רך ורספונסיבי
-    width: "100%",
-    minHeight: "100vh",
-    backgroundColor: "#f9f9f9", // ⭐ רקע בהיר ונקי
-    boxSizing: "border-box", // ⭐ מונע גלילה אופקית
-    overflowX: "hidden", // ⭐ חוסם גלילה לרוחב
-    overflowY: "auto", // ⭐ מאפשר גלילה אנכית תקינה (רק אם באמת צריך)
-  }}
->
+    <Box>
   {/* כותרת כללית */}
-  <Typography
-    variant="h5"
-    sx={{
-      fontWeight: 700,
-      color: "#b71c1c",
-      mb: 1,
-      letterSpacing: 0.5,
-      textAlign: "center",
-    }}
-  >
-    רשימת תורמים
-  </Typography>
+  <Typography> רשימת תורמים </Typography>
 
   {/* סינון + כפתור הוספה */}
   <DonorsFilters

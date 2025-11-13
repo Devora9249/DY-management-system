@@ -1,7 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import Axios from 'axios';
-import { Button } from '@mui/material';
 import CustomSnackbar from "../Alerts/CustomSnackbar";
 import { Box, Paper, Typography, Divider, Grid } from '@mui/material';
 import DebtsList from '../Debts/DebtsList';
@@ -48,36 +47,11 @@ const DebtsPage = () => {
 
 
   return (
-    // <div>דף חובות - בעבודה</div>
     <>
-      <Box
-        sx={{
-          bgcolor: "#f9f9f9", // ⭐ רקע בהיר ונקי
-          minHeight: "100vh",
-          py: 5,
-        }}
-      >
-        <Paper
-          elevation={3}
-          sx={{
-            maxWidth: 1000,
-            mx: "auto",
-            p: 4,
-            borderRadius: 4,
-            boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-            backgroundColor: "#ffffff",
-          }}
-        >
+      <Box>
+        <Paper elevation={3}>
           {/* כותרת הדף */}
-          <Typography
-            variant="h5"
-            align="center"
-            sx={{
-              fontWeight: "bold",
-              mb: 3,
-              color: "#b71c1c",
-            }}
-          >
+          <Typography>
             דף חובות
           </Typography>
 

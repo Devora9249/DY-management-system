@@ -30,37 +30,19 @@ export default function AlertDialog({ deleteFunc, itemId }) {
 
     <React.Fragment>
       {/* כפתור מחיקה */}
-      <IconButton
-        onClick={handleClickOpen}
-        sx={{
-          color: "#b71c1c",
-          "&:hover": { color: "#a31515", backgroundColor: "#ffe6e6" },
-        }}
-      >
+      <IconButton onClick={handleClickOpen}>
         <DeleteIcon />
       </IconButton>
 
       {/* דיאלוג */}
       <Dialog
         open={open}
-        onClose={handleClose}
-        PaperProps={{
-          sx: {
-            borderRadius: 3,
-            p: 1,
-            bgcolor: "#fafafa",
-            boxShadow: "0 6px 20px rgba(0,0,0,0.25)",
-            minWidth: 350,
-          },
-        }}
-      >
+        onClose={handleClose}>
         {/* כותרת עם אייקון אזהרה */}
         <DialogTitle>
           <Box display="flex" alignItems="center" justifyContent="center" gap={1}>
             <WarningAmberRoundedIcon sx={{ color: "#b71c1c", fontSize: 28 }} />
-            <Typography variant="h6" fontWeight="bold" color="#b71c1c">
-              אישור מחיקה
-            </Typography>
+            <Typography> אישור מחיקה</Typography>
           </Box>
         </DialogTitle>
 
@@ -81,27 +63,13 @@ export default function AlertDialog({ deleteFunc, itemId }) {
         {/* כפתורים */}
         <DialogActions sx={{ justifyContent: "center", gap: 2, pb: 2 }}>
           <Button
-            onClick={handleClose}
-            variant="outlined"
-            sx={{
-              px: 3,
-              borderColor: "#b71c1c",
-              color: "#b71c1c",
-              "&:hover": { backgroundColor: "#fff5f5", borderColor: "#a31515" },
-            }}
-          >
+            onClick={handleClose} >
             ביטול
           </Button>
 
           <Button
             onClick={handleCloseAndDelete}
             variant="contained"
-            sx={{
-              px: 3,
-              backgroundColor: "#b71c1c",
-              "&:hover": { backgroundColor: "#a31515" },
-              fontWeight: "bold",
-            }}
             autoFocus
           >
             אישור

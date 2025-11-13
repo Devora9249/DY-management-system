@@ -1,7 +1,7 @@
 
 
 import { useState } from 'react';
-import {Stack, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import { Stack, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import Axios from 'axios';
 import DonorDetailsForm from './DonorDetailsForm';
 import YahrzeitSection from './YahrzeitSection';
@@ -64,85 +64,31 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
   };
 
   return (
-<Dialog
-  open={isOpen}
-  onClose={onClose}
-  fullWidth
-  maxWidth="sm"
-  PaperProps={{
-    sx: {
-      borderRadius: 4,
-      boxShadow: "0 6px 20px rgba(0,0,0,0.15)",
-      backgroundColor: "#fafafa",
-      border: "1.5px solid #b71c1c",
-      overflow: "hidden",
-    },
-  }}
->
-  <DialogTitle
-    sx={{
-      textAlign: "center",
-      color: "#b71c1c",
-      fontWeight: 700,
-      fontSize: "1.3rem",
-      letterSpacing: 0.5,
-      py: 2,
-      borderBottom: "1px solid #eee",
-      position: "relative",
-    }}
-  >
-    טופס הוספת תורם
-    <IconButton
-      onClick={onClose}
-      sx={{
-        position: "absolute",
-        left: 8,
-        top: 8,
-        color: "#b71c1c",
-        transition: "0.2s",
-        "&:hover": { backgroundColor: "#fdeaea" },
-      }}
-    >
-      <CloseIcon />
-    </IconButton>
-  </DialogTitle>
+    <Dialog open={isOpen} onClose={onClose}>
+      <DialogTitle>
+        טופס הוספת תורם
+        <IconButton
+          onClick={onClose} >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
 
-  <DialogContent sx={{ p: 3, backgroundColor: "white" }}>
-    <form onSubmit={handleSubmit}>
-      <Stack spacing={3}>
-        <DonorDetailsForm donorData={donorData} setDonorData={setDonorData} />
-        <YahrzeitSection yahrzeits={yahrzeits} setYahrzeits={setYahrzeits} />
-        <DonationSection donation={donation} setDonation={setDonation} />
-      </Stack>
+      <DialogContent>
+        <form onSubmit={handleSubmit}>
+          <Stack spacing={3}>
+            <DonorDetailsForm donorData={donorData} setDonorData={setDonorData} />
+            <YahrzeitSection yahrzeits={yahrzeits} setYahrzeits={setYahrzeits} />
+            <DonationSection donation={donation} setDonation={setDonation} />
+          </Stack>
 
-      <DialogActions
-        sx={{
-          mt: 4,
-          justifyContent: "space-between",
-          px: 2,
-          borderTop: "1px solid #f0f0f0",
-          pt: 2,
-        }}
-      >
+          <DialogActions >
 
-        <Button
-          type="submit"
-          variant="contained"
-          sx={{
-            backgroundColor: "#b71c1c",
-            fontWeight: "bold",
-            px: 4,
-            py: 1.2,
-            borderRadius: 2,
-            boxShadow: "0 3px 8px rgba(0,0,0,0.2)",
-            "&:hover": { backgroundColor: "#9a1313" },
-          }}
-        >
-          הוסף תורם
-        </Button>
-      </DialogActions>
-    </form>
-  </DialogContent>
-</Dialog>
+            <Button type="submit" variant="contained">
+              הוסף תורם
+            </Button>
+          </DialogActions>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 }

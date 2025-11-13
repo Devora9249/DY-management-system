@@ -24,7 +24,7 @@ export default function AddDebt({ onAdd }) {
   const [alert, setAlert] = useState(null);
   const [first, setFirst] = useState(false);
 
-  // ⭐ מצב אחד לכל השדות (במקום useState לכל אחד)
+  // מצב אחד לכל השדות (במקום useState לכל אחד)
   const [fields, setFields] = useState({
     borrower: "",
     lender: "",
@@ -36,7 +36,7 @@ export default function AddDebt({ onAdd }) {
     type: "",
   });
 
-    // ⭐ מערך השדות (label + name)
+  //  מערך השדות (label + name)
   const fieldData = [
     { label: "שם הלווה", name: "borrower", required: true },
     { label: "שם המלווה", name: "lender", required: true },
@@ -47,38 +47,38 @@ export default function AddDebt({ onAdd }) {
   ];
 
   const handleClickOpen = () => setOpen(true);
-  const handleClose = () => {setOpen(false); setFirst(false);};
+  const handleClose = () => { setOpen(false); setFirst(false); };
 
-const handleChange = (e) => {
+  const handleChange = (e) => {
 
-  if (e.target.name === "type") {
-    setFirst(true);
-    // ⭐ שינוי חדש — מילוי ערכי ברירת מחדל בהתאם לסוג חוב
-    const value = e.target.value;
-    if (value === "taken") {
-      setFields((prev) => ({
-        ...prev,
-        type: value,
-        borrower: "כולל",   // ⭐ לווה = כולל
-        lender: "",          // מנקה את הצד השני
-      }));
-      return;
-    } 
-    else if (value === "given") {
-      setFields((prev) => ({
-        ...prev,
-        type: value,
-        lender: "כולל",     // ⭐ מלווה = כולל
-        borrower: "",        // מנקה את הצד השני
-      }));
-      return;
+    if (e.target.name === "type") {
+      setFirst(true);
+      // שינוי חדש — מילוי ערכי ברירת מחדל בהתאם לסוג חוב
+      const value = e.target.value;
+      if (value === "taken") {
+        setFields((prev) => ({
+          ...prev,
+          type: value,
+          borrower: "כולל",   //  לווה = כולל
+          lender: "",          // מנקה את הצד השני
+        }));
+        return;
+      }
+      else if (value === "given") {
+        setFields((prev) => ({
+          ...prev,
+          type: value,
+          lender: "כולל",     //  מלווה = כולל
+          borrower: "",        // מנקה את הצד השני
+        }));
+        return;
+      }
     }
-  }
     setFields((prev) => ({
-    ...prev,
-    [e.target.name]: e.target.value,
-  }));
-}
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  }
 
 
 
@@ -105,15 +105,7 @@ const handleChange = (e) => {
       <Button
         variant="contained"
         color="secondary"
-        sx={{
-          mt: 2,
-          fontWeight: "bold",
-          fontSize: "16px",
-          borderRadius: "10px",
-          boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
-          backgroundColor: "#b71c1c",
-          "&:hover": { backgroundColor: "#a31515" },
-        }}
+        sx={{ mt: 2, }}
         onClick={handleClickOpen}
       >
         הוסף חוב חדש
@@ -122,103 +114,69 @@ const handleChange = (e) => {
       {/* דיאלוג */}
       <Dialog
         open={open}
-        onClose={handleClose}
-        PaperProps={{
-          sx: {
-            borderRadius: 4,
-            p: 2,
-            minWidth: 400,
-            bgcolor: "#fafafa",
-            boxShadow: "0 6px 20px rgba(0,0,0,0.2)",
-          },
-        }}
-      >
-        <DialogActions sx={{ justifyContent: "flex-end", mb: -1 }}>
+        onClose={handleClose}>
+        <DialogActions>
           <IconButton
-            onClick={handleClose}
-            sx={{
-              bgcolor: "#ffe6e6",
-              "&:hover": { bgcolor: "#ffcccc" },
-            }}
-          >
+            onClick={handleClose}>
             <CloseIcon color="error" />
           </IconButton>
         </DialogActions>
 
         <DialogTitle>
-          <Typography
-            variant="h6"
-            fontWeight="bold"
-            align="center"
-            color="#b71c1c"
-          >
+          <Typography >
             הוספת חוב חדש
           </Typography>
         </DialogTitle>
 
         <form onSubmit={addDebt}>
-          {!first? (<DialogContent><RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                name="type" 
-                onChange={handleChange}
-              >
-                <FormLabel>סוג חוב</FormLabel>
-                <FormControlLabel
-                  value="taken"
-                  control={<Radio />}
-                  label="חוב שנלקח"
-                  name="type"
-                  onChange={handleChange}
-                />
-                <FormControlLabel
-                  value="given"
-                  control={<Radio />}
-                  label="חוב שניתן"
-                  name="type"
-                  onChange={handleChange}
-                />
-              </RadioGroup>
-              </DialogContent>):(
-              <DialogContent>
-            <Grid container spacing={2} sx={{ mt: 1 }}>
-              {/* ⭐ לולאה על כל השדות */}
-              {fieldData.map((field) => (
-                <Grid item xs={12} key={field.name}>
-                  <TextField
-                    name={field.name}
-                    label={field.label}
-                    value={fields[field.name]}
-                    onChange={handleChange}
-                    variant="outlined"
-                    fullWidth
-                    required={field.required}
-                    type={
-                      field.name === "dateBorrowed" || field.name === "dueDate"
-                        ? "date"
-                        : "text"
-                    }
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </DialogContent>)
-}    
-          <DialogActions sx={{ justifyContent: "center", mt: 1 }}>
-            <Button
-              variant="contained"
-              color="secondary"
-              type="submit"
-              sx={{
-                fontWeight: "bold",
-                fontSize: "16px",
-                px: 4,
-                py: 1.2,
-                borderRadius: "10px",
-                backgroundColor: "#b71c1c",
-                boxShadow: "0 3px 10px rgba(0,0,0,0.2)",
-                "&:hover": { backgroundColor: "#a31515" },
-              }}
-            >
+          {!first ? (<DialogContent><RadioGroup
+            aria-labelledby="demo-radio-buttons-group-label"
+            name="type"
+            onChange={handleChange}
+          >
+            <FormLabel>סוג חוב</FormLabel>
+            <FormControlLabel
+              value="taken"
+              control={<Radio />}
+              label="חוב שנלקח"
+              name="type"
+              onChange={handleChange}
+            />
+            <FormControlLabel
+              value="given"
+              control={<Radio />}
+              label="חוב שניתן"
+              name="type"
+              onChange={handleChange}
+            />
+          </RadioGroup>
+          </DialogContent>) : (
+            <DialogContent>
+              <Grid>
+                {/*  לולאה על כל השדות */}
+                {fieldData.map((field) => (
+                  <Grid item xs={12} key={field.name}>
+                    <TextField
+                      name={field.name}
+                      label={field.label}
+                      value={fields[field.name]}
+                      onChange={handleChange}
+                      variant="outlined"
+                      fullWidth
+                      required={field.required}
+                      type={
+                        field.name === "dateBorrowed" || field.name === "dueDate"
+                          ? "date"
+                          : "text"
+                      }
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </DialogContent>)
+          }
+          <DialogActions>
+            <Button variant="contained" type="submit">
               הוסף חוב
             </Button>
           </DialogActions>

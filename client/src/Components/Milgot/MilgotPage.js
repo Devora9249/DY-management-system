@@ -31,6 +31,8 @@ const MilgotPage = () => {
     catchData();
   }, []);
 
+
+//עדכון מילגה לאברך יחיד
   const sendMilgaById = async (avrechId, date) => {
     if (!milgaAmounts[avrechId]) {
       setAlert({ message: "יש למלא סכום לפני עדכון!", type: "error" });
@@ -52,6 +54,8 @@ const MilgotPage = () => {
     }
   };
 
+
+//עדכון מלגות לכל האברכים
   const sendAllMilgot = async () => {
 
     const missing = AvrechimList.find(avrech => !milgaAmounts[avrech._id]);
@@ -77,6 +81,7 @@ const MilgotPage = () => {
     }
   };
 
+  //עדכון מילגה אחת לכל האברכים
   const AddMilgaToAllAvrechim = async () => {
     try {
       const promises = AvrechimList.map((avrech) => {
@@ -95,26 +100,9 @@ const MilgotPage = () => {
   };
 
   return (
-    <Paper
-      elevation={2}
-      sx={{
-        p: 3,
-        mx: "auto",
-        mt: 4,
-        maxWidth: 300,
-        borderRadius: 2,
-        bgcolor: "#fafafa",
-      }}
-    >
+    <Paper  >
       <AddMilgaToAll addMilga={AddMilgaToAllAvrechim} generalMilga={generalMilga} setGeneralMilga={setGeneralMilga} setAlert={setAlert} />
-      <Typography
-        variant="h6"
-        align="center"
-        fontWeight="bold"
-        sx={{ mb: 2, color: "#b71c1c" }}
-      >
-        חלוקת מלגות
-      </Typography>
+      <Typography> חלוקת מלגות </Typography>
 
       <MilgaTable
         AvrechimList={AvrechimList}
@@ -133,29 +121,12 @@ const MilgotPage = () => {
         type="date"
         InputLabelProps={{ shrink: true }}
         value={newDate}
-        onChange={(e) => setNewDate(e.target.value)}
-        fullWidth
-        size="small"
-        sx={{
-          mt: 2,
-          backgroundColor: "white",
-          borderRadius: 1,
-        }}
-      />
+        onChange={(e) => setNewDate(e.target.value)} />
 
       <Button
         variant="contained"
         fullWidth
-        onClick={sendAllMilgot}
-        sx={{
-          mt: 2.5,
-          fontWeight: "bold",
-          py: 1,
-          borderRadius: 2,
-          backgroundColor: "#b71c1c",
-          "&:hover": { backgroundColor: "#a31515" },
-        }}
-      >
+        onClick={sendAllMilgot}  >
         עדכן לכולם
       </Button>
 

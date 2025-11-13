@@ -1,37 +1,15 @@
 import { Table, TableHead, TableBody, TableRow, TableCell } from "@mui/material";
 import MilgaRow from "./MilgaRow";
 
-const MilgaTable = ({
-    AvrechimList,
-    milgaAmounts,
-    setMilgaAmounts,
-    milgaDetails,
-    setMilgaDetails,
-    newDate,
-    sendMilgaById,
-    resetVersion,
-    setAlert
-}) => {
+const MilgaTable = ({ AvrechimList, milgaAmounts, setMilgaAmounts, milgaDetails, setMilgaDetails, newDate, sendMilgaById, resetVersion, }) => {
     return (
-        <Table
-            sx={{
-                "& .MuiTableCell-root": { py: 0.8, px: 1.5 },
-            }}
-        >
+        <Table >
             <TableHead>
                 <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
-                    <TableCell align="center" sx={{ fontWeight: "bold" }}>
-                        עדכון
-                    </TableCell>
-                    <TableCell align="center" sx={{ fontWeight: "bold" }}>
-                        פירוט
-                    </TableCell>
-                    <TableCell align="center" sx={{ fontWeight: "bold" }}>
-                        סכום
-                    </TableCell>
-                    <TableCell align="center" sx={{ fontWeight: "bold" }}>
-                        שם
-                    </TableCell>
+                    <TableCell > עדכון </TableCell>
+                    <TableCell > פירוט </TableCell>
+                    <TableCell > סכום  </TableCell>
+                    <TableCell >  שם   </TableCell>
                 </TableRow>
             </TableHead>
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import {Box, Dialog, DialogTitle, DialogContent, IconButton, Button, Typography } from '@mui/material';
+import { Box, Dialog, DialogTitle, DialogContent, IconButton, Button, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Axios from 'axios';
 import DonorDetails from './DonorDetails';
@@ -47,98 +47,52 @@ export default function DonorCard({ isOpen, donor, onClose }) {
   if (!isOpen) return null;
 
   return (
+    
+    <Dialog open={isOpen} onClose={onClose}>
+      {/* כותרת */}
+      <DialogTitle >
+        טופס פרטי תורם
+        <IconButton
+          onClick={onClose}>
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
 
+      {/* גוף הדיאלוג */}
+      <DialogContent dividers>
 
-    <Dialog
-  open={isOpen}
-  onClose={onClose}
-  maxWidth="md"
-  fullWidth
-  PaperProps={{
-    sx: {
-      borderRadius: 4, // ✅ פינות רכות
-      bgcolor: "#fafafa", // ✅ רקע בהיר
-      boxShadow: "0 6px 20px rgba(0,0,0,0.15)", // ✅ הצללה רכה
-      direction: "rtl", // ✅ כתיבה מימין לשמאל
-    },
-  }}
->
-  {/* כותרת */}
-  <DialogTitle
-    sx={{
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      color: "#b71c1c", // ✅ אדום עדין קבוע
-      fontWeight: 700,
-      fontSize: "1.3rem",
-      pb: 1,
-    }}
-  >
-    טופס פרטי תורם
-    <IconButton
-      onClick={onClose}
-      sx={{
-        color: "#b71c1c",
-        transition: "0.2s",
-        "&:hover": { bgcolor: "#fdeaea" }, // ✅ hover עדין
-      }}
-    >
-      <CloseIcon />
-    </IconButton>
-  </DialogTitle>
+        <DonorDetails donor={donor} />
 
-  {/* גוף הדיאלוג */}
-  <DialogContent
-    dividers
-    sx={{
-      p: 3,
-      bgcolor: "white",
-      borderRadius: 3,
-    }}
-  >
-    <DonorDetails donor={donor} />
+        <Box sx={{ mt: 3 }}>
+          <YahrzeitTable yahrzeits={donor?.yahrzeitDate || []} />
+        </Box>
 
-    <Box sx={{ mt: 3 }}>
-      <YahrzeitTable yahrzeits={donor?.yahrzeitDate || []} />
-    </Box>
+        <Box sx={{ mt: 3 }}>
+          <DonationTable donations={donations} onDelete={handleDeleteDonation} />
+        </Box>
 
-    <Box sx={{ mt: 3 }}>
-      <DonationTable donations={donations} onDelete={handleDeleteDonation} />
-    </Box>
+        {/* כפתור הוספה / טופס */}
+        {!showAddForm && (
+          <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+            <Button
+              variant="contained"
+              onClick={() => setShowAddForm(true)}>
+              הוסף תרומה נוספת
+            </Button>
+          </Box>
+        )}
 
-    {/* כפתור הוספה / טופס */}
-    {!showAddForm && (
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
-        <Button
-          variant="contained"
-          onClick={() => setShowAddForm(true)}
-          sx={{
-            bgcolor: "#b71c1c",
-            px: 4,
-            py: 1.2,
-            fontWeight: "bold",
-            borderRadius: 2,
-            boxShadow: "0 3px 8px rgba(0,0,0,0.2)",
-            "&:hover": { bgcolor: "#9a1313" },
-          }}
-        >
-          הוסף תרומה נוספת
-        </Button>
-      </Box>
-    )}
+        {showAddForm && (
+          <Box >
+            <AddDonationForm
+              onAdd={handleAddDonation}
+              onCancel={() => setShowAddForm(false)}
+            />
+          </Box>
+        )}
+      </DialogContent>
+    </Dialog>
 
-    {showAddForm && (
-      <Box sx={{ mt: 3 }}>
-        <AddDonationForm
-          onAdd={handleAddDonation}
-          onCancel={() => setShowAddForm(false)}
-        />
-      </Box>
-    )}
-  </DialogContent>
-</Dialog>
-   
   );
 }
 

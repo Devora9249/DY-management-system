@@ -9,9 +9,8 @@ import DownloadDetailsXL from './DownloadDetailsXL';
 
 const AvrechimPage = () => {
   const [AvrechimList, setAvrechimList] = useState([]);
-  const [alert, setAlert] = useState(null); // 👈 אלרט אחד בלבד
+  const [alert, setAlert] = useState(null);
   const [showAll, setShowAll] = useState(false);
-
 
   const catchData = async () => {
     try {
@@ -29,33 +28,15 @@ const AvrechimPage = () => {
 
   return (
     <Box
-      sx={{
-        bgcolor: "#f9f9f9",
-        minHeight: "100vh",
-        py: 5,
-      }}
-    >
+      sx={{ minHeight: "100vh", py: 5, }}>
       <Paper
         elevation={3}
-        sx={{
-          maxWidth: 1000,
-          mx: "auto",
-          p: 4,
-          borderRadius: 4,
-          boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-          backgroundColor: "#ffffff",
-        }}
-      >
+        sx={{ maxWidth: 1000, mx: "auto", p: 4, }}>
         {/* כותרת הדף */}
         <Typography
           variant="h5"
           align="center"
-          sx={{
-            fontWeight: "bold",
-            mb: 3,
-            color: "#b71c1c",
-          }}
-        >
+          sx={{ mb: 3, }}>
           דף אברכים
         </Typography>
 

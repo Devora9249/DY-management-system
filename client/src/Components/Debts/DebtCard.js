@@ -1,20 +1,9 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Axios from 'axios';
 import CustomSnackbar from "../Alerts/CustomSnackbar";
-import {
-  Button,
-  TextField,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Typography
-} from '@mui/material';
+import { Table, TableBody, TableRow, TableCell, Paper, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { Table, TableHead, TableBody, TableRow, TableCell, Paper } from '@mui/material';
-import { useEffect } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -28,7 +17,7 @@ export default function FormDialog({ debtDetails, setOpen, open, onChange }) {
   const [debtData, setDebtData] = useState(debtDetails);
   //const []
 
-   const fields = [
+  const fields = [
     { label: "לווה", name: "borrower" },
     { label: "מלווה", name: "lender" },
     { label: "סכום", name: "amount" },
@@ -62,7 +51,7 @@ export default function FormDialog({ debtDetails, setOpen, open, onChange }) {
     } catch (error) {
       setAlert({ type: "error", message: "שגיאה בעדכון פרטי החוב" });
       console.log(error.message, "שגיאה בעדכון חוב");
-      
+
     }
   };
 
@@ -73,99 +62,41 @@ export default function FormDialog({ debtDetails, setOpen, open, onChange }) {
   return (
     <React.Fragment>
       {/* דיאלוג */}
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        PaperProps={{
-          sx: {
-            borderRadius: 4,
-            p: 2,
-            minWidth: 450,
-            bgcolor: "#fafafa",
-            boxShadow: "0 6px 20px rgba(0,0,0,0.25)",
-          },
-        }}
-      >
+      <Dialog open={open} onClose={handleClose}>
         {/* כפתור סגירה */}
-        <DialogActions sx={{ justifyContent: "flex-end", mb: -1 }}>
+        <DialogActions>
           {update ?
-          //כפתור שמירת עדכונים
-            <Button
-              variant="contained"
-              color="secondary"
-              sx={{
-                mt: 2,
-                fontWeight: "bold",
-                fontSize: "16px",
-                borderRadius: "10px",
-                boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
-                backgroundColor: "#b71c1c",
-                "&:hover": { backgroundColor: "#a31515" }
-              }}
-              onClick={updateDebtDetails}
-            >
+            //כפתור שמירת עדכונים
+            <Button onClick={updateDebtDetails} >
               שמירת עדכונים
             </Button>
             //כפתור עדכון פרטים
-            : <Button
-              variant="contained"
-              color="secondary"
-              sx={{
-                mt: 2,
-                fontWeight: "bold",
-                fontSize: "16px",
-                borderRadius: "10px",
-                boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
-                backgroundColor: "#b71c1c",
-                "&:hover": { backgroundColor: "#a31515" }
-              }}
-              onClick={() => setUpdate(true)}
-            >
+            : <Button onClick={() => setUpdate(true)}>
               עדכון פרטים
             </Button>}
 
           {/* כפתור סגירה */}
           <IconButton
-            onClick={handleClose}
-            sx={{
-              bgcolor: "#ffe6e6",
-              "&:hover": { bgcolor: "#ffcccc" },
-            }}>
-            <CloseIcon color="error" />
+            onClick={handleClose}>
+            <CloseIcon />
           </IconButton>
         </DialogActions>
 
         {/* כותרת */}
         <DialogTitle>
-          <Typography
-            variant="h6"
-            fontWeight="bold"
-            align="center"
-            color="#b71c1c">
+          <Typography>
             פרטי חוב
           </Typography>
         </DialogTitle>
 
         {/* תוכן הדיאלוג */}
         <DialogContent>
-          <Paper
-            elevation={0}
-            sx={{
-              borderRadius: 3,
-              overflow: "hidden",
-              mt: 2,
-              border: "1px solid #eee",
-            }}
-          >
+          <Paper>
             <Table>
               {/* גוף */}
               <TableBody>
                 {fields.map((field) => (
-                  <TableRow
-                    key={field.key}
-                    hover
-                    sx={{ "&:hover": { backgroundColor: "#fff5f5" } }}
-                  >
+                  <TableRow key={field.key}>
                     {/* נתונים במצב עריכה */}
                     {update ? (//
                       field.name === "paid" ? (
@@ -200,7 +131,7 @@ export default function FormDialog({ debtDetails, setOpen, open, onChange }) {
                     )}
 
                     {/* עמודת תוויות */}
-                    <TableCell align="center" sx={{ color: "#b71c1c", fontWeight: "bold" }}>
+                    <TableCell>
                       {field.label}
                     </TableCell>
                   </TableRow>

@@ -12,7 +12,6 @@ export default function AddAvrech({ onAdd }) {
   const [open, setOpen] = useState(false);
   const [alert, setAlert] = useState(null);
 
-  // ⭐ מצב אחד לכל השדות (במקום useState לכל אחד)
   const [fields, setFields] = useState({
     name: "",
     id: "",
@@ -30,11 +29,9 @@ export default function AddAvrech({ onAdd }) {
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setFields({ ...fields, [e.target.name]: e.target.value });
-  };
 
-  // ⭐ מערך השדות (label + name)
   const fieldData = [
     { label: "שם האברך", name: "name", required: true },
     { label: "תעודת זהות", name: "id", required: true },
@@ -55,7 +52,7 @@ export default function AddAvrech({ onAdd }) {
       await Axios.post("http://localhost:5678/api/avrechim", fields);
 
       setAlert({ message: "האברך נוסף בהצלחה ✅", type: "success" });
-      setFields(Object.fromEntries(Object.keys(fields).map(k => [k, ""]))); // איפוס כל השדות
+      setFields(Object.fromEntries(Object.keys(fields).map(k => [k, ""])));
       onAdd();
       handleClose();
     } catch (error) {
@@ -63,25 +60,15 @@ export default function AddAvrech({ onAdd }) {
         message: error.response?.data?.message || error.message,
         type: "error",
       });
-      console.error(error);
     }
   };
 
   return (
-    <React.Fragment>
+    <>
       {/* כפתור פתיחה */}
       <Button
         variant="contained"
         color="secondary"
-        sx={{
-          mt: 2,
-          fontWeight: "bold",
-          fontSize: "16px",
-          borderRadius: "10px",
-          boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
-          backgroundColor: "#b71c1c",
-          "&:hover": { backgroundColor: "#a31515" },
-        }}
         onClick={handleClickOpen}
       >
         הוסף אברך
@@ -92,33 +79,26 @@ export default function AddAvrech({ onAdd }) {
         open={open}
         onClose={handleClose}
         PaperProps={{
-          sx: {
-            borderRadius: 4,
-            p: 2,
-            minWidth: 400,
-            bgcolor: "#fafafa",
-            boxShadow: "0 6px 20px rgba(0,0,0,0.2)",
-          },
+          // sx: {
+          //   minWidth: 400,   // ❗ אפשר להשאיר — גודל מקומי
+          // },
         }}
       >
-        <DialogActions sx={{ justifyContent: "flex-end", mb: -1 }}>
-          <IconButton
-            onClick={handleClose}
-            sx={{
-              bgcolor: "#ffe6e6",
-              "&:hover": { bgcolor: "#ffcccc" },
-            }}
-          >
-            <CloseIcon color="error" />
+        <DialogActions
+          sx={{
+            justifyContent: "flex-end",
+            mb: -1,
+          }}
+        >
+          <IconButton onClick={handleClose}   >
+            <CloseIcon />
           </IconButton>
         </DialogActions>
 
         <DialogTitle>
           <Typography
             variant="h6"
-            fontWeight="bold"
             align="center"
-            color="#b71c1c"
           >
             הוספת אברך חדש
           </Typography>
@@ -127,7 +107,6 @@ export default function AddAvrech({ onAdd }) {
         <form onSubmit={addAvrech}>
           <DialogContent>
             <Grid container spacing={2} sx={{ mt: 1 }}>
-              {/* ⭐ לולאה על כל השדות */}
               {fieldData.map((field) => (
                 <Grid item xs={12} key={field.name}>
                   <TextField
@@ -135,7 +114,6 @@ export default function AddAvrech({ onAdd }) {
                     label={field.label}
                     value={fields[field.name]}
                     onChange={handleChange}
-                    variant="outlined"
                     fullWidth
                     required={field.required}
                   />
@@ -147,17 +125,10 @@ export default function AddAvrech({ onAdd }) {
           <DialogActions sx={{ justifyContent: "center", mt: 1 }}>
             <Button
               variant="contained"
-              color="secondary"
               type="submit"
               sx={{
-                fontWeight: "bold",
-                fontSize: "16px",
                 px: 4,
                 py: 1.2,
-                borderRadius: "10px",
-                backgroundColor: "#b71c1c",
-                boxShadow: "0 3px 10px rgba(0,0,0,0.2)",
-                "&:hover": { backgroundColor: "#a31515" },
               }}
             >
               הוסף אברך
@@ -167,7 +138,6 @@ export default function AddAvrech({ onAdd }) {
       </Dialog>
 
       <CustomSnackbar alert={alert} setAlert={setAlert} />
-    </React.Fragment>
+    </>
   );
 }
-

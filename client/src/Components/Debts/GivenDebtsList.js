@@ -1,21 +1,9 @@
 import React from "react";
-import {
-  Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Checkbox,
-} from "@mui/material";
+import { Typography, Table, TableBody, TableCell, TableHead, TableRow, Checkbox, } from "@mui/material";
 import DebtCard from "./DebtCard";
 
-const GivenDebtsList = ({
-  fields,
-  givenList,
-  onChange,
-  showAll,
-}) => {
+const GivenDebtsList = ({ fields, givenList, onChange, showAll, }) => {
+
   const [selectedDebt, setSelectedDebt] = React.useState({});
   const [open, setOpen] = React.useState(false);
 
@@ -27,50 +15,15 @@ const GivenDebtsList = ({
   return (
     <>
       {/* כותרת עליונה */}
-      <Typography
-        variant="h6"
-        align="center"
-        sx={{
-          p: 2,
-          fontWeight: "bold",
-          color: "#b71c1c", // ✅ אדום קבוע
-          bgcolor: "#fafafa", // ✅ רקע בהיר רך
-          borderBottom: "2px solid #b71c1c",
-          borderTopLeftRadius: "12px",
-          borderTopRightRadius: "12px",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-        }}
-      >
+      <Typography variant="h6" align="center"  >
         חובות שניתנו ע"י הכולל
       </Typography>
 
       {/* מעטפת הטבלה */}
-      <Table
-        sx={{
-          borderRadius: "12px", // ✅ פינות מעוגלות
-          overflow: "hidden",
-          backgroundColor: "#ffffff",
-          boxShadow: "0 3px 10px rgba(0,0,0,0.1)", // ✅ הצללה עדינה
-          width: "100%",
-          maxWidth: "1000px",
-          mx: "auto", // ✅ ממרכז את הטבלה
-          mt: 2,
-        }}
-      >
+      <Table>
         {/* כותרות */}
         <TableHead>
-          <TableRow
-            sx={{
-              backgroundColor: "#f5f5f5", // ✅ רקע בהיר
-              "& th": {
-                fontWeight: "bold",
-                color: "#444",
-                textAlign: "center",
-                py: 1.2,
-                borderBottom: "2px solid #e0e0e0",
-              },
-            }}
-          >
+          <TableRow>
             <TableCell align="center">?שולם</TableCell>
             {fields.map((field) => (
               <TableCell key={field.name} align="center">
@@ -88,39 +41,17 @@ const GivenDebtsList = ({
                 key={debt._id}
                 hover
                 onClick={() => openDebtCard(debt)}
-                sx={{
-                  cursor: "pointer",
-                  transition: "background-color 0.2s ease-in-out",
-                  "&:hover": {
-                    backgroundColor: "#fff5f5", // ✅ רמז אדום רך בריחוף
-                  },
-                }}
-              >
+                sx={{ cursor: "pointer" }} >
                 {/* תיבת סימון */}
                 <TableCell align="center">
                   <div onClick={(e) => e.stopPropagation()}>
-                    <Checkbox
-                      checked={debt.paid}
-                      sx={{
-                        color: "#b71c1c",
-                        "&.Mui-checked": { color: "#b71c1c" },
-                      }}
-                    />
+                    <Checkbox checked={debt.paid} />
                   </div>
                 </TableCell>
 
                 {/* עמודות הדאטה */}
                 {fields.map((field) => (
-                  <TableCell
-                    key={field.name}
-                    align="center"
-                    sx={{
-                      color: "#b71c1c",
-                      fontWeight: 600,
-                      borderBottom: "1px solid #f0f0f0",
-                      py: 1,
-                    }}
-                  >
+                  <TableCell key={field.name} align="center" >
                     {(field.name === "dateBorrowed" || field.name === "dueDate") && debt[field.name] !== undefined
                       ? new Date(debt[field.name]).toLocaleDateString("he-IL")
                       : debt[field.name]}
