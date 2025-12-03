@@ -8,7 +8,7 @@ export default function AddDonationForm({ onAdd, onCancel }) {
     paymentMethod: '',
     frequency: '',
     duration: ''
-  });
+  }); 
 
   const handleChange = (field) => (e) => setForm({ ...form, [field]: e.target.value });
 

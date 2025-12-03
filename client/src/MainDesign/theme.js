@@ -5,7 +5,6 @@ const theme = createTheme({
     mode: "light",
     primary: {
       main: "#b71c1c",
-      light: "#d84a4a",
       dark: "#7f0000",
     },
     background: {
@@ -19,25 +18,50 @@ const theme = createTheme({
   },
 
   shape: {
-    borderRadius: 14, // ⭐ אחידות פינות עגולות
+    borderRadius: 5,
   },
 
   typography: {
     fontFamily: "Rubik, Arial",
-    h6: { fontWeight: 700 },
-    button: { fontWeight: 600 },
+
+    h5: {
+      fontSize: "25px",
+      color: "#7f0000",
+      fontWeight: 700,
+      display: "block",
+      textAlign: "center",
+      margin: "16px",
+    },
+
+    h6: {
+      fontSize: "16px",
+      color: "black",
+      fontWeight: 600,
+      textAlign: "center",
+    },
+
+    h1: {
+      fontSize: "20px",
+      color: "#7f0000",
+      fontWeight: 700,
+      display: "block",
+      textAlign: "center",
+    }
   },
 
   components: {
-    // ⭐ כפתורים
+
+    // כפתורים
     MuiButton: {
       styleOverrides: {
         root: {
           textTransform: "none",
           padding: "8px 18px",
-          borderRadius: 14,
+          borderRadius: 2,
           boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+          display: "block"
         },
+
         contained: {
           backgroundColor: "#b71c1c",
           "&:hover": {
@@ -45,16 +69,94 @@ const theme = createTheme({
           },
         },
       },
+
+      variants: [
+        {
+          props: { variant: "addButton" },
+          style: {
+            backgroundColor: "#b71c1c",
+            color: "#ffffff",
+            margin: "16px",
+            "&:hover": {
+              backgroundColor: "#7f0000",
+            },
+          },
+        },
+
+        {
+          props: { variant: "miniButton" },
+          style: {
+            backgroundColor: "background.paper",
+            color: "#b71c1c",
+            margin: "16px",
+            border: "2px solid #b71c1c",
+            borderRadius: "8px",
+            "&:hover": {
+              backgroundColor: "rgba(255, 255, 255, 1)"
+            },
+          },
+        },
+
+        {
+          props: { variant: "activeButton" },
+          style: {
+            backgroundColor: "background.paper",
+            color: "#b71c1c",
+            // margin: "16px",
+            border: "2px solid #b71c1c",
+            borderRadius: "8px",
+            "&:hover": {
+              backgroundColor: "rgba(255, 245, 245, 1)"
+            },
+          },
+        },
+
+        {
+          props: { variant: "iconButton" },
+          style: {
+            bgcolor: "#ffe6e6",
+            "&:hover": { bgcolor: "#ffcccc" },
+          },
+        },
+      ],
+
+
+
+
+
     },
 
-    // ⭐ שדות טקסט
+    // שדות טקסט
     MuiTextField: {
-      styleOverrides: {
-        root: { marginBottom: "16px" },
+      defaultProps: {
+        multiline: true,
+        rows: 1,
+        maxRows: 8,
       },
+
+      styleOverrides: {
+        root: {
+          margin: "16px",
+        },
+      },
+
+      variants: [
+        {
+          props: { variant: "descriptionField" },
+          style: {
+            "& .MuiInputBase-root": {
+              maxHeight: "200px",
+              overflowY: "auto",
+            },
+            "& textarea": {
+              resize: "vertical",
+            }
+          }
+        }
+      ]
     },
 
-    // ⭐ טבלאות
+    // טבלאות
     MuiTableContainer: {
       styleOverrides: {
         root: {
@@ -70,47 +172,141 @@ const theme = createTheme({
           backgroundColor: "#ffe6e6",
           color: "#b71c1c",
           fontWeight: 700,
+          textAlign: "center",
+        },
+        root: {
+          textAlign: "center",
         },
       },
+      variants: [
+        {
+          props: { variant: "cellDivider" },
+          style: {
+            width: "0.8px",
+            backgroundColor: "#cfcbcbff",
+            padding: 0
+          }
+        }
+      ]
     },
 
     MuiTableRow: {
       styleOverrides: {
         root: {
-          "&:hover": {
-            backgroundColor: "#fff2f2",
+          "&.MuiTableRow-hover:hover": {
+            backgroundColor: "whiteSmoke",
           },
         },
       },
     },
 
-    // ⭐ כרטיסים / דיאלוגים
+    // Paper
     MuiPaper: {
       styleOverrides: {
         root: {
-          padding: "16px",
-          borderRadius: 18,
-          boxShadow: "0 3px 10px rgba(0,0,0,0.1)",
+
         },
       },
+
+      variants: [
+        {
+          props: { variant: "mainPaper" },
+          style: {
+            width: "100%",
+            borderRadius: 0,
+            boxShadow: "none",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          },
+        },
+        {
+          props: { variant: "tablePaper" },
+          style: {
+            width: "50%",
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+            padding: "16px",
+            borderRadius: 12,
+            boxShadow: "0 3px 10px rgba(0,0,0,0.08)",
+            backgroundColor: "#ffffff",
+            marginBottom: "40px"
+          },
+        },
+      ],
     },
 
-    // ⭐ דיאלוגים
+    // Cards
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 14,
+          padding: "8px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
+          transition: "0.25s",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        },
+      },
+
+      variants: [
+        {
+          props: { variant: "donorCard" },
+          style: {
+            borderRadius: 20,
+            border: "1.5px solid #b71c1c",
+            boxShadow: "0 4px 14px rgba(31, 31, 31, 0.15)",
+            padding: "12px",
+            backgroundColor: "#fffafafa",
+            cursor: "pointer",
+            transition: "0.25s",
+            "&:hover": {
+              transform: "translateY(-5px)",
+            },
+          },
+        },
+        {
+          props: { variant: "linkCard" },
+          style: {
+            height: "100%",
+            textAlign: "center",
+            padding: "16px",
+            borderRadius: "14px",
+            "&:hover": {
+              transform: "translateY(-5px)",
+              transition: "0.3s",
+            },
+          },
+        },
+      ],
+    },
+
+    // דיאלוגים
     MuiDialog: {
       styleOverrides: {
         paper: {
-          borderRadius: 18,
+          borderRadius: 20,
           padding: "10px",
+          boxShadow: "0 15px 40px rgba(0,0,0,0.08)",
+          width: "25vw",
         },
+      },
+      defaultProps: {
+        // width: "40vw",
+        // maxWidth: "sm",
       },
     },
 
     MuiDialogTitle: {
       styleOverrides: {
         root: {
+          textAlign: "center",
+          fontWeight: "bold",
           color: "#b71c1c",
-          fontWeight: 700,
-          paddingBottom: 0,
+          fontSize: "1.25rem",
+          padding: "18px 16px 10px",
         },
       },
     },
@@ -118,7 +314,7 @@ const theme = createTheme({
     MuiDialogContent: {
       styleOverrides: {
         root: {
-          paddingTop: "10px",
+          // padding: "24px",
         },
       },
     },
@@ -126,12 +322,11 @@ const theme = createTheme({
     MuiDialogActions: {
       styleOverrides: {
         root: {
-          padding: "10px 24px",
+          padding: "16px",
         },
       },
     },
 
-    // ⭐ איקונים
     MuiIconButton: {
       styleOverrides: {
         root: {
@@ -148,7 +343,6 @@ const theme = createTheme({
       },
     },
 
-    // ⭐ טיפוגרפיה – טקסט אחיד
     MuiTypography: {
       styleOverrides: {
         root: {
@@ -157,7 +351,6 @@ const theme = createTheme({
       },
     },
 
-    // ⭐ Grid — רווחים רכים
     MuiGrid: {
       styleOverrides: {
         root: {
@@ -166,11 +359,16 @@ const theme = createTheme({
       },
     },
 
-    // ⭐ Box – שום override כדי שלא יתנגש
-    MuiBox: {
-      styleOverrides: {},
-    },
+    // MuiBox: {
+    //   styleOverrides: {
+    //     root: {
+    //       display: "flex",
+    //     },
+    //   },
+    // },
+
   },
+
 });
 
 export default theme;

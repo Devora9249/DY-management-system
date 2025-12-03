@@ -37,8 +37,7 @@ export default function FormDialog({ avrechId, avrechName }) {
         <React.Fragment>
             {/* כפתור פתיחת הדיאלוג */}
             <Button
-                variant="contained"
-                sx={{ mt: 2, }}
+                variant="miniButton"
                 onClick={handleClickOpen}
             >
                 מלגות אחרונות
@@ -48,7 +47,7 @@ export default function FormDialog({ avrechId, avrechName }) {
             <Dialog open={open} onClose={handleClose}>
                 {/* כפתור סגירה */}
                 <DialogActions sx={{ justifyContent: "flex-end", mb: -1 }}>
-                    <IconButton onClick={handleClose}>
+                    <IconButton onClick={handleClose} variant="iconButton">
                         <CloseIcon color="error" />
                     </IconButton>
                 </DialogActions>

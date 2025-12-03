@@ -52,7 +52,7 @@ export default function DonorCard({ isOpen, donor, onClose }) {
       {/* כותרת */}
       <DialogTitle >
         טופס פרטי תורם
-        <IconButton
+        <IconButton variant="iconButton"
           onClick={onClose}>
           <CloseIcon />
         </IconButton>

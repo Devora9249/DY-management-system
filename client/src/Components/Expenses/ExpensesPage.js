@@ -33,37 +33,26 @@ const ExpensesPage = () => {
 
   return (
     <>
-      <Box >
-        <Paper  >
-          {/* כותרת הדף */}
-          <Typography  >
-            דף הוצאות
-          </Typography>
+      <Paper variant='mainPaper' >
 
-          <Divider sx={{ mb: 4 }} />
-
-          {/* כפתור הוספת הוצאה */}
-          <Grid container justifyContent="center" sx={{ mb: 3 }}>
-            <Grid item>
-              <AddExpense
-                onAdd={catchData}
+        {/* כותרת הדף */}
+        <Typography variant='h5' >
+          דף הוצאות
+        </Typography>
 
 
-              />
-            </Grid>
-          </Grid>
+        {/* כפתור הוספת הוצאה */}
+        <AddExpense onAdd={catchData} />
 
-          {/* טבלת הוצאות */}
-          <ExpenseList
-            expenseList={expenseList}
-            onChange={catchData}
+        {/* טבלת הוצאות */}
+        <ExpenseList
+          expenseList={expenseList}
+          onChange={catchData}
+        />
 
-          />
-
-          {/* התראות הצלחה ומחיקה */}
-          <CustomSnackbar alert={alert} setAlert={setAlert} />
-        </Paper>
-      </Box>
+        {/* התראות הצלחה ומחיקה */}
+        <CustomSnackbar alert={alert} setAlert={setAlert} />
+      </Paper>
     </>
   )
 }

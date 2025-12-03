@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Axios from 'axios';
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Chip } from '@mui/material';
-
+import MainDetails from './MainDetails';
 const FinanceSummaryPage = () => {
 
   const [financeData, setFinanceData] = useState([]);
@@ -32,24 +32,25 @@ const FinanceSummaryPage = () => {
 
   return (
     <>
-      <Box >
-        <Typography  >   דוח אינטגרציה כספית 💰  </Typography>
-        <Typography > סיכום </Typography>
-        <Typography > סך הכל הכנסות: ₪ {totalIncome} </Typography>
-        <Typography> סך הכל הוצאות: ₪ {totalExpense}</Typography>
-        <Typography > יתרה: ₪ {balance} </Typography>
+      <Paper variant='mainPaper' >
 
-        <TableContainer
-          component={Paper}     >
-          <Table>
+        <MainDetails balance={balance} totalIncome={totalIncome} totalExpense={totalExpense} />
+
+        <Paper variant='tablePaper' sx={{ width: "60%" }}>
+          <Table sx={{ "& .MuiTableCell-root": { borderBottom: "1px solid #000", },}}>
             <TableHead>
               <TableRow >
-                <TableCell>תאריך</TableCell>
-                <TableCell >שם</TableCell>
-                <TableCell >סוג פעולה</TableCell>
-                <TableCell >מקור</TableCell>
                 <TableCell >סכום</TableCell>
+                <TableCell variant='cellDivider' />
                 <TableCell >פרטים</TableCell>
+
+                <TableCell variant='cellDivider' />
+                <TableCell >שם</TableCell>
+                <TableCell variant='cellDivider' />
+                <TableCell >סוג פעולה</TableCell>
+                <TableCell variant='cellDivider' />
+                <TableCell>תאריך</TableCell>
+
               </TableRow>
             </TableHead>
 
@@ -61,11 +62,26 @@ const FinanceSummaryPage = () => {
                     "&:hover": { backgroundColor: row.type === "income" ? "#e8f5e9" : "#ffebee" },
                   }}
                 >
-                  {/* תאריך */}
-                  <TableCell >
-                    {new Date(row.date).toLocaleDateString("he-IL")}
+                  {/* סכום */}
+                  <TableCell sx={{ color: row.type === "income" ? "green" : "#b71c1c", }}>
+                    ₪ {row.amount?.toLocaleString()}
                   </TableCell>
+
+                  <TableCell variant='cellDivider' />
+
+                  {/* פרטים */}
+                  <TableCell >
+                    {typeof row.details === "object"
+                      ? Object.values(row.details).join(" | ")
+                      : row.details || "-"}
+                  </TableCell>
+
+                  <TableCell variant='cellDivider' />
+
+                  {/* 'פירוט' */}
                   <TableCell >{row.name}</TableCell>
+
+                  <TableCell variant='cellDivider' />
 
                   {/* סוג פעולה - הוצאה/הכנסה */}
                   <TableCell >
@@ -79,32 +95,19 @@ const FinanceSummaryPage = () => {
                     />
                   </TableCell>
 
-                  {/* מקור הנתון */}
-                  <TableCell align="center">
-                    {row.source === "donation"
-                      ? "תרומה"
-                      : row.source === "milga"
-                        ? "מלגה"
-                        : "הוצאה כללית"}
-                  </TableCell>
+                  <TableCell variant='cellDivider' />
 
-                  {/* סכום */}
-                  <TableCell sx={{ color: row.type === "income" ? "green" : "#b71c1c", }}>
-                    ₪ {row.amount?.toLocaleString()}
-                  </TableCell>
-
-                  {/* פרטים */}
+                  {/* תאריך */}
                   <TableCell >
-                    {typeof row.details === "object"
-                      ? Object.values(row.details).join(" | ")
-                      : row.details || "-"}
+                    {new Date(row.date).toLocaleDateString("he-IL")}
                   </TableCell>
+
                 </TableRow>
               ))}
             </TableBody>
           </Table>
-        </TableContainer>
-      </Box>
+        </Paper>
+      </Paper>
     </>
   )
 }

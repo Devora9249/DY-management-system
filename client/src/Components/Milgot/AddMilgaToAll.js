@@ -1,9 +1,11 @@
 import React from 'react'
-import { Dialog, DialogActions, DialogContent, DialogTitle, Button, Grid, TextField, IconButton, Typography, TableCell, DialogContentText } from '@mui/material';
+import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Button, Grid, TextField, IconButton, Typography, TableCell, DialogContentText } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 
 const AddMilgaToAll = ({ addMilga, generalMilga, setGeneralMilga, setAlert }) => {
+    console.log(generalMilga, 'generalMilga');
+    
 
     const [open, setOpen] = useState(false);
 
@@ -29,53 +31,50 @@ const AddMilgaToAll = ({ addMilga, generalMilga, setGeneralMilga, setAlert }) =>
     return (
         <React.Fragment>
             {/* כפתור פתיחה */}
-            <Button variant="contained" onClick={handleClickOpen} >
+            <Button variant="addButton" onClick={handleClickOpen} >
                 הוסף מילגה כללית
             </Button>
 
             {/* דיאלוג */}
             <Dialog
                 open={open}
-                onClose={handleClose}   >
+                onClose={handleClose}  >
                 <DialogActions sx={{ justifyContent: "flex-end", mb: -1 }}>
                     <IconButton
                         onClick={handleClose}
-                        sx={{
-                            bgcolor: "#ffe6e6",
-                            "&:hover": { bgcolor: "#ffcccc" },
-                        }}
-                    >
+                       variant="iconButton" >
                         <CloseIcon color="error" />
                     </IconButton>
                 </DialogActions>
 
                 <DialogTitle>
-                    <Typography>
+                    <Typography variant='h1'>
                         הוספת מילגה כללית
                     </Typography>
                 </DialogTitle>
 
-                <DialogContent>
-                    <Grid container spacing={2} sx={{ mt: 1 }}>
+                <DialogContent sx={{ display: "flex", justifyContent: "center" }}>
+                    <Box sx={{ display: "flex", flexDirection: "column", width: "70%" }}>
+
                         {/*לולאה על כל השדות*/}
                         {/* פירוט */}
-                        <TableCell align="center">
-                            <TextField
-                                value={generalMilga.details || ""}
-                                onChange={(e) =>
-                                    setGeneralMilga({ ...generalMilga, details: e.target.value })
-                                }
-                                placeholder="פירוט המלגה"    />
-                        </TableCell>
+                        <TextField
+                            value={generalMilga.details || ""}
+                            onChange={(e) =>
+                                setGeneralMilga({ ...generalMilga, details: e.target.value })
+                            }
+                            placeholder="פירוט המלגה" 
+                            required/>
+
 
                         {/* סכום */}
-                        <TableCell align="center">
-                            <TextField
-                                value={generalMilga.amount || ""}
-                                onChange={(e) => checkAndSetAmount(e)}
-                                type="number"
-                                placeholder="₪"    />
-                        </TableCell>
+                        <TextField
+                            value={generalMilga.amount || ""}
+                            onChange={(e) => checkAndSetAmount(e)}
+                            type="number"
+                            placeholder="₪ סכום"
+                            required />
+
                         {/* תאריך */}
                         <TextField
                             label="תאריך"
@@ -83,13 +82,14 @@ const AddMilgaToAll = ({ addMilga, generalMilga, setGeneralMilga, setAlert }) =>
                             InputLabelProps={{ shrink: true }}
                             value={generalMilga.date}
                             onChange={(e) => setGeneralMilga({ ...generalMilga, date: e.target.value })}
-                />
-                    </Grid>
+                            required    
+                        />
+                    </Box>
                 </DialogContent>
 
                 <DialogActions sx={{ justifyContent: "center", mt: 1 }}>
                     <Button
-                        variant="contained"
+                        variant="activeButton"
                         onClick={closeAndSend}    >
                         עדכן
                     </Button>

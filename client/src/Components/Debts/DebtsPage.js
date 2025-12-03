@@ -48,22 +48,19 @@ const DebtsPage = () => {
 
   return (
     <>
-      <Box>
-        <Paper elevation={3}>
+        <Paper variant='mainPaper' >
           {/* כותרת הדף */}
-          <Typography>
+          <Typography variant="h5">
             דף חובות
           </Typography>
 
-          <Divider sx={{ mb: 4 }} />
 
           {/* כפתור הוספת הוצאה */}
-          <Grid container justifyContent="center" sx={{ mb: 3 }}>
-            <Grid item>
+          <Box sx={{width:'50%', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
               <AddDebt onAdd={catchData}/>
               <ShowPaidDebts  showAll={showAll} setShowAll={setShowAll} />
-            </Grid>
-          </Grid>
+          </Box>
+
 
           {/* טבלת הוצאות */}
           <DebtsList
@@ -76,9 +73,8 @@ const DebtsPage = () => {
           {/* התראות הצלחה ומחיקה */}
                    {/* <CustomSnackbar alert={alert} setAlert={setAlert} /> */}
         </Paper>
-      </Box>
     </>
   )
 }
 
-export default DebtsPage
+export default DebtsPage 

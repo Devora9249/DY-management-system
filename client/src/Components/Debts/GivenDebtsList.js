@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Table, TableBody, TableCell, TableHead, TableRow, Checkbox, } from "@mui/material";
+import { Typography, Table, TableBody, TableCell, TableHead, TableRow, Checkbox, Paper, } from "@mui/material";
 import DebtCard from "./DebtCard";
 
 const GivenDebtsList = ({ fields, givenList, onChange, showAll, }) => {
@@ -63,7 +63,6 @@ const GivenDebtsList = ({ fields, givenList, onChange, showAll, }) => {
           )}
         </TableBody>
       </Table>
-
       {/* כרטיס פירוט חוב */}
       <DebtCard
         debtDetails={selectedDebt}

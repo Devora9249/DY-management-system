@@ -49,45 +49,45 @@ const DonorsList = () => {
   });
 
   return (
-    <Box>
-  {/* כותרת כללית */}
-  <Typography> רשימת תורמים </Typography>
+<>
+      {/* כותרת כללית */}
+      <Typography> רשימת תורמים </Typography>
 
-  {/* סינון + כפתור הוספה */}
-  <DonorsFilters
-    filterFrequency={filterFrequency}
-    setFilterFrequency={setFilterFrequency}
-    filterPayment={filterPayment}
-    setFilterPayment={setFilterPayment}
-    onAdd={() => setOpenModal("add")}
-  />
+      {/* סינון + כפתור הוספה */}
+      <DonorsFilters
+        filterFrequency={filterFrequency}
+        setFilterFrequency={setFilterFrequency}
+        filterPayment={filterPayment}
+        setFilterPayment={setFilterPayment}
+        onAdd={() => setOpenModal("add")}
+      />
 
-  {/* רשימת התורמים */}
-  <DonorsGrid
-    donors={filteredDonors}
-    onSelect={(donor) => {
-      setSelectedDonor(donor);
-      setOpenModal("donor");
-    }}
-    onDelete={deleteTorem}
-  />
+      {/* רשימת התורמים */}
+      <DonorsGrid
+        donors={filteredDonors}
+        onSelect={(donor) => {
+          setSelectedDonor(donor);
+          setOpenModal("donor");
+        }}
+        onDelete={deleteTorem}
+      />
 
-  {/* דיאלוגים */}
-  {openModal === "add" && (
-    <AddDonor isOpen={true} onClose={() => setOpenModal(null)} onAdd={catchData} />
-  )}
+      {/* דיאלוגים */}
+      {openModal === "add" && (
+        <AddDonor isOpen={true} onClose={() => setOpenModal(null)} onAdd={catchData} />
+      )}
 
-  {selectedDonor && openModal === "donor" && (
-    <DonorCard
-      isOpen={true}
-      donor={selectedDonor}
-      onClose={() => {
-        setSelectedDonor(null);
-        setOpenModal(null);
-      }}
-    />
-  )}
-</Box>
+      {selectedDonor && openModal === "donor" && (
+        <DonorCard
+          isOpen={true}
+          donor={selectedDonor}
+          onClose={() => {
+            setSelectedDonor(null);
+            setOpenModal(null);
+          }}
+        />
+      )}
+    </>
 
   );
 };

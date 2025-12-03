@@ -15,7 +15,7 @@ const TakenDebtsList = ({ fields, takenList, onChange, showAll, }) => {
   return (
     <>
       {/* כותרת עליונה */}
-      <Typography>
+      <Typography variant="h6">
         חובות שנלקחו ע"י הכולל
       </Typography>
 

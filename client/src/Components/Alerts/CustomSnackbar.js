@@ -13,7 +13,7 @@ function InnerSnackbar({ alert, setAlert }) {
         autoHideDuration: 2500,
         anchorOrigin: { vertical: "top", horizontal: "center" },
         action: (key) => (
-          <IconButton onClick={() => closeSnackbar(key)} color="inherit" size="small">
+          <IconButton onClick={() => closeSnackbar(key)} size="small" variant="iconButton">
             <CloseIcon fontSize="small" />
           </IconButton>
         ),

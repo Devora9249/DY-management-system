@@ -27,42 +27,34 @@ const AvrechimPage = () => {
   }, []);
 
   return (
-    <Box
-      sx={{ minHeight: "100vh", py: 5, }}>
-      <Paper
-        elevation={3}
-        sx={{ maxWidth: 1000, mx: "auto", p: 4, }}>
-        {/* כותרת הדף */}
-        <Typography
-          variant="h5"
-          align="center"
-          sx={{ mb: 3, }}>
-          דף אברכים
-        </Typography>
+    <Paper variant="mainPaper">
 
-        <Divider sx={{ mb: 4 }} />
+      {/* כותרת הדף */}
+      <Typography variant='h5'>
+        דף אברכים
+      </Typography>
 
-        {/* כפתור הוספת אברך */}
-        <Grid container justifyContent="center" sx={{ mb: 3 }}>
-          <Grid item>
-            <AddAvrech onAdd={catchData} setAlert={setAlert} />
-            <ShowNotActiveAvrechim setShowAll={setShowAll} showAll={showAll} />
-            <DownloadDetailsXL AvrechimList={AvrechimList} />
-          </Grid>
-        </Grid>
 
-        {/* טבלת אברכים */}
-        <AvrechimListComp
-          AvrechimList={AvrechimList}
-          onChange={catchData}
-          setAlert={setAlert}
-          showAll={showAll}
-        />
+      {/* כפתור הוספת אברך */}
+      <Box sx={{width:"50%", display:"flex",   justifyContent: "space-around", alignItems: "center",}}>
+        <AddAvrech onAdd={catchData} setAlert={setAlert} />
+        <ShowNotActiveAvrechim setShowAll={setShowAll} showAll={showAll} />
+        <DownloadDetailsXL AvrechimList={AvrechimList} />
+      </Box>
 
-        {/* האלרט המעוצב */}
-        <CustomSnackbar alert={alert} setAlert={setAlert} />
-      </Paper>
-    </Box>
+
+
+      {/* טבלת אברכים */}
+      <AvrechimListComp
+        AvrechimList={AvrechimList}
+        onChange={catchData}
+        setAlert={setAlert}
+        showAll={showAll}
+      />
+
+      {/* האלרט המעוצב */}
+      <CustomSnackbar alert={alert} setAlert={setAlert} />
+    </Paper>
   );
 };
 

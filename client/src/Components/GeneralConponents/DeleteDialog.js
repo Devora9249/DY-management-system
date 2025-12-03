@@ -30,7 +30,7 @@ export default function AlertDialog({ deleteFunc, itemId }) {
 
     <React.Fragment>
       {/* כפתור מחיקה */}
-      <IconButton onClick={handleClickOpen}>
+      <IconButton onClick={handleClickOpen} variant="iconButton">
         <DeleteIcon />
       </IconButton>
 

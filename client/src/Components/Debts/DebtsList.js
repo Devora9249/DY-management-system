@@ -20,27 +20,27 @@ const DebtsList = ({ takenDebts, givenDebts, onChange, showAll }) => {
   return (
     <>
       {/* חלוקה לשני חלקים */}
-      <Box >
-        {/* חובות שנלקחו */}
-        <Box     >
-          <TakenDebtsList
-            fields={fields}
-            takenList={takenDebts}
-            onChange={onChange}
-            showAll={showAll}
-          />
-        </Box>
+      {/* חובות שנלקחו */}
+      <Paper variant="tablePaper">
+        <TakenDebtsList
+          fields={fields}
+          takenList={takenDebts}
+          onChange={onChange}
+          showAll={showAll}
+        />
+      </Paper>
 
+
+      <Paper variant="tablePaper">
         {/* חובות שניתנו */}
-        <Box  >
-          <GivenDebtsList
-            fields={fields}
-            givenList={givenDebts}
-            onChange={onChange}
-            showAll={showAll}
-          />
-        </Box>
-      </Box>
+        <GivenDebtsList
+          fields={fields}
+          givenList={givenDebts}
+          onChange={onChange}
+          showAll={showAll}
+        />
+      </Paper>
+
 
       {/* הודעות Snackbar */}
       <CustomSnackbar alert={alert} setAlert={setAlert} />

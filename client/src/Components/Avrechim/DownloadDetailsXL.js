@@ -43,17 +43,10 @@ const DownloadDetailsXL = ({ AvrechimList }) => {
 
   return (
     <Button
-      variant="contained"
-      sx={{
-        mt: 2,
-        fontWeight: "bold",
-        borderRadius: "10px",
-        backgroundColor: "#b71c1c",
-        "&:hover": { backgroundColor: "#a31515" },
-      }}
+      variant="addButton"
       onClick={downloadExcel}
     >
-      הורד כ־Excel 📥
+      ⬇️ הורד כאקסל 
     </Button>
   );
 };

@@ -8,7 +8,7 @@ import YahrzeitSection from './YahrzeitSection';
 import DonationSection from './DonationSection';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
-
+ 
 export default function AddDonor({ isOpen, onClose, onAdd }) {
   const [donorData, setDonorData] = useState({
     name: '',
@@ -67,7 +67,7 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
     <Dialog open={isOpen} onClose={onClose}>
       <DialogTitle>
         טופס הוספת תורם
-        <IconButton
+        <IconButton variant="iconButton"
           onClick={onClose} >
           <CloseIcon />
         </IconButton>

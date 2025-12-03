@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Axios from "axios";
 import CustomSnackbar from "../Alerts/CustomSnackbar";
-import { Paper, Typography, TextField, Button } from "@mui/material";
+import { Paper, Typography, TextField, Button, Box } from "@mui/material";
 import MilgaTable from "./MilgaTable";
 import AddMilgaToAll from "./AddMilgaToAll";
 
@@ -32,7 +32,7 @@ const MilgotPage = () => {
   }, []);
 
 
-//עדכון מילגה לאברך יחיד
+  //עדכון מילגה לאברך יחיד
   const sendMilgaById = async (avrechId, date) => {
     if (!milgaAmounts[avrechId]) {
       setAlert({ message: "יש למלא סכום לפני עדכון!", type: "error" });
@@ -47,7 +47,7 @@ const MilgotPage = () => {
       });
       setMilgaAmounts(prev => ({ ...prev, [avrechId]: "" }));
       setMilgaDetails(prev => ({ ...prev, [avrechId]: "" }));
-      setResetVersion(v => v + 1); // ⭐ רענון נקודתי
+      setResetVersion(v => v + 1); //  רענון נקודתי
       setAlert({ message: "המלגה עודכנה בהצלחה ✅", type: "update" });
     } catch (err) {
       setAlert({ message: "אירעה שגיאה בעדכון", type: "error" });
@@ -55,7 +55,7 @@ const MilgotPage = () => {
   };
 
 
-//עדכון מלגות לכל האברכים
+  //עדכון מלגות לכל האברכים
   const sendAllMilgot = async () => {
 
     const missing = AvrechimList.find(avrech => !milgaAmounts[avrech._id]);
@@ -100,36 +100,44 @@ const MilgotPage = () => {
   };
 
   return (
-    <Paper  >
+    <Paper variant="mainPaper">
+      <Typography variant="h5"> חלוקת מלגות </Typography>
+
       <AddMilgaToAll addMilga={AddMilgaToAllAvrechim} generalMilga={generalMilga} setGeneralMilga={setGeneralMilga} setAlert={setAlert} />
-      <Typography> חלוקת מלגות </Typography>
 
-      <MilgaTable
-        AvrechimList={AvrechimList}
-        milgaAmounts={milgaAmounts}
-        setMilgaAmounts={setMilgaAmounts}
-        milgaDetails={milgaDetails}
-        setMilgaDetails={setMilgaDetails}
-        newDate={newDate}
-        sendMilgaById={sendMilgaById}
-        resetVersion={resetVersion}
-        setAlert={setAlert}
-      />
+      <Paper variant="tablePaper">
 
-      <TextField
-        label="תאריך"
-        type="date"
-        InputLabelProps={{ shrink: true }}
-        value={newDate}
-        onChange={(e) => setNewDate(e.target.value)} />
+        <MilgaTable
+          AvrechimList={AvrechimList}
+          milgaAmounts={milgaAmounts}
+          setMilgaAmounts={setMilgaAmounts}
+          milgaDetails={milgaDetails}
+          setMilgaDetails={setMilgaDetails}
+          newDate={newDate}
+          sendMilgaById={sendMilgaById}
+          resetVersion={resetVersion}
+          setAlert={setAlert}
+        />
 
-      <Button
-        variant="contained"
-        fullWidth
-        onClick={sendAllMilgot}  >
-        עדכן לכולם
-      </Button>
+        <Box sx={{ display: "flex" }}>
 
+          <Button
+            variant="addButton"
+            onClick={sendAllMilgot}  >
+            עדכן לכולם
+          </Button>
+
+          <TextField
+            label="תאריך"
+            type="date"
+            InputLabelProps={{ shrink: true }}
+            value={newDate}
+            onChange={(e) => setNewDate(e.target.value)} />
+
+        </Box>
+
+
+      </Paper>
       <CustomSnackbar alert={alert} setAlert={setAlert} />
     </Paper>
   );

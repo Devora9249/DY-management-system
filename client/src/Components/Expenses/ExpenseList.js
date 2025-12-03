@@ -24,10 +24,7 @@ const ExpenseList = ({ expenseList, onChange }) => {
   };
 
   return (
-    <TableContainer component={Paper} >
-      <Typography  >
-        רשימת הוצאות
-      </Typography>
+    <Paper variant="tablePaper" >
 
       <Table>
         {/* כותרות הטבלה */}
@@ -59,7 +56,7 @@ const ExpenseList = ({ expenseList, onChange }) => {
         </TableBody>
       </Table>
       <CustomSnackbar alert={alert} setAlert={setAlert} />
-    </TableContainer>
+    </  Paper>
   );
 };
 

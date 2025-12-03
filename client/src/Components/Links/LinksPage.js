@@ -1,7 +1,7 @@
 import React, { use } from 'react'
 import Axios from 'axios';
 import { useEffect, useState } from 'react';
-import { TableCell, TableRow, Table } from '@mui/material';
+import { TableCell, TableRow, Table, Card, Typography, Paper, TableHead } from '@mui/material';
 import AddLink from './AddLink';
 import { Link } from 'react-router-dom';
 import DeleteDialog from '../GeneralConponents/DeleteDialog';
@@ -36,25 +36,32 @@ const LinksPage = () => {
 
     return (
         <>
-            <AddLink onAdd={catchData} />
-            <Table>
-                <TableRow>
-                    <TableCell>מחיקה </TableCell>
-                    <TableCell>תיאור</TableCell>
-                    <TableCell>שם אתר</TableCell>
-                    <TableCell>לוגו</TableCell>
+            <Paper variant="mainPaper" >
+                <Typography variant="h5">  קישורים שימושיים </Typography>
+                <AddLink onAdd={catchData} />
 
-                </TableRow>
-                {linksList.map((link) => (
-                    <TableRow>
-                        <TableCell><DeleteDialog deleteFunc={deleteLink} itemId={link._id} /></TableCell>
-                        <TableCell>{link.description}</TableCell>
-                        <TableCell><a href={link.websitelink} target="_blank">{link.websiteName}</a></TableCell>
-                        <TableCell><img src={`${link.websiteName}.png`} alt={link.websiteName} style={{ width: '50px', height: '50px' }} /></TableCell>
+                <Paper variant='tablePaper'>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>מחיקה </TableCell>
+                                <TableCell>תיאור</TableCell>
+                                <TableCell>שם אתר</TableCell>
+                                <TableCell>לוגו</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        {linksList.map((link) => (
+                            <TableRow>
+                                <TableCell><DeleteDialog deleteFunc={deleteLink} itemId={link._id} /></TableCell>
+                                <TableCell>{link.description}</TableCell>
+                                <TableCell><a href={link.websitelink} target="_blank">{link.websiteName}</a></TableCell>
+                                <TableCell><img src={`${link.websiteName}.png`} alt={link.websiteName} style={{ width: '50px', height: '50px' }} /></TableCell>
 
-                    </TableRow>
-                ))}
-            </Table>
+                            </TableRow>
+                        ))}
+                    </Table>
+                </Paper>
+            </Paper >
             <CustomSnackbar alert={alert} setAlert={setAlert} />
         </>
     )

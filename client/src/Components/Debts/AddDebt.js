@@ -16,6 +16,7 @@ import {
   RadioGroup,
   FormControlLabel,
   FormLabel,
+  Box,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -103,9 +104,7 @@ export default function AddDebt({ onAdd }) {
     <React.Fragment>
       {/* כפתור פתיחה */}
       <Button
-        variant="contained"
-        color="secondary"
-        sx={{ mt: 2, }}
+        variant="addButton"
         onClick={handleClickOpen}
       >
         הוסף חוב חדש
@@ -116,53 +115,61 @@ export default function AddDebt({ onAdd }) {
         open={open}
         onClose={handleClose}>
         <DialogActions>
-          <IconButton
+          <IconButton variant="iconButton"
             onClick={handleClose}>
             <CloseIcon color="error" />
           </IconButton>
         </DialogActions>
 
         <DialogTitle>
-          <Typography >
+          <Typography variant="h1">
             הוספת חוב חדש
           </Typography>
         </DialogTitle>
 
         <form onSubmit={addDebt}>
-          {!first ? (<DialogContent><RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
-            name="type"
-            onChange={handleChange}
-          >
-            <FormLabel>סוג חוב</FormLabel>
-            <FormControlLabel
-              value="taken"
-              control={<Radio />}
-              label="חוב שנלקח"
-              name="type"
-              onChange={handleChange}
-            />
-            <FormControlLabel
-              value="given"
-              control={<Radio />}
-              label="חוב שניתן"
-              name="type"
-              onChange={handleChange}
-            />
-          </RadioGroup>
-          </DialogContent>) : (
-            <DialogContent>
-              <Grid>
-                {/*  לולאה על כל השדות */}
-                {fieldData.map((field) => (
-                  <Grid item xs={12} key={field.name}>
+          {!first ? (
+            <DialogContent sx={{ display: "flex", justifyContent: "center" }}>
+              <Box sx={{ display: "flex", flexDirection: "column", width: "70%", marginBottom:"15px" }}>
+
+                <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  name="type"
+                  onChange={handleChange}
+                >
+                  {/* <FormLabel sx={{textAlign:"center", marginBottom:"15px"}}>בחר סוג חוב</FormLabel> */}
+
+                  <FormControlLabel
+                    value="taken"
+                    control={<Radio />}
+                    label="חוב שנלקח"
+                    name="type"
+                    onChange={handleChange}
+                    sx={{ direction: "rtl" }}
+                  />
+                  <FormControlLabel
+                    value="given"
+                    control={<Radio />}
+                    label="חוב שניתן"
+                    name="type"
+                    onChange={handleChange}
+                    sx={{ direction: "rtl" }}
+                  />
+
+                </RadioGroup>
+              </Box>
+
+            </DialogContent>) : (
+            <Box>
+              <DialogContent sx={{ display: "flex", justifyContent: "center" }}>
+                <Box sx={{ display: "flex", flexDirection: "column", width: "70%" }}>                  {/*  לולאה על כל השדות */}
+                  {fieldData.map((field) => (
                     <TextField
                       name={field.name}
                       label={field.label}
                       value={fields[field.name]}
                       onChange={handleChange}
                       variant="outlined"
-                      fullWidth
                       required={field.required}
                       type={
                         field.name === "dateBorrowed" || field.name === "dueDate"
@@ -170,19 +177,20 @@ export default function AddDebt({ onAdd }) {
                           : "text"
                       }
                     />
-                  </Grid>
-                ))}
-              </Grid>
-            </DialogContent>)
+                  ))}
+                </Box>
+              </DialogContent>
+              <DialogActions sx={{ justifyContent: "center", mt: 1 }}>
+                <Button variant="activeButton" type="submit">
+                  הוסף חוב
+                </Button>
+              </DialogActions>
+            </Box>)
           }
-          <DialogActions>
-            <Button variant="contained" type="submit">
-              הוסף חוב
-            </Button>
-          </DialogActions>
+
         </form>
       </Dialog>
       <CustomSnackbar alert={alert} setAlert={setAlert} />
-    </React.Fragment>
+    </React.Fragment >
   )
 }

@@ -1,7 +1,7 @@
 import { Table, TableHead, TableBody, TableRow, TableCell } from "@mui/material";
 import MilgaRow from "./MilgaRow";
 
-const MilgaTable = ({ AvrechimList, milgaAmounts, setMilgaAmounts, milgaDetails, setMilgaDetails, newDate, sendMilgaById, resetVersion, }) => {
+const MilgaTable = ({ AvrechimList, milgaAmounts, setMilgaAmounts, milgaDetails, setMilgaDetails, newDate, sendMilgaById, resetVersion, setAlert}) => {
     return (
         <Table >
             <TableHead>
@@ -24,6 +24,7 @@ const MilgaTable = ({ AvrechimList, milgaAmounts, setMilgaAmounts, milgaDetails,
                         setMilgaDetails={setMilgaDetails}
                         newDate={newDate}
                         sendMilgaById={sendMilgaById}
+                        setAlert={setAlert}
                     />
                 ))}
             </TableBody>

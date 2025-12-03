@@ -3,7 +3,7 @@ import DeleteDialog from "../../GeneralConponents/DeleteDialog.js";
 
 export default function DonorCardItem({ donor, onSelect, onDelete }) {
   return (
-    <Card >
+    <Card variant="donorCard">
       <CardContent onClick={onSelect} >
         <Typography > שם: {donor.name} </Typography>
         {donor.donations && donor.donations.length > 0 ? (

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import Axios from 'axios';
 import CustomSnackbar from "../Alerts/CustomSnackbar";
-import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Typography } from '@mui/material';
+import { Box, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 export default function FormDialog({ onAdd }) {
@@ -50,7 +50,7 @@ export default function FormDialog({ onAdd }) {
   return (
     <React.Fragment>
       {/* כפתור פתיחת הדיאלוג */}
-      <Button onClick={handleClickOpen} >
+      <Button variant="addButton" onClick={handleClickOpen} >
         הוסף הוצאה
       </Button>
 
@@ -58,60 +58,54 @@ export default function FormDialog({ onAdd }) {
       <Dialog open={open} onClose={handleClose}>
         {/* כפתור סגירה */}
         <DialogActions sx={{ justifyContent: "flex-end", mb: -1 }}>
-          <IconButton onClick={handleClose}>
+          <IconButton onClick={handleClose} variant="iconButton" >
             <CloseIcon color="error" />
           </IconButton>
         </DialogActions>
 
         {/* כותרת */}
         <DialogTitle>
-          <Typography >
+          <Typography variant="h1">
             הוספת הוצאה חדשה
           </Typography>
         </DialogTitle>
 
         {/* תוכן */}
-        <DialogContent>
-          <form onSubmit={handleSubmit} id="expense-form">
-            <Grid container spacing={2} sx={{ mt: 1, display: 'flex', justifyContent: 'center' }}>
-              {/* שדה מהות ההוצאה */}
-              <Grid item xs={12}>
-                <TextField
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  label="מהות ההוצאה"
-                  type="text"
-                  required />
-              </Grid>
+        <DialogContent sx={{ display: "flex", justifyContent: "center" }}>
+          <Box sx={{ display: "flex", flexDirection: "column", width: "70%" }}>
+            <form onSubmit={handleSubmit} id="expense-form">
+                {/* שדה מהות ההוצאה */}
+                  <TextField
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    label="מהות ההוצאה"
+                    type="text"
+                    required />
 
-              {/* שדה סכום */}
-              <Grid item xs={12}>
-                <TextField
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  label="סכום"
-                  type="number"
-                  required />
-              </Grid>
+                {/* שדה סכום */}
+                  <TextField
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    label="סכום"
+                    type="number"
+                    required />
 
-              {/* תאריך */}
-              <Grid item xs={12}>
-                <TextField
-                  label="תאריך"
-                  type="date"
-                  InputLabelProps={{ shrink: true }}
-                  value={newDate}
-                  onChange={(e) => setNewDate(e.target.value)}
-                  required />
-              </Grid>
-            </Grid>
-          </form>
+                {/* תאריך */}
+                  <TextField
+                    label="תאריך"
+                    type="date"
+                    InputLabelProps={{ shrink: true }}
+                    value={newDate}
+                    onChange={(e) => setNewDate(e.target.value)}
+                    required />
+            </form>
+          </Box>
         </DialogContent>
 
         {/* כפתור שליחה */}
         <DialogActions sx={{ justifyContent: "center", mt: 1 }}>
           <Button
-            variant="contained"
+            variant="activeButton"
             onClick={sendExpense} >
             הוסף הוצאה
           </Button>

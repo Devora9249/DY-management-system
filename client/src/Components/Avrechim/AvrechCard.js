@@ -1,18 +1,18 @@
+
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
 import CustomSnackbar from "../Alerts/CustomSnackbar";
 import {
-   Table, TableBody, TableRow, TableCell, Paper, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography
+  Table, TableBody, TableRow, TableCell, Paper, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography, Grid, Checkbox
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import Checkbox from '@mui/material/Checkbox';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 export default function FormDialog({ avrechDetails, setOpen, open, onChange }) {
 
-  const [update, setUpdate] = useState(false);
+  const [isEditing, setIsEditing] = useState(false); // ⭐ מצב עריכה/תצוגה
   const [alert, setAlert] = useState(null);
   const [avrechData, setAvrechData] = useState(avrechDetails);
 
@@ -31,7 +31,7 @@ export default function FormDialog({ avrechDetails, setOpen, open, onChange }) {
   ];
 
   const handleClose = () => {
-    setUpdate(false);
+    setIsEditing(false); // ⭐ שינוי מצב לעריכה
     setOpen(false);
   };
 
@@ -62,99 +62,70 @@ export default function FormDialog({ avrechDetails, setOpen, open, onChange }) {
 
   return (
     <>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-      >
-        {/* פעולות עליונות */}
-        <DialogActions sx={{ justifyContent: "flex-end", mb: -1 }}>
+      <Dialog open={open} onClose={handleClose}>
+        {/* כפתורים תחתונים  */}
+        <DialogActions sx={{ justifyContent: "space-between" }}> 
           {/* כפתור שמירת עדכונים */}
-          {update ? (
-            <Button
-              variant="contained"
-              onClick={updateAvrechDetails}
-            >
-              שמירת עדכונים
-            </Button>
-          ) : (
-            /* כפתור עדכון פרטים */
-            <Button
-              variant="contained"
-              onClick={() => setUpdate(true)}
-            >
-              עדכון פרטים
-            </Button>
-          )}
+          <Button
+            variant="activeButton"
+            onClick={isEditing ? updateAvrechDetails : () => setIsEditing(true)} 
+          >
+            {isEditing ? "שמירת עדכונים" : "עדכון פרטים"}
+          </Button>
 
           {/* כפתור סגירה */}
-          <IconButton
-            onClick={handleClose}
-          >
+          <IconButton onClick={handleClose} variant="iconButton">
             <CloseIcon color="error" />
           </IconButton>
         </DialogActions>
 
         {/* כותרת */}
         <DialogTitle>
-          <Typography
-            variant="h6"
-            align="center"
-          >
+          <Typography variant="h6" align="center">
             פרטי אברך
           </Typography>
         </DialogTitle>
 
         <DialogContent>
-          <Paper
-            elevation={0}
-            sx={{
-              overflow: "hidden",
-              mt: 2,
-              border: "1px solid #eee", 
-            }}
-          >
+          <Paper>
             <Table>
               <TableBody>
                 {fields.map((field) => (
-                  <TableRow
-                    key={field.key}
-                    hover
-                  >
-                    {/* מצב עריכה */}
-                    {update ? (
-                      field.key === "active" ? (
-                        <Checkbox
-                          checked={avrechData["active"]}
-                          onChange={() =>
-                            setAvrechData((prev) => ({
-                              ...prev,
-                              active: !prev.active,
-                            }))
-                          }
-                        />
+                  <TableRow sx={{ height: "80px", margin: "0", padding: "0" }} key={field.key} hover>
+                    {/* הצגת שדות */}
+                    <TableCell sx={{width:"60%", margin: "0"}}>
+                      {isEditing ? (
+                        field.key === "active" ? (
+                          <Checkbox
+                            checked={avrechData["active"]}
+
+                            onChange={() =>
+                              setAvrechData((prev) => ({
+                                ...prev,
+                                active: !prev.active,
+                              }))
+                            }
+                          />
+                        ) : (
+                          <TextField
+                            variant='standard'
+                            sx={{ margin: "0", padding: "0" }}
+                            value={avrechData[field.key]}
+                            onChange={(e) =>
+                              handleFieldChange(field.key, e.target.value)
+                            }
+                          />
+                        )
                       ) : (
-                        <TextField
-                          value={avrechData[field.key]}
-                          onChange={(e) =>
-                            handleFieldChange(field.key, e.target.value)
-                          }
-                        />
-                      )
-                    ) : (
-                      /* מצב תצוגה */
-                      <TableCell align="center">
-                        {field.key === "active" ? (
+                        field.key === "active" ? (
                           <Checkbox checked={avrechData["active"]} />
                         ) : (
                           avrechDetails[field.key]
-                        )}
-                      </TableCell>
-                    )}
-
-                    {/* תווית שדה */}
-                    <TableCell
-                      align="center"
-                    >
+                        )
+                      )}
+                    </TableCell>
+                    {/* שם השדה */}
+                    <TableCell sx={{width:"40%", margin: "0", color: "#7f0000"}}>
                       {field.label}
                     </TableCell>
                   </TableRow>

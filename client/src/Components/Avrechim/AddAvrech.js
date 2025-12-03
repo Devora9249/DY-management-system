@@ -1,16 +1,20 @@
-import * as React from 'react';
-import { useState } from 'react';
 import CustomSnackbar from "../Alerts/CustomSnackbar";
 import Axios from 'axios';
 import {
   Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle,
-  Grid, IconButton, Typography
+  Grid, IconButton, Typography, Stepper, Step, StepLabel,
+  Box
 } from '@mui/material';
+
+import { useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 export default function AddAvrech({ onAdd }) {
   const [open, setOpen] = useState(false);
   const [alert, setAlert] = useState(null);
+  const [activeStep, setActiveStep] = useState(0); // ⭐ חדש
 
   const [fields, setFields] = useState({
     name: "",
@@ -27,24 +31,13 @@ export default function AddAvrech({ onAdd }) {
   });
 
   const handleClickOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setActiveStep(0); // ⭐ איפוס
+  };
 
   const handleChange = (e) =>
     setFields({ ...fields, [e.target.name]: e.target.value });
-
-  const fieldData = [
-    { label: "שם האברך", name: "name", required: true },
-    { label: "תעודת זהות", name: "id", required: true },
-    { label: "מספר טלפון", name: "phoneNumber", required: true },
-    { label: "כתובת מגורים", name: "address" },
-    { label: "כתובת אימייל", name: "emailAddress" },
-    { label: "מספר בנק", name: "bankName" },
-    { label: "מספר סניף", name: "branchNumber" },
-    { label: "מספר חשבון", name: "accountNumber" },
-    { label: "שם האישה", name: "womenName" },
-    { label: "מספר טלפון אישה", name: "womenPhoneNumber" },
-    { label: "כתובת אימייל אישה", name: "womenEmailAddress" }
-  ];
 
   const addAvrech = async (event) => {
     event.preventDefault();
@@ -63,79 +56,114 @@ export default function AddAvrech({ onAdd }) {
     }
   };
 
+  // ⭐ שלבי ה־Stepper
+  const steps = ["פרטי האברך", "פרטי בנק", "פרטי האישה"];
+
+  const sections = [
+    ["name", "id", "phoneNumber", "address", "emailAddress"],
+    ["bankName", "branchNumber", "accountNumber"],
+    ["womenName", "womenPhoneNumber", "womenEmailAddress"]
+  ];
+
+  const fieldData = {
+    name: "שם האברך",
+    id: "תעודת זהות",
+    phoneNumber: "מספר טלפון",
+    address: "כתובת מגורים",
+    emailAddress: "כתובת אימייל",
+    bankName: "מספר בנק",
+    branchNumber: "מספר סניף",
+    accountNumber: "מספר חשבון",
+    womenName: "שם האישה",
+    womenPhoneNumber: "מספר טלפון אישה",
+    womenEmailAddress: "כתובת אימייל אישה"
+  };
+
   return (
     <>
-      {/* כפתור פתיחה */}
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={handleClickOpen}
-      >
+      <Button variant="addButton" onClick={handleClickOpen}>
         הוסף אברך
       </Button>
 
-      {/* דיאלוג */}
       <Dialog
         open={open}
         onClose={handleClose}
         PaperProps={{
-          // sx: {
-          //   minWidth: 400,   // ❗ אפשר להשאיר — גודל מקומי
-          // },
+          sx: {
+            borderRadius: 4,
+            minWidth: { xs: "90%", md: 600 },
+            p: 2
+          }
         }}
       >
-        <DialogActions
-          sx={{
-            justifyContent: "flex-end",
-            mb: -1,
-          }}
-        >
-          <IconButton onClick={handleClose}   >
-            <CloseIcon />
+        {/* ❌ סגירה */}
+        <DialogActions sx={{ justifyContent: "flex-end", mb: -1 }}>
+          <IconButton onClick={handleClose}
+            variant="iconButton">
+            <CloseIcon color="error" />
           </IconButton>
         </DialogActions>
 
+        <DialogTitle><Typography variant="h1">הוספת אברך</Typography></DialogTitle>
+
+        {/* 🧭 stepper */}
         <DialogTitle>
-          <Typography
-            variant="h6"
-            align="center"
-          >
-            הוספת אברך חדש
-          </Typography>
+          <Stepper activeStep={activeStep} sx={{ mb: 2 }}>
+            {steps.map(step => (
+              <Step key={step}>
+                <StepLabel>{step}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
         </DialogTitle>
 
         <form onSubmit={addAvrech}>
-          <DialogContent>
-            <Grid container spacing={2} sx={{ mt: 1 }}>
-              {fieldData.map((field) => (
-                <Grid item xs={12} key={field.name}>
-                  <TextField
-                    name={field.name}
-                    label={field.label}
-                    value={fields[field.name]}
-                    onChange={handleChange}
-                    fullWidth
-                    required={field.required}
-                  />
-                </Grid>
+          <DialogContent sx={{ display: "flex", justifyContent: "center" }}>
+            <Box sx={{ display: "flex", flexDirection: "column", width: "50%" }}>
+              {sections[activeStep].map((name) => (
+                <TextField
+                  name={name}
+                  label={fieldData[name]}
+                  value={fields[name]}
+                  onChange={handleChange}
+                />
               ))}
-            </Grid>
+            </Box>
           </DialogContent>
 
-          <DialogActions sx={{ justifyContent: "center", mt: 1 }}>
-            <Button
-              variant="contained"
-              type="submit"
-              sx={{
-                px: 4,
-                py: 1.2,
-              }}
+          {/* 🔄 כפתורי ניווט */}
+          <DialogActions
+            sx={{
+              justifyContent: "space-between",
+              px: 2,
+              pb: 2
+            }}
+          >
+            <IconButton
+              disabled={activeStep === 0}
+              onClick={() => setActiveStep(prev => prev - 1)}
             >
-              הוסף אברך
-            </Button>
+              <ArrowBackIcon />
+            </IconButton>
+
+            {activeStep < 2 ? (
+              <IconButton onClick={() => setActiveStep(prev => prev + 1)}
+              >
+                <ArrowForwardIcon />
+              </IconButton>
+              // variant="activeButton"
+            ) : (
+              <Button
+                type="submit"
+                variant="activeButton"
+                sx={{ px: 4 }}
+              >
+                שמור
+              </Button>
+            )}
           </DialogActions>
         </form>
-      </Dialog>
+      </Dialog >
 
       <CustomSnackbar alert={alert} setAlert={setAlert} />
     </>
