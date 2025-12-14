@@ -7,9 +7,15 @@ import YahrzeitTable from './YahrzeitTable';
 import DonationTable from './DonationTable';
 import AddDonationForm from './AddDonationForm';
 
-export default function DonorCard({ isOpen, donor, onClose }) {
+export default function DonorCard({ donor, setOpen, open,isOpen, onChange}) {
+
   const [donations, setDonations] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
+    const [isEditing, setIsEditing] = useState(false); // ⭐ מצב עריכה/תצוגה
+  const [alert, setAlert] = useState(null);
+
+  
+
 
   const getDonations = async () => {
     if (!donor?._id) return;
@@ -43,17 +49,41 @@ export default function DonorCard({ isOpen, donor, onClose }) {
       alert('שגיאה בהוספת תרומה: ' + error.message);
     }
   };
+const handleClose = () => {
+    setIsEditing(false); // ⭐ שינוי מצב לעריכה
+    setOpen(false);
+  };
+   const updateDonorDetails = async () => {
+    try {
+      await Axios.put(
+        `http://localhost:5678/api/donors/${donor._id}`,
+        donor
+      );
+      handleClose();
+      setAlert({ type: "success", message: "פרטי התורם עודכנו בהצלחה" });
+      onChange();
+    } catch (error) {
+      setAlert({ type: "error", message: "שגיאה בעדכון פרטי התורם" });
+    }
+  };
 
   if (!isOpen) return null;
 
   return (
     
-    <Dialog open={isOpen} onClose={onClose}>
+    <Dialog open={isOpen} onClose={handleClose}>
       {/* כותרת */}
       <DialogTitle >
         טופס פרטי תורם
+        <Button
+            variant="activeButton"
+            onClick={isEditing ? updateDonorDetails : () => setIsEditing(true)} 
+          >
+            {/* { "שמירת עדכונים"} */}
+             {isEditing ? "שמירת עדכונים" : "עדכון פרטים"}
+          </Button>
         <IconButton variant="iconButton"
-          onClick={onClose}>
+          onClick={handleClose}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>

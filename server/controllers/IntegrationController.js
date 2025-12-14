@@ -66,7 +66,7 @@ exports.getFinancialIntegration = async (req, res) => {
       .reduce((sum, i) => sum + i.amount, 0);
 
     const totalExpense = integratedData
-      .filter((i) => i.type === "expense")
+      .filter((i) => i.type === "expense" || i.type === "milga")
       .reduce((sum, i) => sum + i.amount, 0);
 
     const balance = totalIncome - totalExpense;

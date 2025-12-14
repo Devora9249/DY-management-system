@@ -98,16 +98,16 @@ await donor.save();
 
 
 
-// // Update donor
-// exports.updateDonor = async (req, res) => {
-//   try {
-//     const donor = await Donor.findByIdAndUpdate(req.params.id, req.body, { new: true });
-//     if (!donor) return res.status(404).json({ message: 'Donor not found' });
-//     res.json(donor);
-//   } catch (err) {
-//     res.status(400).json({ message: err.message });
-//   }
-// };
+// Update donor
+exports.updateDonor = async (req, res) => {
+  try {
+    const donor = await Donor.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!donor) return res.status(404).json({ message: 'Donor not found' });
+    res.json(donor);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
 
 // Delete donor
 exports.deleteDonor = async (req, res) => {

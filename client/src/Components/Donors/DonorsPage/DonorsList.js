@@ -79,12 +79,11 @@ const DonorsList = () => {
 
       {selectedDonor && openModal === "donor" && (
         <DonorCard
-          isOpen={true}
-          donor={selectedDonor}
-          onClose={() => {
-            setSelectedDonor(null);
-            setOpenModal(null);
-          }}
+        isOpen={true}
+          setOpen={setOpenModal}
+          open={openModal} 
+          donor={selectedDonor} 
+          onChange={catchData}
         />
       )}
     </>
