@@ -6,14 +6,14 @@ import { Typography, TextField, Box } from "@mui/material";
 import DonorsFilters from "./DonorsFilters";
 import DonorsGrid from "./DonorsGrid";
 import DownloadDetailsXL from "./DownloadDetailsXL";
-
+import CustomSnackbar from "../../Alerts/CustomSnackbar";
 const DonorsList = () => {
   const [openModal, setOpenModal] = useState(null);
   const [selectedDonor, setSelectedDonor] = useState(null);
   const [donorsList, setDonorsList] = useState([]);
   const [filterFrequency, setFilterFrequency] = useState("");
   const [filterPayment, setFilterPayment] = useState("");
-
+  const [alert, setAlert] = useState(null);
   const [search, setSearch] = useState("");
 
   const catchData = async () => {
@@ -23,7 +23,7 @@ const DonorsList = () => {
       });
       setDonorsList(data);
     } catch (error) {
-      window.alert(error.response?.data?.message || error.message);
+      setAlert({ message: error.response?.data?.message || error.message, type: "error" });
     }
   };
 
@@ -35,8 +35,9 @@ const DonorsList = () => {
     try {
       await Axios.delete(`http://localhost:5678/api/donors/${id}`);
       catchData();
+      setAlert({ message: "התורם נמחק בהצלחה", type: "success" });
     } catch (error) {
-      window.alert(error.message);
+      setAlert({ message: error.response?.data?.message || error.message, type: "error" });
     }
   };
 
@@ -97,6 +98,8 @@ const DonorsList = () => {
           onChange={catchData}
         />
       )}
+       <CustomSnackbar alert={alert} setAlert={setAlert} />
+       
     </>
   );
 };

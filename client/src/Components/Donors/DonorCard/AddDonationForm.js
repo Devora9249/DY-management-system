@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Paper, Box, TextField, Button, FormControl, InputLabel, Select, MenuItem, Typography, RadioGroup, Radio, FormControlLabel } from '@mui/material';
-
+import CustomSnackbar from "../../Alerts/CustomSnackbar";
 function addMonthsToDate(dateStr, months) {
   const d = new Date(dateStr);
   d.setMonth(d.getMonth() + Number(months));
@@ -15,12 +15,12 @@ export default function AddDonationForm({ onAdd, onCancel }) {
     frequency: '',
     duration: ''
   });
-
+  const [alert, setAlert] = useState(null);
   const handleChange = (field) => (e) => setForm({ ...form, [field]: e.target.value });
 
   const handleSubmit = () => {
     if (!form.date || !form.amount || !form.paymentMethod || !form.frequency) {
-      alert('יש למלא את כל השדות');
+      setAlert({ message: 'יש למלא את כל השדות', type: "error" });
       return;
     }
 
@@ -39,6 +39,7 @@ export default function AddDonationForm({ onAdd, onCancel }) {
   };
 
   return (
+    <>
     <Paper>
       <Typography>הוספת תרומה </Typography>
 
@@ -103,5 +104,7 @@ export default function AddDonationForm({ onAdd, onCancel }) {
         </Button>
       </Box>
     </Paper>
+     <CustomSnackbar alert={alert} setAlert={setAlert} />
+        </>
   );
 }

@@ -6,7 +6,7 @@ import YahrzeitSection from './YahrzeitSection';
 import DonationSection from './DonationSection';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
-
+import CustomSnackbar from "../../Alerts/CustomSnackbar";
 function addMonthsToDate(dateStr, months) {
   const d = new Date(dateStr);
   d.setMonth(d.getMonth() + Number(months));
@@ -23,7 +23,7 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
     whatsappNumber: '',
     birthDate: '',
   });
-
+  const [alert, setAlert] = useState(null);
   const [yahrzeits, setYahrzeits] = useState([]);
   const [donation, setDonation] = useState({
     newDate: new Date().toISOString().split('T')[0],
@@ -39,9 +39,9 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
     const { newDate, newAmount, paymentMethod, frequency, duration } = donation;
 
     if (!name)
-      return alert("נא למלא את כל שדות החובה");
+      return setAlert({ message: "נא למלא את כל שדות החובה", type: "error" });
     if (!newDate || !newAmount || !paymentMethod || !frequency)
-      return alert("נא למלא את כל פרטי התרומה");
+      return setAlert({ message: "נא למלא את כל פרטי התרומה", type: "error" });
 
     const endDate =
       frequency === "monthly" && duration
@@ -59,7 +59,7 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
         endDate
       });
 
-      alert("✅ התורם נוסף בהצלחה");
+      setAlert({ message: "✅ התורם נוסף בהצלחה", type: "success" });
       setDonorData({
         name: '',
         donorId: '',
@@ -81,11 +81,12 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
       onAdd();
       onClose();
     } catch (error) {
-      alert(error.response?.data?.message || error.message);
+      setAlert({ message: error.response?.data?.message || error.message, type: "error" });
     }
   };
 
   return (
+    <>
     <Dialog open={isOpen} onClose={onClose}>
       <DialogTitle>
         טופס הוספת תורם
@@ -110,5 +111,7 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
         </form>
       </DialogContent>
     </Dialog>
+     <CustomSnackbar alert={alert} setAlert={setAlert} />
+        </>
   );
 }

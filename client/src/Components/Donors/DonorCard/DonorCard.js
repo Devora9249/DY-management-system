@@ -6,7 +6,7 @@ import DonorDetailsEditable from './DonorDetailsEditable';
 import YahrzeitTable from './YahrzeitTable';
 import DonationTable from './DonationTable';
 import AddDonationForm from './AddDonationForm';
-
+import CustomSnackbar from "../../Alerts/CustomSnackbar";
 
 
 export default function DonorCard({ donor, setOpen, open, isOpen, onChange }) {
@@ -28,7 +28,7 @@ export default function DonorCard({ donor, setOpen, open, isOpen, onChange }) {
       const { data } = await Axios.get(`http://localhost:5678/api/donors/${donor._id}/donations`);
       setDonations(data);
     } catch (error) {
-      window.alert(error.response?.data?.message || error.message);
+      setAlert({ message: error.response?.data?.message || error.message, type: "error" });
     }
   };
 
@@ -41,7 +41,7 @@ export default function DonorCard({ donor, setOpen, open, isOpen, onChange }) {
       await Axios.delete(`http://localhost:5678/api/donors/${donor._id}/donations/${donationId}`);
       getDonations();
     } catch (error) {
-      window.alert('שגיאה במחיקת התרומה: ' + error.message);
+      setAlert({ message: 'שגיאה במחיקת התרומה: ' + error.message, type: "error" });
     }
   };
 
@@ -51,7 +51,7 @@ export default function DonorCard({ donor, setOpen, open, isOpen, onChange }) {
       setShowAddForm(false);
       getDonations();
     } catch (error) {
-      window.alert('שגיאה בהוספת תרומה: ' + error.message);
+      setAlert({ message: 'שגיאה בהוספת תרומה: ' + error.message, type: "error" });
     }
   };
 
@@ -60,7 +60,7 @@ export default function DonorCard({ donor, setOpen, open, isOpen, onChange }) {
       await Axios.patch(`http://localhost:5678/api/donors/${donor._id}/donations/${donationId}/stop`);
       getDonations();
     } catch (error) {
-      window.alert('שגיאה בביטול הוראת קבע: ' + (error.response?.data?.message || error.message));
+      setAlert({ message: 'שגיאה בביטול הוראת קבע: ' + (error.response?.data?.message || error.message), type: "error" });
     }
   };
 
@@ -86,6 +86,7 @@ export default function DonorCard({ donor, setOpen, open, isOpen, onChange }) {
   if (!isOpen) return null;
 
   return (
+    <>
     <Dialog open={isOpen} onClose={handleClose}>
       <DialogTitle>
         טופס פרטי תורם
@@ -139,5 +140,7 @@ export default function DonorCard({ donor, setOpen, open, isOpen, onChange }) {
         )}
       </DialogContent>
     </Dialog>
+     <CustomSnackbar alert={alert} setAlert={setAlert} />
+        </>
   );
 }
