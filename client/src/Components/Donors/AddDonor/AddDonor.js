@@ -13,7 +13,7 @@ function addMonthsToDate(dateStr, months) {
   return d.toISOString().split('T')[0];
 }
 
-export default function AddDonor({ isOpen, onClose, onAdd }) {
+export default function AddDonor({ isOpen, onClose, onAdd , showAlert }) {
   const [donorData, setDonorData] = useState({
     name: '',
     donorId: '',
@@ -59,7 +59,7 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
         endDate
       });
 
-      setAlert({ message: "✅ התורם נוסף בהצלחה", type: "success" });
+      showAlert?.({ message: "✅ התורם נוסף בהצלחה", type: "success" });
       setDonorData({
         name: '',
         donorId: '',
@@ -79,7 +79,8 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
       });
 
       onAdd();
-      onClose();
+  onClose();
+
     } catch (error) {
       setAlert({ message: error.response?.data?.message || error.message, type: "error" });
     }

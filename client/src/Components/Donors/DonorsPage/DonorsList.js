@@ -86,7 +86,12 @@ const DonorsList = () => {
       />
 
       {openModal === "add" && (
-        <AddDonor isOpen={true} onClose={() => setOpenModal(null)} onAdd={catchData} />
+        <AddDonor
+  isOpen={true}
+  onClose={() => setOpenModal(null)}
+  onAdd={catchData}
+  showAlert={setAlert}
+/>
       )}
 
       {selectedDonor && openModal === "donor" && (

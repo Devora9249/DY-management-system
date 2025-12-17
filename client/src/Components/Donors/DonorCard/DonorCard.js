@@ -40,6 +40,7 @@ export default function DonorCard({ donor, setOpen, open, isOpen, onChange }) {
     try {
       await Axios.delete(`http://localhost:5678/api/donors/${donor._id}/donations/${donationId}`);
       getDonations();
+      setAlert({ message: 'התרומה נמחקה בהצלחה', type: "success" });
     } catch (error) {
       setAlert({ message: 'שגיאה במחיקת התרומה: ' + error.message, type: "error" });
     }
@@ -50,6 +51,7 @@ export default function DonorCard({ donor, setOpen, open, isOpen, onChange }) {
       await Axios.post(`http://localhost:5678/api/donors/${donor._id}/donations`, donation);
       setShowAddForm(false);
       getDonations();
+      setAlert({ message: 'התרומה נוספה בהצלחה', type: "success" });
     } catch (error) {
       setAlert({ message: 'שגיאה בהוספת תרומה: ' + error.message, type: "error" });
     }
@@ -59,6 +61,7 @@ export default function DonorCard({ donor, setOpen, open, isOpen, onChange }) {
     try {
       await Axios.patch(`http://localhost:5678/api/donors/${donor._id}/donations/${donationId}/stop`);
       getDonations();
+      setAlert({ message: 'הוראת הקבע בוטלה בהצלחה', type: "success" });
     } catch (error) {
       setAlert({ message: 'שגיאה בביטול הוראת קבע: ' + (error.response?.data?.message || error.message), type: "error" });
     }
@@ -75,8 +78,11 @@ export default function DonorCard({ donor, setOpen, open, isOpen, onChange }) {
         `http://localhost:5678/api/donors/${donor._id}`,
         donorData
       );
-      handleClose();
       setAlert({ type: "success", message: "פרטי התורם עודכנו בהצלחה" });
+setTimeout(() => {
+handleClose();
+}, 1200);
+      
       onChange();
     } catch (error) {
       setAlert({ type: "error", message: "שגיאה בעדכון פרטי התורם" });
