@@ -1,46 +1,50 @@
-
-
 import { useState, useEffect } from "react";
-import Axios from 'axios';
+import Axios from "axios";
 import AddDonor from "../AddDonor/AddDonor";
 import DonorCard from "../DonorCard/DonorCard";
-import { Box, Typography } from "@mui/material";
+import { Typography, TextField, Box } from "@mui/material";
 import DonorsFilters from "./DonorsFilters";
 import DonorsGrid from "./DonorsGrid";
+import DownloadDetailsXL from "./DownloadDetailsXL";
 
 const DonorsList = () => {
   const [openModal, setOpenModal] = useState(null);
   const [selectedDonor, setSelectedDonor] = useState(null);
   const [donorsList, setDonorsList] = useState([]);
-  const [filterFrequency, setFilterFrequency] = useState('');
-  const [filterPayment, setFilterPayment] = useState('');
+  const [filterFrequency, setFilterFrequency] = useState("");
+  const [filterPayment, setFilterPayment] = useState("");
+
+  const [search, setSearch] = useState("");
 
   const catchData = async () => {
     try {
-      const { data } = await Axios.get("http://localhost:5678/api/donors");
+      const { data } = await Axios.get("http://localhost:5678/api/donors", {
+        params: { search }, //  אם ריק -> יחזיר הכל
+      });
       setDonorsList(data);
     } catch (error) {
-      alert(error.response?.data?.message || error.message);
+      window.alert(error.response?.data?.message || error.message);
     }
   };
 
   useEffect(() => {
     catchData();
-  }, []);
+  }, [search]); //  כל שינוי בחיפוש – מביא נתונים מחדש
 
   const deleteTorem = async (id) => {
     try {
       await Axios.delete(`http://localhost:5678/api/donors/${id}`);
       catchData();
     } catch (error) {
-      alert(error.message);
+      window.alert(error.message);
     }
   };
 
-  // סינון
+  // // סינון (נשאר כמו שלך)
   const filteredDonors = donorsList.filter((donor) => {
-    if ((!filterFrequency && !filterPayment)) return true;
+    if (!filterFrequency && !filterPayment) return true;
     if (!donor.donations || donor.donations.length === 0) return false;
+
     return donor.donations.some((d) => {
       const freqMatch = filterFrequency ? d.frequency === filterFrequency : true;
       const payMatch = filterPayment ? d.paymentMethod === filterPayment : true;
@@ -49,20 +53,28 @@ const DonorsList = () => {
   });
 
   return (
-<>
-      {/* כותרת כללית */}
-      <Typography> רשימת תורמים </Typography>
+    <>
+      <Typography>רשימת תורמים</Typography>
 
-      {/* סינון + כפתור הוספה */}
+      <Box sx={{ mt: 2 }}>
+        <TextField
+          label="חיפוש לפי שם תורם"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          size="small"
+        />
+      </Box>
+
       <DonorsFilters
-        filterFrequency={filterFrequency}
-        setFilterFrequency={setFilterFrequency}
-        filterPayment={filterPayment}
-        setFilterPayment={setFilterPayment}
+        // filterFrequency={filterFrequency}
+        // setFilterFrequency={setFilterFrequency}
+        // filterPayment={filterPayment}
+        // setFilterPayment={setFilterPayment}
         onAdd={() => setOpenModal("add")}
       />
 
-      {/* רשימת התורמים */}
+      <DownloadDetailsXL DonorsList={donorsList} />
+
       <DonorsGrid
         donors={filteredDonors}
         onSelect={(donor) => {
@@ -72,24 +84,21 @@ const DonorsList = () => {
         onDelete={deleteTorem}
       />
 
-      {/* דיאלוגים */}
       {openModal === "add" && (
         <AddDonor isOpen={true} onClose={() => setOpenModal(null)} onAdd={catchData} />
       )}
 
       {selectedDonor && openModal === "donor" && (
         <DonorCard
-        isOpen={true}
+          isOpen={true}
           setOpen={setOpenModal}
-          open={openModal} 
-          donor={selectedDonor} 
+          open={openModal}
+          donor={selectedDonor}
           onChange={catchData}
         />
       )}
     </>
-
   );
 };
 
 export default DonorsList;
-

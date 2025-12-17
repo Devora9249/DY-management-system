@@ -1,16 +1,12 @@
-import { Table, TableHead, TableRow, TableCell, TableBody, Typography, Paper, TableContainer } from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, Typography, Paper, TableContainer, Button } from '@mui/material';
 import DeleteDialog from '../../GeneralConponents/DeleteDialog.js';
 
-export default function DonationTable({ donations, onDelete }) {
+export default function DonationTable({ donations, onDelete, onStopRecurring }) {
   return (
+    <TableContainer component={Paper}>
+      <Typography> רשימת תרומות</Typography>
 
-    <TableContainer
-      component={Paper}>
-      {/* כותרת */}
-      <Typography > רשימת תרומות</Typography>
-
-      {/* טבלה */}
-      <Table >
+      <Table>
         <TableHead>
           <TableRow>
             <TableCell>תאריך</TableCell>
@@ -30,6 +26,17 @@ export default function DonationTable({ donations, onDelete }) {
                 <TableCell>{d.frequency}</TableCell>
                 <TableCell>{d.paymentMethod}</TableCell>
                 <TableCell align="center">
+                  {d.frequency === "monthly" && d.isActive === true && (
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      onClick={() => onStopRecurring(d._id)}
+                      sx={{ mr: 1 }}
+                    >
+                      ביטול הוראת קבע
+                    </Button>
+                  )}
+
                   <DeleteDialog deleteFunc={onDelete} itemId={d._id} />
                 </TableCell>
               </TableRow>

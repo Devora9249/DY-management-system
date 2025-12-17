@@ -17,8 +17,7 @@ export default function YahrzeitSection({ yahrzeits, setYahrzeits }) {
   return (
     <>
       <Box>
-        {/* כותרת בתוך הבוקס */}
-        <Typography> יארצייטים</Typography>
+        <Typography>יארצייט</Typography>
 
         {/* רשימת יארצייטים קיימים */}
         {yahrzeits.length ? (

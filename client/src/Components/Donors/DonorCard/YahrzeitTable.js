@@ -7,9 +7,8 @@ export default function YahrzeitTable({ yahrzeits }) {
 
       {yahrzeits.length ? (
         <TableContainer >
-          {/* כותרת בתוך הקונטיינר */}
           <Typography >
-            יארצייטים
+            יארצייט
           </Typography>
 
           <Table >

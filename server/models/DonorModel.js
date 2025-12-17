@@ -2,18 +2,18 @@ const mongoose = require('mongoose');
 const DonationSchema = require('./DonationModel');
 const DonorSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  donorId: { type: String, required: true, unique: true },
+  donorId: { type: String, unique: true },
   address: { type: String },
   phoneNumber: { type: String },
   emailAddress: { type: String },
   whatsappNumber: { type: String },
   birthDate: { type: Date },
-yahrzeitDate: [
-  {
-    date: { type: Date, required: true },
-    name: { type: String, required: true }
-  }
-],
+  yahrzeitDate: [
+    {
+      date: { type: Date, required: true },
+      name: { type: String, required: true }
+    }
+  ],
   donations: { type: [DonationSchema] }
 }, { timestamps: true });
 

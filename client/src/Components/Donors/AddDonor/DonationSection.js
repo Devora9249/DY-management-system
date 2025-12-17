@@ -8,23 +8,24 @@ export default function DonationSection({ donation, setDonation }) {
 
   return (
     <>
-
-
       <Box>
         <Typography> פרטי תרומה </Typography>
+
         <TextField
           label="תאריך גביה"
           type="date"
           InputLabelProps={{ shrink: true }}
           value={donation.newDate || ""}
-          onChange={handleChange("newDate")} />
+          onChange={handleChange("newDate")}
+        />
 
         <TextField
           label="סכום"
           type="number"
           required
           value={donation.newAmount || ""}
-          onChange={handleChange("newAmount")} />
+          onChange={handleChange("newAmount")}
+        />
 
         <FormControl required>
           <InputLabel>סוג תשלום</InputLabel>
@@ -42,35 +43,34 @@ export default function DonationSection({ donation, setDonation }) {
         </FormControl>
 
         <FormControl component="fieldset" fullWidth sx={{ mt: 1 }}>
-          <Typography  >
-            תדירות
-          </Typography>
+          <Typography>תדירות</Typography>
+
           <RadioGroup
             value={donation.frequency || ""}
-            onChange={handleChange("frequency")} >
+            onChange={handleChange("frequency")}
+          >
             <FormControlLabel
-              value="חדפ"
+              value="once"
               control={<Radio />}
               label="חד פעמי"
             />
             <FormControlLabel
-              value="הוראת קבע"
+              value="monthly"
               control={<Radio />}
               label="הוראת קבע"
             />
           </RadioGroup>
 
-          {donation.frequency === "הוראת קבע" && (
+          {donation.frequency === "monthly" && (
             <TextField
               label="למשך כמה חודשים"
               type="number"
-              required
               value={donation.duration || ""}
-              onChange={handleChange("duration")} />
+              onChange={handleChange("duration")}
+            />
           )}
         </FormControl>
       </Box>
     </>
-
   );
 }

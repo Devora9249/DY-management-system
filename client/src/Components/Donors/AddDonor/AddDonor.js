@@ -1,5 +1,3 @@
-
-
 import { useState } from 'react';
 import { Stack, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import Axios from 'axios';
@@ -8,7 +6,13 @@ import YahrzeitSection from './YahrzeitSection';
 import DonationSection from './DonationSection';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
- 
+
+function addMonthsToDate(dateStr, months) {
+  const d = new Date(dateStr);
+  d.setMonth(d.getMonth() + Number(months));
+  return d.toISOString().split('T')[0];
+}
+
 export default function AddDonor({ isOpen, onClose, onAdd }) {
   const [donorData, setDonorData] = useState({
     name: '',
@@ -31,15 +35,18 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { name, donorId, phoneNumber, emailAddress, whatsappNumber } = donorData;
+    const { name } = donorData;
     const { newDate, newAmount, paymentMethod, frequency, duration } = donation;
 
-    if (!name || !donorId || !phoneNumber)
+    if (!name)
       return alert("נא למלא את כל שדות החובה");
-    if (!whatsappNumber && !emailAddress)
-      return alert("יש למלא או מייל או וואצאפ");
     if (!newDate || !newAmount || !paymentMethod || !frequency)
       return alert("נא למלא את כל פרטי התרומה");
+
+    const endDate =
+      frequency === "monthly" && duration
+        ? addMonthsToDate(newDate, duration)
+        : null;
 
     try {
       await Axios.post("http://localhost:5678/api/donors", {
@@ -49,13 +56,28 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
         donationDate: newDate,
         paymentMethod,
         frequency,
-        duration
+        endDate
       });
 
       alert("✅ התורם נוסף בהצלחה");
-      setDonorData({});
+      setDonorData({
+        name: '',
+        donorId: '',
+        address: '',
+        phoneNumber: '',
+        emailAddress: '',
+        whatsappNumber: '',
+        birthDate: '',
+      });
       setYahrzeits([]);
-      setDonation({});
+      setDonation({
+        newDate: new Date().toISOString().split('T')[0],
+        newAmount: '',
+        paymentMethod: '',
+        frequency: '',
+        duration: ''
+      });
+
       onAdd();
       onClose();
     } catch (error) {
@@ -67,8 +89,7 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
     <Dialog open={isOpen} onClose={onClose}>
       <DialogTitle>
         טופס הוספת תורם
-        <IconButton variant="iconButton"
-          onClick={onClose} >
+        <IconButton variant="iconButton" onClick={onClose}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>
@@ -81,8 +102,7 @@ export default function AddDonor({ isOpen, onClose, onAdd }) {
             <DonationSection donation={donation} setDonation={setDonation} />
           </Stack>
 
-          <DialogActions >
-
+          <DialogActions>
             <Button type="submit" variant="contained">
               הוסף תורם
             </Button>

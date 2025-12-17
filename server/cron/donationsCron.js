@@ -1,44 +1,62 @@
 const cron = require("node-cron");
 const Donor = require("../models/DonorModel");
 
-// הפעלת cron פעם ביום בשעה 02:00 בלילה
 cron.schedule("25 17 * * *", async () => {
-    console.log("📅 בודק הוראות קבע...");
-    let count = 2;
-    try {
-        const donors = await Donor.find({ "donations.active": true });
-        for (const donor of donors) {
-            let updated = false;
+  console.log("📅 בודק הוראות קבע...");
+  try {
+    const donors = await Donor.find({ "donations.isActive": true });
 
-            donor.donations.forEach(d => {
-                if (d.active && d.nextDonationDate && d.nextDonationDate <= new Date() && d.monthsRemaining > 0) {
-                    // הוספת תרומה חודשית
-                    const index = donor.donations.length + 1;
-                    donor.donations.push({
-                        date: new Date(),
-                        amount: d.amount,
-                        paymentMethod: d.paymentMethod,
-                        frequency: `הוראת קבע ${index}`,
-                    });
+    for (const donor of donors) {
+      let updated = false;
 
-                    // עדכון ההוראת קבע
-                    const next = new Date(d.nextDonationDate);
-                    next.setMonth(next.getMonth() + 1);
-                    // next.setMinutes(next.getMinutes() + 1);
-                    d.nextDonationDate = next;
-                    d.monthsRemaining -= 1; // מורידים חודש
-                    if (d.monthsRemaining === 0) d.active = false; // אם אין חודשים נוספים, מבטלים את ההוראת קבע
-                    updated = true;
-                }
+      donor.donations.forEach(d => {
+        const now = new Date();
+        if (d.frequency !== "monthly") return;
+        while (
+          d.isActive &&
+          !(d.endDate && d.endDate < now) &&
+          !(d.stoppedAt != null) &&
+          d.nextDonationDate &&
+          d.nextDonationDate <= now
+        ) {
+          // הוספת תרומה חודשית
+          // const index = donor.donations.length + 1;
 
-            });
+          donor.donations.push({
+            date: now,
+            amount: d.amount,
+            paymentMethod: d.paymentMethod,
 
 
-            if (updated) await donor.save();
+            frequency: "once",
+
+            // שדות שמבטיחים שלא יחשבו את זה כקבע 
+            isActive: false,
+            nextDonationDate: null,
+            endDate: null,
+            stoppedAt: null
+          });
+
+          updated = true;
+
+          // עדכון ההוראת קבע
+          const next = new Date(d.nextDonationDate);
+          next.setMonth(next.getMonth() + 1);
+          d.nextDonationDate = next;
+
+          if (d.endDate && d.nextDonationDate > d.endDate) {
+            d.isActive = false;
+            d.stoppedAt = now;
+            break;
+          }
         }
+      });
 
-        console.log("✅ סיום עדכון הוראות קבע");
-    } catch (error) {
-        console.error("❌ שגיאה ב-cron:", error);
+      if (updated) await donor.save();
     }
+
+    console.log("✅ סיום עדכון הוראות קבע");
+  } catch (error) {
+    console.error("❌ שגיאה ב-cron:", error);
+  }
 });

@@ -19,7 +19,7 @@ export default function DonorDetailsForm({ donorData, setDonorData }) {
           label="ת.ז"
           value={donorData.donorId || ""}
           onChange={handleChange("donorId")}
-          required />
+           />
 
         <TextField
           label="כתובת"
@@ -30,7 +30,7 @@ export default function DonorDetailsForm({ donorData, setDonorData }) {
           label="פלאפון"
           value={donorData.phoneNumber || ""}
           onChange={handleChange("phoneNumber")}
-          required />
+           />
 
         <TextField
           label="מייל"
