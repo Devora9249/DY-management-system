@@ -40,7 +40,7 @@ const DownloadDetailsXL = ({ AvrechimList }) => {
 
     // כתיבה לקובץ והורדה
     const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
-    const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
+    const blob = new Blob([excelBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
     saveAs(blob, "רשימת_אברכים.xlsx");
   };
 
