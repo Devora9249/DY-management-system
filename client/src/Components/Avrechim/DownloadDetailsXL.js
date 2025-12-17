@@ -2,11 +2,14 @@ import React from "react";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import { Button } from "@mui/material";
-
+import CustomSnackbar from "../Alerts/CustomSnackbar";
+import { useState } from "react";
 const DownloadDetailsXL = ({ AvrechimList }) => {
+  const [alert, setAlert] = useState(null);
+
   const downloadExcel = () => {
     if (!AvrechimList || AvrechimList.length === 0) {
-      alert("אין נתונים להורדה");
+      setAlert({ type: 'warning', message: 'אין נתונים להורדה' });
       return;
     }
 
@@ -42,12 +45,15 @@ const DownloadDetailsXL = ({ AvrechimList }) => {
   };
 
   return (
-    <Button
-      variant="addButton"
-      onClick={downloadExcel}
-    >
-      ⬇️ הורד כאקסל 
-    </Button>
+    <>
+      <Button
+        variant="addButton"
+        onClick={downloadExcel}
+      >
+        ⬇️ הורד כאקסל
+      </Button>
+      <CustomSnackbar alert={alert} setAlert={setAlert} />
+    </>
   );
 };
 
