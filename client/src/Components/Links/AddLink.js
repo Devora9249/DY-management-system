@@ -27,8 +27,7 @@ export default function AddLink({ onAdd }) {
         try {
             const { data } = await Axios.post("http://localhost:5678/api/links", { websiteName, websitelink, description });
 
-            setAlert({ message: "הקישור נוסף בהצלחה ✅", type: "success" });
-            console.log(data);
+            setAlert({ message: "הקישור נוסף בהצלחה ", type: "success" });
             setWebsiteName("");
             setWebsitelink("");
             setDescription("");

@@ -3,7 +3,6 @@ import { TableRow, TableCell, TextField, Button } from "@mui/material";
 const MilgaRow = ({ avrech, milgaAmounts, setMilgaAmounts, milgaDetails, setMilgaDetails, newDate, sendMilgaById, setAlert }) => {
 
   const checkAndSetAmount = (e) => {
-console.log("setAlert:", setAlert);
 
 
     const value = Number(e.target.value);

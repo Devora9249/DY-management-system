@@ -5,7 +5,10 @@ import { Button } from "@mui/material";
 import CustomSnackbar from "../../Alerts/CustomSnackbar";
 import { useState } from "react";
 const DownloadDetailsXL = ({ DonorsList }) => {
-    const [alert, setAlert] = useState(null);
+  const [alert, setAlert] = useState(null);
+
+
+
   const downloadExcel = () => {
     if (!DonorsList || DonorsList.length === 0) {
       setAlert({ type: 'warning', message: 'אין נתונים להורדה' });
@@ -13,45 +16,44 @@ const DownloadDetailsXL = ({ DonorsList }) => {
     }
 
     // מיפוי הנתונים לעברית
-   const translatedList = DonorsList.map((donor) => ({
-  "שם": donor.name || "",
-  "תעודת זהות": donor.donorId || "",
-  "כתובת": donor.address || "",
-  "טלפון": donor.phoneNumber || "",
-  "אימייל": donor.emailAddress || "",
-  "וואטסאפ": donor.whatsappNumber || "",
-  "תאריך לידה": donor.birthDate
-    ? new Date(donor.birthDate).toLocaleDateString("he-IL")
-    : "",
+    const translatedList = DonorsList.map((donor) => ({
+      "שם": donor.name || "",
+      "תעודת זהות": donor.donorId || "",
+      "כתובת": donor.address || "",
+      "טלפון": donor.phoneNumber || "",
+      "אימייל": donor.emailAddress || "",
+      "וואטסאפ": donor.whatsappNumber || "",
+      "תאריך לידה": donor.birthDate
+        ? new Date(donor.birthDate).toLocaleDateString("he-IL")
+        : "",
 
-  // יארצייטים
-  "יארצייטים":
-    donor.yahrzeitDate && donor.yahrzeitDate.length > 0
-      ? donor.yahrzeitDate
-          .map(
-            (y) =>
-              `${y.name} – ${new Date(y.date).toLocaleDateString("he-IL")}`
-          )
-          .join(" | ")
-      : "אין נתונים",
+      // יארצייטים
+      "יארצייטים":
+        donor.yahrzeitDate && donor.yahrzeitDate.length > 0
+          ? donor.yahrzeitDate
+            .map(
+              (y) =>
+                `${y.name} – ${new Date(y.date).toLocaleDateString("he-IL")}`
+            )
+            .join(" | ")
+          : "אין נתונים",
 
-  // תרומות
-  "תרומות":
-    donor.donations && donor.donations.length > 0
-      ? donor.donations
-          .map(
-            (d) =>
-              `${new Date(d.date).toLocaleDateString("he-IL")}: ${
-                d.amount
-              }₪ (${d.frequency})`
-          )
-          .join(" | ")
-      : "אין תרומות",
+      // תרומות
+      "תרומות":
+        donor.donations && donor.donations.length > 0
+          ? donor.donations
+            .map(
+              (d) =>
+                `${new Date(d.date).toLocaleDateString("he-IL")}: ${d.amount
+                }₪ (${d.frequency})`
+            )
+            .join(" | ")
+          : "אין תרומות",
 
-  "סה״כ תרומות": donor.donations
-    ? donor.donations.reduce((sum, d) => sum + (d.amount || 0), 0)
-    : 0,
-}));
+      "סה״כ תרומות": donor.donations
+        ? donor.donations.reduce((sum, d) => sum + (d.amount || 0), 0)
+        : 0,
+    }));
 
 
     // יצירת קובץ Excel
@@ -63,18 +65,19 @@ const DownloadDetailsXL = ({ DonorsList }) => {
     const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
     const blob = new Blob([excelBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
     saveAs(blob, "רשימת_תורמים.xlsx");
+    setAlert({ type: 'success', message: " הקובץ הורד בהצלחה " });
   };
 
   return (
     <>
-    <Button
-      variant="addButton"
-      onClick={downloadExcel}
-    >
-      ⬇️ הורד כאקסל 
-    </Button>
-     <CustomSnackbar alert={alert} setAlert={setAlert} />
-        </>
+      <Button
+        variant="addButton"
+        onClick={downloadExcel}
+      >
+        ⬇️ הורד כאקסל
+      </Button>
+      <CustomSnackbar alert={alert} setAlert={setAlert} />
+    </>
   );
 };
 

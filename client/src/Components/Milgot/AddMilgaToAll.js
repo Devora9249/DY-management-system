@@ -4,7 +4,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 
 const AddMilgaToAll = ({ addMilga, generalMilga, setGeneralMilga, setAlert }) => {
-    console.log(generalMilga, 'generalMilga');
     
 
     const [open, setOpen] = useState(false);

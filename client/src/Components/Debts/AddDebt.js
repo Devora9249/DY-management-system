@@ -88,7 +88,7 @@ export default function AddDebt({ onAdd }) {
     try {
       await Axios.post("http://localhost:5678/api/debts", fields);
 
-      setAlert({ message: "החוב נוסף בהצלחה ✅", type: "success" });
+      setAlert({ message: "החוב נוסף בהצלחה", type: "success" });
       setFields(Object.fromEntries(Object.keys(fields).map((k) => [k, ""]))); // איפוס כל השדות
       onAdd();
       handleClose();

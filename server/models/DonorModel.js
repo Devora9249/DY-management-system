@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 const DonationSchema = require('./DonationModel');
 const DonorSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  donorId: { type: String, unique: true },
+  donorId: { type: String, unique: true,   
+    partialFilterExpression: {
+      donorId: { $exists: true, $ne: "" }
+    } },
   address: { type: String },
   phoneNumber: { type: String },
   emailAddress: { type: String },

@@ -24,7 +24,7 @@ const AvrechimListComp = ({ onChange, AvrechimList, showAll }) => {
             <Table>
                 {/* כותרות הטבלה */}
                 <TableHead>
-                    <TableRow>
+                    <TableRow sx={{ cursor: "pointer" }} >
                         <TableCell align="center" sx={{ width: "25%" }}>
                             מלגות
                         </TableCell>
@@ -51,6 +51,7 @@ const AvrechimListComp = ({ onChange, AvrechimList, showAll }) => {
                                 onClick={() => openAvrechCard(avrech)}
                                 sx={{
                                     transition: "0.2s",
+                                    cursor: "pointer",
                                 }}
                             >
                                 <TableCell align="center" sx={{ width: "25%", }}>
@@ -71,7 +72,7 @@ const AvrechimListComp = ({ onChange, AvrechimList, showAll }) => {
                 </TableBody>
             </Table>
             <CustomSnackbar alert={alert} setAlert={setAlert} />
-            { selectedAvrech != null ? <AvrechCard avrechDetails={selectedAvrech} setOpen={setOpen} open={open} onChange={onChange}></AvrechCard> : null }
+            {selectedAvrech != null ? <AvrechCard avrechDetails={selectedAvrech} setOpen={setOpen} open={open} onChange={onChange}></AvrechCard> : null}
         </Paper>
 
     );

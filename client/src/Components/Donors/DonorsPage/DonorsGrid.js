@@ -2,8 +2,9 @@ import { Box, Grid } from "@mui/material";
 import DonorCardItem from "./DonorCardItem";
 
 export default function DonorsGrid({ donors, onSelect, onDelete }) {
-  console.log("GRID WIDTH:", document.querySelector(".MuiGrid-container")?.clientWidth);
 
+  console.log(donors, 'donors in donorsGrid');
+  
   return (
     <Grid container spacing={2} sx={{ mt: 2 }} >
       {donors.map((donor) => (

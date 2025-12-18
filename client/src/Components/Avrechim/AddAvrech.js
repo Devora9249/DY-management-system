@@ -14,7 +14,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 export default function AddAvrech({ onAdd }) {
   const [open, setOpen] = useState(false);
   const [alert, setAlert] = useState(null);
-  const [activeStep, setActiveStep] = useState(0); // ⭐ חדש
+  const [activeStep, setActiveStep] = useState(0);
 
   const [fields, setFields] = useState({
     name: "",
@@ -33,7 +33,7 @@ export default function AddAvrech({ onAdd }) {
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
-    setActiveStep(0); // ⭐ איפוס
+    setActiveStep(0);
   };
 
   const handleChange = (e) =>
@@ -44,8 +44,7 @@ export default function AddAvrech({ onAdd }) {
     try {
       await Axios.post("http://localhost:5678/api/avrechim", fields);
 
-      setAlert({ message: "האברך נוסף בהצלחה ✅", type: "success" });
-      setFields(Object.fromEntries(Object.keys(fields).map(k => [k, ""])));
+      setAlert({ message: "האברך נוסף בהצלחה ", type: "success" });
       onAdd();
       handleClose();
     } catch (error) {
@@ -54,9 +53,11 @@ export default function AddAvrech({ onAdd }) {
         type: "error",
       });
     }
+    setFields(Object.fromEntries(Object.keys(fields).map(k => [k, ""])));
+
   };
 
-  // ⭐ שלבי ה־Stepper
+  // שלבי ה־Stepper
   const steps = ["פרטי האברך", "פרטי בנק", "פרטי האישה"];
 
   const sections = [
@@ -96,7 +97,7 @@ export default function AddAvrech({ onAdd }) {
           }
         }}
       >
-        {/* ❌ סגירה */}
+        {/*  סגירה */}
         <DialogActions sx={{ justifyContent: "flex-end", mb: -1 }}>
           <IconButton onClick={handleClose}
             variant="iconButton">
@@ -106,7 +107,7 @@ export default function AddAvrech({ onAdd }) {
 
         <DialogTitle><Typography variant="h1">הוספת אברך</Typography></DialogTitle>
 
-        {/* 🧭 stepper */}
+        {/* stepper */}
         <DialogTitle>
           <Stepper activeStep={activeStep} sx={{ mb: 2 }}>
             {steps.map(step => (
@@ -131,7 +132,7 @@ export default function AddAvrech({ onAdd }) {
             </Box>
           </DialogContent>
 
-          {/* 🔄 כפתורי ניווט */}
+          {/* כפתורי ניווט */}
           <DialogActions
             sx={{
               justifyContent: "space-between",

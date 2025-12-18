@@ -12,7 +12,7 @@ const ExpenseList = ({ expenseList, onChange }) => {
   const deleteExpense = async (id) => {
     try {
       await Axios.delete(`http://localhost:5678/api/expenses/${id}`);
-      setAlert({ message: "ההוצאה נמחקה בהצלחה ✅", type: "success" });
+      setAlert({ message: "ההוצאה נמחקה בהצלחה ", type: "success" });
       onChange();
     } catch (error) {
       setAlert({

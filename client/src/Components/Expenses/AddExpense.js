@@ -34,7 +34,7 @@ export default function FormDialog({ onAdd }) {
       setDescription("");
       setAmount("");
       setNewDate(new Date().toISOString().split('T')[0]);
-      setAlert({ message: "הוצאה חדשה נוספה בהצלחה ✅", type: "success" });
+      setAlert({ message: "הוצאה חדשה נוספה בהצלחה ", type: "success" });
       onAdd();
       handleClose();
 

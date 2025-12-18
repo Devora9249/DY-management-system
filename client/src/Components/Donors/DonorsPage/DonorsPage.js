@@ -2,17 +2,17 @@ import { useState, useEffect } from "react";
 import Axios from "axios";
 import AddDonor from "../AddDonor/AddDonor";
 import DonorCard from "../DonorCard/DonorCard";
-import { Typography, TextField, Box } from "@mui/material";
-import DonorsFilters from "./DonorsFilters";
+import { Typography, TextField, Box, Button } from "@mui/material";
 import DonorsGrid from "./DonorsGrid";
 import DownloadDetailsXL from "./DownloadDetailsXL";
 import CustomSnackbar from "../../Alerts/CustomSnackbar";
-const DonorsList = () => {
+
+const DonorsPage = () => {
   const [openModal, setOpenModal] = useState(null);
   const [selectedDonor, setSelectedDonor] = useState(null);
   const [donorsList, setDonorsList] = useState([]);
-  const [filterFrequency, setFilterFrequency] = useState("");
-  const [filterPayment, setFilterPayment] = useState("");
+  // const [filterFrequency, setFilterFrequency] = useState("");
+  // const [filterPayment, setFilterPayment] = useState("");
   const [alert, setAlert] = useState(null);
   const [search, setSearch] = useState("");
 
@@ -41,22 +41,12 @@ const DonorsList = () => {
     }
   };
 
-  // // סינון (נשאר כמו שלך)
-  const filteredDonors = donorsList.filter((donor) => {
-    if (!filterFrequency && !filterPayment) return true;
-    if (!donor.donations || donor.donations.length === 0) return false;
-
-    return donor.donations.some((d) => {
-      const freqMatch = filterFrequency ? d.frequency === filterFrequency : true;
-      const payMatch = filterPayment ? d.paymentMethod === filterPayment : true;
-      return freqMatch && payMatch;
-    });
-  });
 
   return (
     <>
       <Typography>רשימת תורמים</Typography>
 
+      {/* חיפוש לפי שם תורם */}
       <Box sx={{ mt: 2 }}>
         <TextField
           label="חיפוש לפי שם תורם"
@@ -66,34 +56,33 @@ const DonorsList = () => {
         />
       </Box>
 
-      <DonorsFilters
-        // filterFrequency={filterFrequency}
-        // setFilterFrequency={setFilterFrequency}
-        // filterPayment={filterPayment}
-        // setFilterPayment={setFilterPayment}
-        onAdd={() => setOpenModal("add")}
-      />
+      {/* כפתור הוספת תורם */}
+      <Button variant="contained" onClick={() => setOpenModal("add")}> הוספת תורם </Button>
 
+      {/* כפתור להורדת קובץ אקסל */}
       <DownloadDetailsXL DonorsList={donorsList} />
 
+      {/* הצגת כרטיסיות התורמים */}
       <DonorsGrid
-        donors={filteredDonors}
         onSelect={(donor) => {
           setSelectedDonor(donor);
           setOpenModal("donor");
         }}
         onDelete={deleteTorem}
+        donors={donorsList}
       />
 
+      {/* פתיחת כרטיסייה הוספת תורם */}
       {openModal === "add" && (
         <AddDonor
-  isOpen={true}
-  onClose={() => setOpenModal(null)}
-  onAdd={catchData}
-  showAlert={setAlert}
-/>
+          isOpen={true}
+          onClose={() => setOpenModal(null)}
+          onAdd={catchData}
+          showAlert={setAlert}
+        />
       )}
 
+      {/* פתיחת כרטיסייה תורם לצפייה/עריכה */} 
       {selectedDonor && openModal === "donor" && (
         <DonorCard
           isOpen={true}
@@ -103,10 +92,11 @@ const DonorsList = () => {
           onChange={catchData}
         />
       )}
-       <CustomSnackbar alert={alert} setAlert={setAlert} />
-       
+
+      <CustomSnackbar alert={alert} setAlert={setAlert} />
+
     </>
   );
 };
 
-export default DonorsList;
+export default DonorsPage;

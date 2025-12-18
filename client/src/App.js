@@ -1,4 +1,3 @@
-import DonorsList from './Components/Donors/DonorsPage/DonorsList';
 import DonorCard from './Components/Donors/DonorCard/DonorCard';
 import Layout from './Components/shared/Layout';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
@@ -9,6 +8,7 @@ import AddDonor from './Components/Donors/AddDonor/AddDonor';
 import FinanceSummaryPage from './Components/FinanceSummary/FinanceSummaryPage';
 import DebtsPage from './Components/Debts/DebtsPage';
 import LinksPage from './Components/Links/LinksPage';
+import DonorsPage from './Components/Donors/DonorsPage/DonorsPage';
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Layout/>}>
-            <Route path="/Donors" index element={<DonorsList />} />
+            <Route path="/Donors" index element={<DonorsPage />} />
             <Route path="/Donor/:id" index element={<DonorCard/>}/>
             <Route path="/AddDonor" index element={<AddDonor/>} />
             <Route path="/Expenses" index element={<ExpensesPage />} />

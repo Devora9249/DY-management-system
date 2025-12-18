@@ -20,15 +20,12 @@ const DebtsPage = () => {
   const catchData = async () => {
     try {
       const { data } = await Axios.get("http://localhost:5678/api/debts");
-      console.log(data, "data");
       
       const takenData = data.filter(debt => debt.type === 'taken');
       const givenData = data.filter(debt => debt.type === 'given');
-      setTakenDebts(takenData);
-      console.log(takenData, "takenData");
-      
+      setTakenDebts(takenData);      
       setGivenDebts(givenData);
-      console.log(givenData, "givenData");
+
       
       // setDebtsList(data);
     }

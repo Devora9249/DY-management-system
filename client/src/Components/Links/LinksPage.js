@@ -17,7 +17,6 @@ const LinksPage = () => {
     const catchData = async () => {
         const { data } = await Axios.get("http://localhost:5678/api/links");
         setLinksList(data);
-        console.log(linksList, "linksList");
     }
 
     useEffect(() => {

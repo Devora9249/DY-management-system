@@ -11,6 +11,7 @@ const DownloadDetailsXL = ({ AvrechimList }) => {
     if (!AvrechimList || AvrechimList.length === 0) {
       setAlert({ type: 'warning', message: 'אין נתונים להורדה' });
       return;
+
     }
 
     // מיפוי הנתונים לעברית
@@ -42,6 +43,7 @@ const DownloadDetailsXL = ({ AvrechimList }) => {
     const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
     const blob = new Blob([excelBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
     saveAs(blob, "רשימת_אברכים.xlsx");
+    setAlert({ type: 'success', message: " הקובץ הורד בהצלחה " });
   };
 
   return (

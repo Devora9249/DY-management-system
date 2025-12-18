@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Axios from 'axios';
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Chip } from '@mui/material';
 import MainDetails from './MainDetails';
+import Filters from './Filters';
 const FinanceSummaryPage = () => {
 
   const [financeData, setFinanceData] = useState([]);
@@ -9,6 +10,10 @@ const FinanceSummaryPage = () => {
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalExpense, setTotalExpense] = useState(0);
   const [alert, setAlert] = useState(null);
+  const [filterFrequency, setFilterFrequency] = useState("");
+  const [filterPayment, setFilterPayment] = useState("");
+ console.log(financeData, 'finance data');
+ 
 
   const catchData = async () => {
     try {
@@ -29,6 +34,23 @@ const FinanceSummaryPage = () => {
     catchData();
   }, []);
 
+  const filteredFinanceData = () => {
+    return financeData.filter((row) => {
+      // סינון לפי סוג תרומה (חד"פ / הוראת קבע)
+      if (filterFrequency && row.details.frequency !== filterFrequency) {
+        return false;
+      }
+
+      // סינון לפי אמצעי תשלום
+      if (filterPayment && row.details.paymentMethod !== filterPayment) {
+        return false;
+      }
+
+      return true;
+    });
+  };
+
+
 
   return (
     <>
@@ -36,8 +58,11 @@ const FinanceSummaryPage = () => {
 
         <MainDetails balance={balance} totalIncome={totalIncome} totalExpense={totalExpense} />
 
+        <Filters filterFrequency={filterFrequency} setFilterFrequency={setFilterFrequency}
+          filterPayment={filterPayment} setFilterPayment={setFilterPayment} />
+
         <Paper variant='tablePaper' sx={{ width: "60%" }}>
-          <Table sx={{ "& .MuiTableCell-root": { borderBottom: "1px solid #000", },}}>
+          <Table sx={{ "& .MuiTableCell-root": { borderBottom: "1px solid #000", }, }}>
             <TableHead>
               <TableRow >
                 <TableCell >סכום</TableCell>
@@ -55,7 +80,7 @@ const FinanceSummaryPage = () => {
             </TableHead>
 
             <TableBody>
-              {financeData.map((row, index) => (
+              {filteredFinanceData().map((row, index) => (
                 <TableRow
                   key={index}
                   sx={{

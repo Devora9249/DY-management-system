@@ -48,7 +48,7 @@ const MilgotPage = () => {
       setMilgaAmounts(prev => ({ ...prev, [avrechId]: "" }));
       setMilgaDetails(prev => ({ ...prev, [avrechId]: "" }));
       setResetVersion(v => v + 1); //  רענון נקודתי
-      setAlert({ message: "המלגה עודכנה בהצלחה ✅", type: "update" });
+      setAlert({ message: "המלגה עודכנה בהצלחה ", type: "update" });
     } catch (err) {
       setAlert({ message: "אירעה שגיאה בעדכון", type: "error" });
     }
@@ -74,8 +74,8 @@ const MilgotPage = () => {
       await Promise.all(promises);
       setMilgaAmounts({});
       setMilgaDetails({});
-      setResetVersion(prev => prev + 1); // ⭐ מפעיל רענון שורות
-      setAlert({ message: "המלגות עודכנו בהצלחה ✅", type: "update" });
+      setResetVersion(prev => prev + 1); // מפעיל רענון שורות
+      setAlert({ message: "המלגות עודכנו בהצלחה ", type: "update" });
     } catch (err) {
       setAlert({ message: "אירעה שגיאה בעדכון", type: "error" });
     }
@@ -92,7 +92,7 @@ const MilgotPage = () => {
         });
       });
       await Promise.all(promises);
-      setAlert({ message: "המלגות נוספו בהצלחה ✅", type: "update" });
+      setAlert({ message: "המלגות נוספו בהצלחה ", type: "update" });
       setGeneralMilga({ amount: "", details: "", date: "" });
     } catch (err) {
       setAlert({ message: "אירעה שגיאה בהוספה", type: "error" });

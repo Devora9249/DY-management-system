@@ -13,7 +13,7 @@ function addMonthsToDate(dateStr, months) {
   return d.toISOString().split('T')[0];
 }
 
-export default function AddDonor({ isOpen, onClose, onAdd , showAlert }) {
+export default function AddDonor({ isOpen, onClose, onAdd, showAlert }) {
   const [donorData, setDonorData] = useState({
     name: '',
     donorId: '',
@@ -59,7 +59,7 @@ export default function AddDonor({ isOpen, onClose, onAdd , showAlert }) {
         endDate
       });
 
-      showAlert?.({ message: "✅ התורם נוסף בהצלחה", type: "success" });
+      showAlert?.({ message: " התורם נוסף בהצלחה", type: "success" });
       setDonorData({
         name: '',
         donorId: '',
@@ -79,8 +79,7 @@ export default function AddDonor({ isOpen, onClose, onAdd , showAlert }) {
       });
 
       onAdd();
-  onClose();
-
+      onClose();
     } catch (error) {
       setAlert({ message: error.response?.data?.message || error.message, type: "error" });
     }
@@ -88,31 +87,31 @@ export default function AddDonor({ isOpen, onClose, onAdd , showAlert }) {
 
   return (
     <>
-    <Dialog open={isOpen} onClose={onClose}>
-      <DialogTitle>
-        טופס הוספת תורם
-        <IconButton variant="iconButton" onClick={onClose}>
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
+      <Dialog open={isOpen} onClose={onClose}>
+        <DialogTitle>
+          טופס הוספת תורם
+          <IconButton variant="iconButton" onClick={onClose}>
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
 
-      <DialogContent>
-        <form onSubmit={handleSubmit}>
-          <Stack spacing={3}>
-            <DonorDetailsForm donorData={donorData} setDonorData={setDonorData} />
-            <YahrzeitSection yahrzeits={yahrzeits} setYahrzeits={setYahrzeits} />
-            <DonationSection donation={donation} setDonation={setDonation} />
-          </Stack>
+        <DialogContent>
+          <form onSubmit={handleSubmit}>
+            <Stack spacing={3}>
+              <DonorDetailsForm donorData={donorData} setDonorData={setDonorData} />
+              <YahrzeitSection yahrzeits={yahrzeits} setYahrzeits={setYahrzeits} />
+              <DonationSection donation={donation} setDonation={setDonation} />
+            </Stack>
 
-          <DialogActions>
-            <Button type="submit" variant="contained">
-              הוסף תורם
-            </Button>
-          </DialogActions>
-        </form>
-      </DialogContent>
-    </Dialog>
-     <CustomSnackbar alert={alert} setAlert={setAlert} />
-        </>
+            <DialogActions>
+              <Button type="submit" variant="contained">
+                הוסף תורם
+              </Button>
+            </DialogActions>
+          </form>
+        </DialogContent>
+      </Dialog>
+      <CustomSnackbar alert={alert} setAlert={setAlert} />
+    </>
   );
 }

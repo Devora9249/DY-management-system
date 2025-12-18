@@ -87,9 +87,33 @@ exports.createDonation = async (req, res) => {
 
 exports.createDonor = async (req, res) => {
   try {
-    const { donationAmount, donationDate, paymentMethod, frequency, duration, endDate, ...donorData } = req.body;
+    const { name, donationAmount, donationDate, paymentMethod, frequency, duration, endDate, ...donorData } = req.body;
 
-    const donor = new Donor(donorData);
+    console.log("REQ BODY:", req.body);
+    console.log("DONOR DATA:", donorData);
+
+    if (!name) {
+      return res.status(400).json({ message: "שם התורם הוא שדה חובה" });
+    }
+
+    console.log("NAME TO CHECK:", name);
+
+    const existingDonor = await Donor.findOne({ name });
+
+    console.log("FOUND DONOR:", existingDonor);
+    if (existingDonor) {
+      return res.status(409).json({
+        message: "תורם עם שם זה כבר קיים במערכת",
+      });
+    }
+
+   if (donorData.donorId === "") {
+      donorData.donorId = null;
+    }
+    const donor = new Donor({ name, ...donorData });
+
+ 
+
     await donor.save();
 
     if (!donationAmount || !donationDate || !paymentMethod || !frequency) {
@@ -107,6 +131,7 @@ exports.createDonor = async (req, res) => {
 
     return exports.createDonation(req, res);
   } catch (err) {
+    console.log(err.message);
     if (err.code === 11000) {
       return res.status(400).json({ message: "התורם הזה כבר קיים במערכת" });
     }
