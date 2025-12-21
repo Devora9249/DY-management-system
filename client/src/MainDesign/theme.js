@@ -130,7 +130,7 @@ const theme = createTheme({
     MuiTextField: {
       defaultProps: {
         multiline: true,
-        rows: 1,
+        minRows: 1,
         maxRows: 8,
       },
 

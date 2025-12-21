@@ -4,7 +4,10 @@ const DonorSchema = new mongoose.Schema({
   name: { type: String, required: true },
   donorId: { type: String, unique: true,   
     partialFilterExpression: {
-      donorId: { $exists: true, $ne: "" }
+       donorId: {
+      $exists: true,
+      $nin: ["", null]
+    }
     } },
   address: { type: String },
   phoneNumber: { type: String },

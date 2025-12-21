@@ -101,7 +101,7 @@ export default function AddAvrech({ onAdd }) {
         <DialogActions sx={{ justifyContent: "flex-end", mb: -1 }}>
           <IconButton onClick={handleClose}
             variant="iconButton">
-            <CloseIcon color="error" />
+            <CloseIcon />
           </IconButton>
         </DialogActions>
 

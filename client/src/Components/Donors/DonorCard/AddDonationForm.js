@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import { Paper, Box, TextField, Button, FormControl, InputLabel, Select, MenuItem, Typography, RadioGroup, Radio, FormControlLabel } from '@mui/material';
 import CustomSnackbar from "../../Alerts/CustomSnackbar";
-function addMonthsToDate(dateStr, months) {
-  const d = new Date(dateStr);
-  d.setMonth(d.getMonth() + Number(months));
-  return d.toISOString().split('T')[0];
-}
+
+
 
 export default function AddDonationForm({ onAdd, onCancel }) {
+  
   const [form, setForm] = useState({
     date: new Date().toISOString().split('T')[0],
     amount: '',
@@ -15,8 +13,16 @@ export default function AddDonationForm({ onAdd, onCancel }) {
     frequency: '',
     duration: ''
   });
+
   const [alert, setAlert] = useState(null);
+  
   const handleChange = (field) => (e) => setForm({ ...form, [field]: e.target.value });
+
+  function addMonthsToDate(dateStr, months) {
+    const d = new Date(dateStr);
+    d.setMonth(d.getMonth() + Number(months));
+    return d.toISOString().split('T')[0];
+  }
 
   const handleSubmit = () => {
     if (!form.date || !form.amount || !form.paymentMethod || !form.frequency) {
@@ -40,71 +46,71 @@ export default function AddDonationForm({ onAdd, onCancel }) {
 
   return (
     <>
-    <Paper>
-      <Typography>הוספת תרומה </Typography>
+      <Paper>
+        <Typography>הוספת תרומה </Typography>
 
-      <TextField
-        label="תאריך גביה"
-        type="date"
-        InputLabelProps={{ shrink: true }}
-        value={form.date}
-        onChange={handleChange("date")}
-      />
-
-      <TextField
-        label="סכום"
-        type="number"
-        value={form.amount}
-        onChange={handleChange("amount")}
-      />
-
-      <FormControl>
-        <InputLabel>סוג תשלום</InputLabel>
-        <Select
-          value={form.paymentMethod}
-          onChange={handleChange("paymentMethod")}
-          label="סוג תשלום"
-        >
-          <MenuItem value="מזומן">מזומן</MenuItem>
-          <MenuItem value="נדרים פלוס">נדרים פלוס</MenuItem>
-          <MenuItem value="חשבון בינלאומי">חשבון בינלאומי</MenuItem>
-          <MenuItem value="חשבון דעת יהודית">חשבון דעת יהודית</MenuItem>
-          <MenuItem value="חשבון משה וקסלר">חשבון משה וקסלר</MenuItem>
-        </Select>
-      </FormControl>
-
-      <Typography> תדירות </Typography>
-
-      <RadioGroup
-        value={form.frequency}
-        onChange={handleChange("frequency")}
-      >
-        <FormControlLabel value="once" control={<Radio />} label="חד פעמי" />
-        <FormControlLabel value="monthly" control={<Radio />} label="הוראת קבע" />
-      </RadioGroup>
-
-      {form.frequency === "monthly" && (
         <TextField
-          label="למשך כמה חודשים"
-          type="number"
-          size="small"
-          fullWidth
-          value={form.duration || ""}
-          onChange={handleChange("duration")}
+          label="תאריך גביה"
+          type="date"
+          InputLabelProps={{ shrink: true }}
+          value={form.date}
+          onChange={handleChange("date")}
         />
-      )}
 
-      <Box>
-        <Button onClick={onCancel}> ביטול </Button>
-        <Button
-          variant="contained"
-          onClick={handleSubmit}
+        <TextField
+          label="סכום"
+          type="number"
+          value={form.amount}
+          onChange={handleChange("amount")}
+        />
+
+        <FormControl>
+          <InputLabel>סוג תשלום</InputLabel>
+          <Select
+            value={form.paymentMethod}
+            onChange={handleChange("paymentMethod")}
+            label="סוג תשלום"
+          >
+            <MenuItem value="מזומן">מזומן</MenuItem>
+            <MenuItem value="נדרים פלוס">נדרים פלוס</MenuItem>
+            <MenuItem value="חשבון בינלאומי">חשבון בינלאומי</MenuItem>
+            <MenuItem value="חשבון דעת יהודית">חשבון דעת יהודית</MenuItem>
+            <MenuItem value="חשבון משה וקסלר">חשבון משה וקסלר</MenuItem>
+          </Select>
+        </FormControl>
+
+        <Typography> תדירות </Typography>
+
+        <RadioGroup
+          value={form.frequency}
+          onChange={handleChange("frequency")}
         >
-          הוסף תרומה
-        </Button>
-      </Box>
-    </Paper>
-     <CustomSnackbar alert={alert} setAlert={setAlert} />
-        </>
+          <FormControlLabel value="once" control={<Radio />} label="חד פעמי" />
+          <FormControlLabel value="monthly" control={<Radio />} label="הוראת קבע" />
+        </RadioGroup>
+
+        {form.frequency === "monthly" && (
+          <TextField
+            label="למשך כמה חודשים"
+            type="number"
+            size="small"
+            fullWidth
+            value={form.duration || ""}
+            onChange={handleChange("duration")}
+          />
+        )}
+
+        <Box>
+          <Button onClick={onCancel}> ביטול </Button>
+          <Button
+            variant="contained"
+            onClick={handleSubmit}
+          >
+            הוסף תרומה
+          </Button>
+        </Box>
+      </Paper>
+      <CustomSnackbar alert={alert} setAlert={setAlert} />
+    </>
   );
 }

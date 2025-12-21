@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Axios from "axios";
 import AddDonor from "../AddDonor/AddDonor";
 import DonorCard from "../DonorCard/DonorCard";
-import { Typography, TextField, Box, Button } from "@mui/material";
+import { Typography, TextField, Box, Button, Paper } from "@mui/material";
 import DonorsGrid from "./DonorsGrid";
 import DownloadDetailsXL from "./DownloadDetailsXL";
 import CustomSnackbar from "../../Alerts/CustomSnackbar";
@@ -43,24 +43,28 @@ const DonorsPage = () => {
 
 
   return (
-    <>
-      <Typography>רשימת תורמים</Typography>
+    <Paper variant="mainPaper">
+      <Typography variant="h5">רשימת תורמים</Typography>
 
-      {/* חיפוש לפי שם תורם */}
-      <Box sx={{ mt: 2 }}>
-        <TextField
-          label="חיפוש לפי שם תורם"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          size="small"
-        />
+      <Box sx={{width:"50%", display:"flex",   justifyContent: "space-around", alignItems: "center",}}>
+
+        {/* כפתור הוספת תורם */}
+        <Button variant="addButton" onClick={() => setOpenModal("add")}> הוספת תורם </Button>
+
+        {/* חיפוש לפי שם תורם */}
+        <Box>
+          <TextField
+            label="חיפוש לפי שם תורם"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            size="small"
+            multiline={false}
+          />
+        </Box>
+
+        {/* כפתור להורדת קובץ אקסל */}
+        <DownloadDetailsXL DonorsList={donorsList} />
       </Box>
-
-      {/* כפתור הוספת תורם */}
-      <Button variant="contained" onClick={() => setOpenModal("add")}> הוספת תורם </Button>
-
-      {/* כפתור להורדת קובץ אקסל */}
-      <DownloadDetailsXL DonorsList={donorsList} />
 
       {/* הצגת כרטיסיות התורמים */}
       <DonorsGrid
@@ -82,7 +86,7 @@ const DonorsPage = () => {
         />
       )}
 
-      {/* פתיחת כרטיסייה תורם לצפייה/עריכה */} 
+      {/* פתיחת כרטיסייה תורם לצפייה/עריכה */}
       {selectedDonor && openModal === "donor" && (
         <DonorCard
           isOpen={true}
@@ -94,8 +98,7 @@ const DonorsPage = () => {
       )}
 
       <CustomSnackbar alert={alert} setAlert={setAlert} />
-
-    </>
+    </Paper>
   );
 };
 
