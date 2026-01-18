@@ -38,11 +38,25 @@ The system focuses on clear business logic, data integrity, and a scalable archi
 
 ## Project structure
 ```text
-├── Client/ # React frontend
-├── Server/ # Node.js and Express backend
+├── client/ # React frontend
+├── server/ # Node.js and Express backend
 ├── README.md
+```
 
 ### Prerequisites
 - Node.js
 - npm
 - MongoDB
+
+## Run Frontend
+```text
+cd client
+npm install
+npm start
+```
+
+## Run Backend
+```text
+cd server
+npm run dev
+```
