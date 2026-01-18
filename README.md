@@ -43,19 +43,19 @@ The system focuses on clear business logic, data integrity, and a scalable archi
 ├── README.md
 ```
 
-### Prerequisites
+## Prerequisites
 - Node.js
 - npm
 - MongoDB
 
-## Run Frontend
+### Run Frontend
 ```text
 cd client
 npm install
 npm start
 ```
 
-## Run Backend
+### Run Backend
 ```text
 cd server
 npm run dev
